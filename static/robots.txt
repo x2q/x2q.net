@@ -1,0 +1,3 @@
+Sitemap: http://www.x2q.net/sitemap.xml
+User-agent: *
+Disallow:
