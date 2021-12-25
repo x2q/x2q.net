@@ -22,7 +22,7 @@ If you are upgrading from Lion to Mountain Lion, then tere’s no need to visit 
 store and fetch a box, and install a bunch of discs. Just click the Mac App
 Store icon on your Mac. Buy OS X Mountain Lion. And your Mac does the rest.
 
-Follow [this Apple guide](http://www.apple.com/osx/how-to-upgrade/) for more info 
+Follow [this Apple guide](http://www.apple.com/osx/how-to-upgrade/) for more info
 
 
 ## Clean System and User Caches etc. Using OnyX
@@ -37,27 +37,27 @@ cumbersome, and more.
 
 ### Clean System Cache
 
-![](http://lh4.ggpht.com/-UtI1gD45gL4/UYASl6pUTSI/AAAAAAAAKSQ/hKX3FNoND74/onyx-clean-system-cache.png)
+![](/onyx-clean-system-cache.webp)
 
 ### Clean User Cache
 
-![](http://lh6.ggpht.com/-Ez57KHodshU/UYASmdM0VXI/AAAAAAAAKSM/Z10IpU0lZrM/onyx-clean-user-cache.png)
+![](/onyx-clean-user-cache.webp)
 
 ### Clean Internet abd Network related Caches
 
-![](http://lh3.ggpht.com/-_krLB-6KpBk/UYASk07Te8I/AAAAAAAAKSA/hKUXRU9fxDU/onyx-clean-internet-cache.png)
+![](/onyx-clean-internet-cache.webp)
 
 ### Empty Log Files
 
-![](http://lh3.ggpht.com/-LjFz1T_zKVE/UYASlLliihI/AAAAAAAAKR8/Mi4g6SIloA4/onyx-clean-logs.png)
+![](/onyx-clean-logs.webp)
 
 ### Clean Misc OS X Stuff
 
-![](http://lh5.ggpht.com/-URfbkUyR3w8/UYASlHQQpHI/AAAAAAAAKSE/JxsQBW88JJw/onyx-clean-misc.png)
+![](/onyx-clean-misc.webp)
 
 ### Empty Trash For All Users
 
-![](http://lh4.ggpht.com/-UyQXcP4qnYg/UYASmih5GoI/AAAAAAAAKSU/_deQQsMs54I/onyx-empty-trash-all-users.png)
+![](/onyx-empty-trash-all-users.webp)
 
 ## Remove Startup Items in System Preferences
 
@@ -70,4 +70,4 @@ Navigate to `System Preferences` > `Users & Groups`. Now select you click your u
 
 Here you are able to see all items launched at startup.
 
-![](http://lh3.ggpht.com/-bJZpXUJx0P4/UYAaSM5qThI/AAAAAAAAKS4/0wyvqbawh6s/os-x-login-items.png)
+![](/os-x-login-items.webp)

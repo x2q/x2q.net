@@ -60,7 +60,7 @@ Now it is time to make the script run every night. Edit your crontab:
 
 Add the following line
 
-        # m h  dom mon dow   command 
+        # m h  dom mon dow   command
         42  22  *   *   *    /root/wd-live-s3-backup.sh
 
 Then be sure to check your log files and do restore to check that everything is
@@ -72,5 +72,4 @@ Amazon supports archiving of Amazon S3 Data to Amazon Glacier using lifecycle ru
 
 I use the following lifecycle rule for Amazon S3 and Glacier.
 
-![](http://lh3.ggpht.com/-9vxrov_LRmM/UXjf1037BII/AAAAAAAAKL4/tFJy90mQAjM/w677/s3-glacier-lifecycle-rules.png)
-
+![](/s3-glacier-lifecycle-rules.webp)
