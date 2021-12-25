@@ -159,7 +159,7 @@ sudo bum
 
 To remove applications from startup go to `Dash` > and type `Startup Applications`.
 
-![](/ubuntu-startup-application-preferences.webp)
+![](/img/ubuntu-startup-application-preferences.webp)
 
 Disable automatic startup of any services that are not needed (or even remove
 the package completely).

@@ -37,27 +37,27 @@ cumbersome, and more.
 
 ### Clean System Cache
 
-![](/onyx-clean-system-cache.webp)
+![](/img/onyx-clean-system-cache.webp)
 
 ### Clean User Cache
 
-![](/onyx-clean-user-cache.webp)
+![](/img/onyx-clean-user-cache.webp)
 
 ### Clean Internet abd Network related Caches
 
-![](/onyx-clean-internet-cache.webp)
+![](/img/onyx-clean-internet-cache.webp)
 
 ### Empty Log Files
 
-![](/onyx-clean-logs.webp)
+![](/img/onyx-clean-logs.webp)
 
 ### Clean Misc OS X Stuff
 
-![](/onyx-clean-misc.webp)
+![](/img/onyx-clean-misc.webp)
 
 ### Empty Trash For All Users
 
-![](/onyx-empty-trash-all-users.webp)
+![](/img/onyx-empty-trash-all-users.webp)
 
 ## Remove Startup Items in System Preferences
 
@@ -70,4 +70,4 @@ Navigate to `System Preferences` > `Users & Groups`. Now select you click your u
 
 Here you are able to see all items launched at startup.
 
-![](/os-x-login-items.webp)
+![](/img/os-x-login-items.webp)

@@ -72,4 +72,4 @@ Amazon supports archiving of Amazon S3 Data to Amazon Glacier using lifecycle ru
 
 I use the following lifecycle rule for Amazon S3 and Glacier.
 
-![](/s3-glacier-lifecycle-rules.webp)
+![](/img/s3-glacier-lifecycle-rules.webp)
