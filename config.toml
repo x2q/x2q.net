@@ -3,9 +3,9 @@ disablePathToLower = true
 languageCode = "en"
 theme = "tailwind"
 title = "x2q - my notes online"
-author = "x2q"
 copyright = "x2q"
 paginate = 10
+
 
 [params]
 # dir name of your blog content (default is `content/posts`).
@@ -13,6 +13,19 @@ paginate = 10
 contentTypeName = "post"
 subtitle = "a blog on tech, life, and everything in between"
 keywords = "tech, linux, open source, life, programming, software, development, web"
+
+# Show table of contents at the top of your posts (defaults to false)
+# Alternatively, add this param to post front matter for specific posts
+toc = false
+
+showReadingTime = true
+
+# use structure json-ld for articles
+jsonLD = true
+
+[author]
+name = "X2Q"
+email = "x2q@x2q.net"
 
 [params.header]
 logo = "favicon.svg"
