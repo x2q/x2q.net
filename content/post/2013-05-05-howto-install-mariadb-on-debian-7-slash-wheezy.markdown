@@ -1,7 +1,6 @@
 ---
 categories:
 - Debian
-- Wheezy
 - MySQL
 - MariaDB
 - Howto
@@ -15,7 +14,7 @@ title: 'Howto: Install MariaDB on Debian 7/Wheezy'
 [MariaDB][1] is a fork of [MySQL][2], which is true open source and community
 maintained. MariaDB is a binary drop in [replacement][3] for MySQL. It includes
 the XtraDB storage engine as a replacement for InnoDB. Its lead developer is
-[Michael Widenius][4] (also known as "Monty"), the founder of MySQL. 
+[Michael Widenius][4] (also known as "Monty"), the founder of MySQL.
 
 Recently, many popular Linux distributions replaced MySQL with MariaDB as
 default database server. Fedora [version => 19][5], [Archlinux][6] and
@@ -28,7 +27,7 @@ migrate as well.
 ## Why switch to MariaDB
 
 Well, MySQL development has basically stopped, since Oracle acquired MySQL,
-whereas the MariaDB development is progessing at full speed. 
+whereas the MariaDB development is progessing at full speed.
 
 Performance and licensing are the often the most predominant reasons to make a
 switch from MySQL to MariaDB.
@@ -47,7 +46,7 @@ http://blog.wikimedia.org/2013/04/22/wikipedia-adopts-mariadb/ Wikipedia Adopts 
 MariaDB packages are not yet available in official Debian repositories. MariaDB
 provides repositories for almost every popular os here:
 
-[https://downloads.mariadb.org/mariadb/repositories/][11] 
+[https://downloads.mariadb.org/mariadb/repositories/][11]
 
 Add the following to your `/etc/apt/sources.list`
 
@@ -70,7 +69,7 @@ This should result is something like this...
 
 ```
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following extra packages will be installed:
   libaio1 libdbd-mysql-perl libdbi-perl libhtml-template-perl libmariadbclient18 libnet-daemon-perl libplrpc-perl mariadb-client-5.5
@@ -83,7 +82,7 @@ The following NEW packages will be installed:
 0 upgraded, 15 newly installed, 0 to remove and 0 not upgraded.
 Need to get 32.3 MB of archives.
 After this operation, 111 MB of additional disk space will be used.
-Do you want to continue [Y/n]? 
+Do you want to continue [Y/n]?
 ```
 
 You are now ready to use MariaDB.

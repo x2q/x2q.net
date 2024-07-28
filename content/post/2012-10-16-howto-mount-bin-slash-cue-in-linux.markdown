@@ -4,6 +4,11 @@ categories:
 - Ubuntu
 - Debian
 - Linux
+tags:
+- ISO
+- .cue
+- .bin
+- bchunk
 comments: true
 date: "2012-10-16T00:00:00Z"
 title: 'Howto: Mount Bin/Cue in Linux'
@@ -25,4 +30,3 @@ Convert image.bin and image.cue into image.iso,
 
 Then mount the ISO using the nautilus image mounter mechanism or do it manually on the command line:
     mount -o loop -t iso9660 image.iso /mnt
-

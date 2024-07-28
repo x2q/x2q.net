@@ -2,6 +2,9 @@
 categories:
 - Hacking
 comments: true
+tags:
+- Factory Reset
+- Yealink
 date: "2012-03-25T16:51:32Z"
 slug: how-to-factory-reset-a-yealink-phone-without-the-admin-password
 title: How to Factory Reset a Yealink Phone without the Admin Password

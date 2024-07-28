@@ -1,14 +1,10 @@
 ---
 categories:
-- Mac
+- MacOS
 - Firefox
 - Safari
 - Google Chrome
-- Memory
-- Optimize
-- SSD
 - Ramdisk
-- OS X
 comments: true
 date: "2013-04-30T00:00:00Z"
 title: OS X Performance Tweaks

@@ -2,17 +2,10 @@
 comments: true
 date: "2013-09-16T00:00:00Z"
 published: true
+categories:
+- Speech recognition
 tags:
 - Google Speech API
-- HTML5
-- Curl
-- Speech recognition
-- Artificial intelligence
-- Machine learning
-- API
-- Google Chrome
-- FLAC
-- Speech To Text API
 title: How to use Google Speech API
 ---
 

@@ -2,6 +2,8 @@
 categories:
 - Hacking
 - Open Source
+tags:
+- Wine
 comments: true
 date: "2012-06-30T11:56:25Z"
 slug: summasummarum-on-linux-using-wine

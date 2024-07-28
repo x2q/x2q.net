@@ -1,6 +1,5 @@
 ---
 categories:
-- Hacking
 - Open Source
 comments: true
 date: "2010-07-08T17:30:38Z"
@@ -8,8 +7,6 @@ slug: git-daily-usage-branching-model
 tags:
 - Git
 - Linux
-- Revision control
-- Version control
 title: Git Daily Usage and Branching Model
 wordpress_id: 381
 ---
@@ -37,7 +34,7 @@ The feature branches are used to develop new features for the upcoming or a dist
 
 When starting work on a new feature, branch off from the **master** branch.
 
-    
+
     git checkout -b feature_x master
 
 
@@ -47,7 +44,7 @@ When starting work on a new feature, branch off from the **master** branch.
 
 
 
-    
+
     git checkout feature_x
     git push origin feature_x
 
@@ -59,7 +56,7 @@ When starting work on a new feature, branch off from the **master** branch.
 
 Finished features may be merged into the master branch to definitely add them to the upcoming release:
 
-    
+
     git checkout master
     git merge --no-ff --log feature_x
     git branch -d feature_x
@@ -73,7 +70,7 @@ The --no-ff and --log flags cause the merge to always create a new commit object
 
 
 
-    
+
     git checkout -b stable --track origin/stable #only needed once
     git pull
     git merge --no-ff --log master

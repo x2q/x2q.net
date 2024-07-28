@@ -6,7 +6,7 @@ Tags:
 - EMONCMS
 categories:
 - Linux
-- Raspberry
+- Raspberry Pi
 comments: true
 date: "2012-10-11T00:00:00Z"
 title: 'EMONCMS: SPIII Solar Controller &amp; Current Cost'
@@ -25,4 +25,3 @@ So far we are able to collect data from the SPIII Solar Water Heater Controller 
 The result so far in emoncms:
 
 ![](http://static.x2q.net/emoncms.png)
-

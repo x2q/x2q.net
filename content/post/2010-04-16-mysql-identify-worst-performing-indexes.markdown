@@ -1,6 +1,7 @@
 ---
 categories:
 - Hacking
+- MySQL
 comments: true
 date: "2010-04-16T07:56:45Z"
 slug: mysql-identify-worst-performing-indexes
@@ -52,4 +53,3 @@ x2q@x2q:~$ mysql --table -u x2q -p < mysql-worst-indexes.sql
 | aa  | wp_posts         | yarpp_content             | post_content     |            1 |      1 |    1 |      808 |  0.12 |
 +-----+------------------+---------------------------+------------------+--------------+--------+------+----------+-------+
 ```
-

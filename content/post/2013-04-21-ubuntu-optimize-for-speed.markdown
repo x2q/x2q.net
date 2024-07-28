@@ -2,7 +2,6 @@
 categories:
 - Ubuntu
 - Debian
-- Optimize
 - Boot time
 - Memory
 - tmpfs

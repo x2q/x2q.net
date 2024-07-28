@@ -1,15 +1,14 @@
 ---
 categories:
-- BIN
-- IIN
-- Binlist
 - Visa
 - MasterCard
-- Webservice
 - American Express (AMEX)
 - JCB
 - Payments
-- Credit Card
+tags:
+- BIN
+- IIN
+- Binlist
 - Account Range Definition (ARDEF)
 comments: true
 date: "2013-09-10T00:00:00Z"
@@ -64,7 +63,7 @@ I'm usually very concerned regarding response times, but they seem to be quite g
 according to this simple test.
 
 ```
-$ ab -c 50 -n 100  http://www.binlist.net/json/400115 
+$ ab -c 50 -n 100  http://www.binlist.net/json/400115
 This is ApacheBench, Version 2.3 <$Revision: 655654 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
