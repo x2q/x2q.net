@@ -20,8 +20,6 @@ wordpress_id: 867
 
 ## Logitech Squeezebox Touch
 
-![](http://static.x2q.net/Logitech-Squeezebox-Touch.jpg)
-
 Squeezebox Touch is equipped with a 4.3 inch touch color screen. The Touch can be operated directly by clicking on menus, as it can be operated with the included infrared [remote control](http://en.wikipedia.org/wiki/Remote_control), and of course, is compatible with the Squeezebox Controller. When Touch is controlled by infrared remote control, enlarged the font on the display automatically, so it can be read at greater distances. Squeezebox Touch can also be operated with e.g. an iPod Touch or [iPhone](http://www.apple.com/iphone).
 
 ### Light Sensor Automatically Adjusts Display Brightness
@@ -36,8 +34,6 @@ Squeezebox Touch is equipped with a DAC that supports playback of files in 24 bi
 Combined with SUMOH TinyAmp S60 the sound quality is absolutely fair above average. I think most of the high quality can be explained by the lack of analog involvement - the only analog step if the is the output from the amplifier - the rest is pure digital (keep in mind that some recordings might involve analog steps as well).
 
 Sumoh TinyAmp S60 is a 100% digital amplifier, directly designed for use with the Logitech Squeezebox, or other similar digital players. Volume adjusted from Squeezebox having variable digital outputs, or from another digital source with variable output. The amplifier turns on and off itself, depending on if there is any signal from the Squeezebox digital output. Very fancy ;-)
-
-![](http://static.x2q.net/SUMOH-TinyAmp-S60.jpg)
 
 ## Based on Texas Instruments
 Based on PurePathTM Digital from Texas Instruments and an ideal partner for the Squeezebox and [Apple](http://www.apple.com) [Airport Express](http://www.apple.com/wifi)
@@ -57,5 +53,5 @@ TinyAmp S60 has an outlet to power Squeezebox products. At the amplifier's back 
     Signal-to-noise ratio	103 dB
     Channel separation	90 dB
     Frequency response, audio range (20Hz - 20kHz)	+/-0.5dB
-    
+
 Squeezebox Touch is, of course, capable to play music from [Internet radio](http://en.wikipedia.org/wiki/Internet_radio) stations and other online music services, like the rest of the products in the Squeezebox family. Squeezebox Touch can connect to [Facebook](http://facebook.com). You can view your Facebook page on the display and immediately send recommendations on exciting music you hear to your Facebook friends. Squeezebox Touch has an analog RCA output, a digital Toslink output and a digital coaxial output, just as there are mini-jack output for connecting headphones.
