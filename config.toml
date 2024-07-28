@@ -7,10 +7,6 @@ author = "x2q"
 copyright = "x2q"
 paginate = 10
 
-[assets]
-favicon = "favicon.svg"
-
-
 [params]
 # dir name of your blog content (default is `content/posts`).
 # the list of set content will show up on your index page (baseurl).
@@ -20,6 +16,7 @@ keywords = "tech, linux, open source, life, programming, software, development, 
 
 [params.header]
 logo = "favicon.svg"
+favicon = "favicon.svg"
 
 [params.footer]
 since = 2010
