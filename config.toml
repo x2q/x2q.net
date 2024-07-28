@@ -8,11 +8,8 @@ copyright = "x2q"
 paginate = 10
 
 [assets]
-# disableHLJS = true # to disable highlight.js
-# disableFingerprinting = true
 favicon = "favicon.svg"
-#favicon16x16 = "https://www.x2q.net/favicon-16x16.png"
-#favicon32x32 = "https://www.x2q.net/favicon-32x32.png"
+
 
 [params]
 # dir name of your blog content (default is `content/posts`).
@@ -20,7 +17,6 @@ favicon = "favicon.svg"
 contentTypeName = "post"
 subtitle = "a blog on tech, life, and everything in between"
 keywords = "tech, linux, open source, life, programming, software, development, web"
-
 
 [params.header]
 logo = "favicon.svg"
