@@ -13,10 +13,10 @@ title: View The Contents Of A Certificate Signing Request (CSR)
 wordpress_id: 321
 ---
 
-[OpenSSL](http://en.wikipedia.org/wiki/OpenSSL) is a very powerful [cryptography](http://en.wikipedia.org/wiki/Cryptography) utility, perhaps a little too powerful for the average user. With all the different [command line](http://en.wikipedia.org/wiki/Command-line_interface) options, it can be a daunting task figuring out how to do exactly what you want to do. Reading the contents of a certificate signing request ([CSR](http://en.wikipedia.org/wiki/Certificate_signing_request)) is one of the common tasks that OpenSSL is useful for.
+[OpenSSL](https://en.wikipedia.org/wiki/OpenSSL) is a very powerful [cryptography](https://en.wikipedia.org/wiki/Cryptography) utility, perhaps a little too powerful for the average user. With all the different [command line](https://en.wikipedia.org/wiki/Command-line_interface) options, it can be a daunting task figuring out how to do exactly what you want to do. Reading the contents of a certificate signing request ([CSR](https://en.wikipedia.org/wiki/Certificate_signing_request)) is one of the common tasks that OpenSSL is useful for.
 
 **What is a Certificate Signing Requests (CSR)**
-Certificate Signing Requests (CSR) are sent to a [Certificate Authority](http://en.wikipedia.org/wiki/Certificate_authority) (CA) to be signed. Once signed, a certificate will be returned.
+Certificate Signing Requests (CSR) are sent to a [Certificate Authority](https://en.wikipedia.org/wiki/Certificate_authority) (CA) to be signed. Once signed, a certificate will be returned.
 
     openssl req -text -noout -in host.csr
 

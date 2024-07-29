@@ -12,7 +12,7 @@ title: 'MySQL: Identify The Worst Performing Indexes'
 wordpress_id: 157
 ---
 
-This script shows the Top 10 worst performing indexes (in terms of selectivity %) on the whole [MySQL](http://en.wikipedia.org/wiki/MySQL) server instance. Selectivity is the percentage of distinct values in an indexed field compared to the number of records in the table. When constructing indexes, you want to create indexes on columns that have a good chance of "high selectivity". This requires some understanding of the data in the column, which you may or may not have depending on your knowledge of the domain and the availability of sample data. Keep in mind that selectivity is {" Index Selectivity = Number of Distinct Values / Total Number of Rows "}
+This script shows the Top 10 worst performing indexes (in terms of selectivity %) on the whole [MySQL](https://en.wikipedia.org/wiki/MySQL) server instance. Selectivity is the percentage of distinct values in an indexed field compared to the number of records in the table. When constructing indexes, you want to create indexes on columns that have a good chance of "high selectivity". This requires some understanding of the data in the column, which you may or may not have depending on your knowledge of the domain and the availability of sample data. Keep in mind that selectivity is {" Index Selectivity = Number of Distinct Values / Total Number of Rows "}
 
 Lets consider a table "People" with three columns;  name, surname, gender, and age.
 

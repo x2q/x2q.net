@@ -13,16 +13,16 @@ date: "2013-02-24T00:00:00Z"
 title: Howto Backup WD MyBook Live to Amazon S3 and Glacier
 ---
 
-Recently I helped a [photographer](http://www.winniemethmann.com/) to backup a large photo collection (several
-terabytes) from a [Western Digital (WD)](http://www.wdc.com/) personal NAS
+Recently I helped a [photographer](https://www.winniemethmann.com/) to backup a large photo collection (several
+terabytes) from a [Western Digital (WD)](https://www.wdc.com/) personal NAS
 MyBook Live.
 
 The [My Book Live Edition
-NAS](http://en.wikipedia.org/wiki/Western_Digital_My_Book) was released by
+NAS](https://en.wikipedia.org/wiki/Western_Digital_My_Book) was released by
 Western Digital in 2011. They range in storage capacity from 1 to 4 TB. My Book
 Live features a 1 GHz ARM processor, 256 MB of RAM, and 1000 Mbit/s ethernet
 connectivity. Contrary to previous My Book Live versions it now features a
-fully fledged [Debian linux distribution](http://www.debian.org/), whichs makes
+fully fledged [Debian linux distribution](https://www.debian.org/), whichs makes
 the My Book Live easy to customize and adapt to different needs.
 
 ## Backup your My Book Live to Amazon S3 and Glacier
@@ -32,12 +32,12 @@ SSH, then do the following to enable SSH access.
 
 ### Enable SSH via hidden menu on WD My Book Live
 
-Go to _http://mybooklive/UI/ssh_ (case sensitive)
+Go to _https://mybooklive/UI/ssh_ (case sensitive)
 replace "mybooklive" if you have renamed your My Book Live to something else,
 or replace it with its IP address. It's a hidden UI menu to enable SSH.
 
 Now you are able to ssh to your My Book Live via
-[putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/) or another ssh
+[putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/) or another ssh
 client.
 
 ### Install the backup tool Duplicity etc.

@@ -14,7 +14,7 @@ title: How to Enter the Debug Menu on a Garmin Nuvi
 wordpress_id: 371
 ---
 
-The "debug menu" (also called the "maintenance mode") on a [Garmin](http://www.garmin.com/garmin/cms/site/us) Nuvi 750 is a utility that allows you to reset your device back to factory settings. You can reset any addresses saved to the device as well as custom points of interest, such as restaurants, hotels or whatever. You don't need to do anything special to enter this menu on the device, you simply just need to press in the right location at the right time.
+The "debug menu" (also called the "maintenance mode") on a [Garmin](https://www.garmin.com/garmin/cms/site/us) Nuvi 750 is a utility that allows you to reset your device back to factory settings. You can reset any addresses saved to the device as well as custom points of interest, such as restaurants, hotels or whatever. You don't need to do anything special to enter this menu on the device, you simply just need to press in the right location at the right time.
 
 ## Steps to Enter Debug Menu
 

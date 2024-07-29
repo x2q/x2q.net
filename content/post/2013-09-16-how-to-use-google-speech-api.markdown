@@ -86,7 +86,7 @@ Tell speech recognition server to return errors as part of the JSON
 response and not HTTP error codes
 
 
-[1]: http://www.google.com/chrome
-[2]: http://www.chromium.org/
+[1]: https://www.google.com/chrome
+[2]: https://www.chromium.org/
 [3]: https://xiph.org/flac/
-[4]: http://curl.haxx.se/
+[4]: https://curl.haxx.se/

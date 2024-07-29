@@ -33,7 +33,7 @@ There is user-agent switchers and methods available for most browsers:
 
 ## Safari
 
-* [How to Activate User Agent Switcher in Safari](http://www.dummies.com/how-to/content/how-to-activate-user-agent-switcher-in-safari.html)
+* [How to Activate User Agent Switcher in Safari](https://www.dummies.com/how-to/content/how-to-activate-user-agent-switcher-in-safari.html)
 
 ## Firefox
 
@@ -41,7 +41,7 @@ There is user-agent switchers and methods available for most browsers:
 
 ## Internet Explorer
 
-* [UAPick User-Agent Switcher](http://www.enhanceie.com/ietoys/uapick.asp)
+* [UAPick User-Agent Switcher](https://www.enhanceie.com/ietoys/uapick.asp)
 
 You can always check your current user agent string by visting e.g. [https://www.whatismybrowser.com/](https://www.whatismybrowser.com/detect/what-is-my-user-agent/)
 

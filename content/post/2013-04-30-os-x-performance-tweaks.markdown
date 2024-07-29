@@ -12,7 +12,7 @@ title: OS X Performance Tweaks
 
 ## Update to Latest OS X
 
-Upgrade to the latest version of [OS X](http://en.wikipedia.org/wiki/OS_X).
+Upgrade to the latest version of [OS X](https://en.wikipedia.org/wiki/OS_X).
 
 If you are upgrading from Lion to Mountain Lion, then tere’s no need to visit a
 store and fetch a box, and install a bunch of discs. Just click the Mac App

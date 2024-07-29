@@ -12,7 +12,7 @@ Most favicons are created in a single resolution only, which by default is 16x16
 
 Most browsers can deal with favicons. GIF, JPG, PNG formats, and Microsoft Icon format (.ico). The ico format is the for some reason the most used.
 
-The good thing regarding ico files is that they are able to contain multiple images within a single ico file. We'll now exploit this feature to make a favicon contain all for four favicon resolutions in a single favicon for maximum compability using [Gimp](http://www.gimp.org/).
+The good thing regarding ico files is that they are able to contain multiple images within a single ico file. We'll now exploit this feature to make a favicon contain all for four favicon resolutions in a single favicon for maximum compability using [Gimp](https://www.gimp.org/).
 
 1. Open Gimp
 2. Load a large resolution of the image you are about to make into a favicon. Minimum 128x128 pixels.

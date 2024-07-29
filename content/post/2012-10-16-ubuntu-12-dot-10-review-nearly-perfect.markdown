@@ -8,7 +8,7 @@ date: "2012-10-16T00:00:00Z"
 title: 'Ubuntu 12.10 Review: Nearly perfect'
 ---
 
-When I last upgraded to [Ubuntu 12.04](http://www.ubuntu.com/), I was quite disappointed. Mostly because it was a LTS release and though you do not expect buggy and unpolished components.
+When I last upgraded to [Ubuntu 12.04](https://www.ubuntu.com/), I was quite disappointed. Mostly because it was a LTS release and though you do not expect buggy and unpolished components.
 
 Back to Ubuntu 12.10.
 

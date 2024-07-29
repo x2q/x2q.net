@@ -20,9 +20,9 @@ wordpress_id: 182
 ---
 
 
-[fcrackzip](https://www.kali.org/tools/fcrackzip/) is a [zip-file](http://en.wikipedia.org/wiki/ZIP_%28file_format%29) [encryption](http://en.wikipedia.org/wiki/Encryption) [cracker](http://en.wikipedia.org/wiki/Software_cracking), which can handle (recover / [crack](http://en.wikipedia.org/wiki/Password_cracking) / hack) any [password](http://en.wikipedia.org/wiki/Password) encrypted zipfile. Inside it uses a number of methods to accomplish the crack, but this happens nicely behind the scenes.
+[fcrackzip](https://www.kali.org/tools/fcrackzip/) is a [zip-file](https://en.wikipedia.org/wiki/ZIP_%28file_format%29) [encryption](https://en.wikipedia.org/wiki/Encryption) [cracker](https://en.wikipedia.org/wiki/Software_cracking), which can handle (recover / [crack](https://en.wikipedia.org/wiki/Password_cracking) / hack) any [password](https://en.wikipedia.org/wiki/Password) encrypted zipfile. Inside it uses a number of methods to accomplish the crack, but this happens nicely behind the scenes.
 
-Install and fcrackzip on [Ubuntu](http://en.wikipedia.org/wiki/Ubuntu_%28operating_system%29) by typing:
+Install and fcrackzip on [Ubuntu](https://en.wikipedia.org/wiki/Ubuntu_%28operating_system%29) by typing:
 
 
 
@@ -31,7 +31,7 @@ Install and fcrackzip on [Ubuntu](http://en.wikipedia.org/wiki/Ubuntu_%28operati
 
 
 
-Use the fcrackzip for [password cracking](http://en.wikipedia.org/wiki/Password_cracking) on Ubuntu by typing:
+Use the fcrackzip for [password cracking](https://en.wikipedia.org/wiki/Password_cracking) on Ubuntu by typing:
 
 
 

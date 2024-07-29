@@ -11,10 +11,10 @@ title: Git Daily Usage and Branching Model
 wordpress_id: 381
 ---
 
-## What is [Git](http://git-scm.com/)
+## What is [Git](https://git-scm.com/)
 
 
-Git is a distributed [revision control](http://en.wikipedia.org/wiki/Revision_control) system with an emphasis on speed. Git was initially designed and developed by Linus Torvalds for [Linux kernel](http://www.kernel.org/) development.
+Git is a distributed [revision control](https://en.wikipedia.org/wiki/Revision_control) system with an emphasis on speed. Git was initially designed and developed by Linus Torvalds for [Linux kernel](https://www.kernel.org/) development.
 Every Git working directory is a full-fledged repository with complete history and full revision tracking capabilities, not dependent on network access or a central server.
 
 The central repository holds two main branches and a number of feature branches:

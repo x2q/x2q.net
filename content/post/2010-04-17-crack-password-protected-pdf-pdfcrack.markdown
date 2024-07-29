@@ -19,7 +19,7 @@ wordpress_id: 176
 ---
 
 
-PDFCrack is a [GNU/Linux](http://en.wikipedia.org/wiki/Linux) application (or any other [POSIX](http://en.wikipedia.org/wiki/POSIX)-compatible system) tool for recovering [passwords](http://en.wikipedia.org/wiki/Password) and content from [PDF](http://en.wikipedia.org/wiki/Portable_Document_Format)-files. It is small, [command line](http://en.wikipedia.org/wiki/Command-line_interface) driven without external dependencies. PDFCrack is released under [GPL](http://www.gnu.org/copyleft/gpl.html).
+PDFCrack is a [GNU/Linux](https://en.wikipedia.org/wiki/Linux) application (or any other [POSIX](https://en.wikipedia.org/wiki/POSIX)-compatible system) tool for recovering [passwords](https://en.wikipedia.org/wiki/Password) and content from [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format)-files. It is small, [command line](https://en.wikipedia.org/wiki/Command-line_interface) driven without external dependencies. PDFCrack is released under [GPL](https://www.gnu.org/copyleft/gpl.html).
 
 Install and pdfcrack on Ubuntu by typing:
 

@@ -47,7 +47,7 @@ It is really easy to use the binlist.net webservice. They offer 3 return
 formats; XML, JSON and CSV.
 
 ```
-$ curl -s http://www.binlist.net/json/400115 | json_pp
+$ curl -s https://www.binlist.net/json/400115 | json_pp
 {
    "card_category" : "ELECTRON",
    "card_type" : "",
@@ -63,10 +63,10 @@ I'm usually very concerned regarding response times, but they seem to be quite g
 according to this simple test.
 
 ```
-$ ab -c 50 -n 100  http://www.binlist.net/json/400115
+$ ab -c 50 -n 100  https://www.binlist.net/json/400115
 This is ApacheBench, Version 2.3 <$Revision: 655654 $>
-Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-Licensed to The Apache Software Foundation, http://www.apache.org/
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, https://www.zeustech.net/
+Licensed to The Apache Software Foundation, https://www.apache.org/
 
 Benchmarking www.binlist.net (be patient).....done
 
@@ -113,12 +113,12 @@ Percentage of the requests served within a certain time (ms)
 Unfortunately there is no [Ruby gem][7] or PHP library available as of today.
 
 
-[1]: http://en.wikipedia.org/wiki/Credit_card_number
+[1]: https://en.wikipedia.org/wiki/Credit_card_number
 [2]: https://en.wikipedia.org/wiki/Payment_card_number
 [3]: http://elliottback.com/wp/bank-identification-number-bin-list/
-[4]: http://www.binlist.net/
+[4]: https://www.binlist.net/
 [5]: https://github.com/binlist
 [6]: https://github.com/binlist
-[7]: http://rubygems.org/
-[8]: http://en.wikipedia.org/wiki/Visa_Inc.
-[9]: http://en.wikipedia.org/wiki/MasterCard
+[7]: https://rubygems.org/
+[8]: https://en.wikipedia.org/wiki/Visa_Inc.
+[9]: https://en.wikipedia.org/wiki/MasterCard
