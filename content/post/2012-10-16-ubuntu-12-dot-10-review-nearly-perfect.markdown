@@ -33,8 +33,6 @@ Compared to Mac OS, Ubuntu still got a few flaws. For example random text messag
 ## The Desktop
 The overall look and feel is simply great, but the new sponsored items in the dash is simply annoying and leaves the desktop area as a cluttered space. However with the annoying sponsored Amazon content uninstalled the Ubuntu desktop is a pleasure. It is fast and quite responsive, don't get me wrong there is still room for improvements.
 
-![](http://static.x2q.net/Ubuntu-12.10-Screenshot-2012-10-16-800x.jpg)
-
 The annoying shopping unity lens can be removed by:
     sudo apt-get install unity-lens-shopping
 

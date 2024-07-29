@@ -17,14 +17,14 @@ wordpress_id: 846
 
 ## What is Spotify?
 
-[Spotify](http://www.spotify.com/) is an ingenious solution to stream music, so it would be great if it could be used with the [Squeezebox](http://www.logitechsqueezebox.com) - and it is actually possible using the Spotify Premium Plugin for Squeezebox Server.
+[Spotify](https://en.wikipedia.org/wiki/Spotify) is an ingenious solution to stream music, so it would be great if it could be used with the [Squeezebox](https://en.wikipedia.org/wiki/Squeezebox_(network_music_player)) - and it is actually possible using the Spotify Premium Plugin for Squeezebox Server.
 Spotify offers you legal and free access to a huge library of music. All you need to do is create an account and download our streaming music player.
 
 ## Scope
-	
+
 * For Spotify users with a Premium account
 * Plays back 320k or 160k streams
-* Requires a running Squeezebox Server ([Linux](http://www.kernel.org/), [Windows](http://www.microsoft.com/WINDOWS) or Mac, could be cloud-based e.g. at [Amazon EC2](http://amazon.com))
+* Requires a running Squeezebox Server ([Linux](https://www.kernel.org/), [Windows](https://www.microsoft.com/WINDOWS) or Mac, could be cloud-based e.g. at [Amazon EC2](https://amazon.com))
 * Will play back via Squeezebox 2 and later hardware players only
 
 
@@ -55,4 +55,3 @@ I experienced a few problems on Debian lenny, so I copied the shared objects fro
     	libpthread.so.0 => /lib32/libpthread.so.0 (0xf7ad6000)
     	libogg.so.0 => /var/lib/squeezeboxserver/cache/InstalledPlugins/Plugins/Spotify/Bin/i386-linux/libogg.so.0 (0xf7acf000)
     	/lib/ld-linux.so.2 (0xf7fdf000)
-

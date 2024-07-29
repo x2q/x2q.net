@@ -32,7 +32,7 @@ SSH, then do the following to enable SSH access.
 
 ### Enable SSH via hidden menu on WD My Book Live
 
-Go to [http://mybooklive/UI/ssh](http://mybooklive/UI/ssh) (case sensitive)
+Go to _http://mybooklive/UI/ssh_ (case sensitive)
 replace "mybooklive" if you have renamed your My Book Live to something else,
 or replace it with its IP address. It's a hidden UI menu to enable SSH.
 

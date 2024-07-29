@@ -18,7 +18,6 @@ If you are upgrading from Lion to Mountain Lion, then tere’s no need to visit 
 store and fetch a box, and install a bunch of discs. Just click the Mac App
 Store icon on your Mac. Buy OS X Mountain Lion. And your Mac does the rest.
 
-Follow [this Apple guide](http://www.apple.com/osx/how-to-upgrade/) for more info
 
 
 ## Clean System and User Caches etc. Using OnyX
@@ -29,7 +28,8 @@ iTunes, login window, Spotlight, and many of Apple’s applications, to delete
 caches, to remove a certain number of files and folders that may become
 cumbersome, and more.
 
-[Download OnyZ](http://www.titanium.free.fr/downloadonyx.php) and install it.
+´Download OnyZ´ and install it.
+
 
 ### Clean System Cache
 

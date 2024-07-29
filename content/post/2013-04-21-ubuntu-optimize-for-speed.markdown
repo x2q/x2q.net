@@ -175,7 +175,7 @@ using RAM is faster than using disks, zRam allows Linux to make more use of RAM
 when swapping/paging is required, especially on older computers with less RAM
 installed.
 
-FYI: [Google uses zRAM for Chrome OS](http://www.chromestory.com/2013/03/google-enabling-zram-for-chrome-os-by-default/)
+Fun fact: Google uses zRAM for Chrome OS.
 
 Enable zRam on Ubuntu:
 

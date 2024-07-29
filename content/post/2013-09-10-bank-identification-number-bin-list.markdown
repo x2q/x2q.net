@@ -114,11 +114,11 @@ Unfortunately there is no [Ruby gem][7] or PHP library available as of today.
 
 
 [1]: http://en.wikipedia.org/wiki/Credit_card_number
-[2]: http://en.wikipedia.org/wiki/List_of_Issuer_Identification_Numbers
+[2]: https://en.wikipedia.org/wiki/Payment_card_number
 [3]: http://elliottback.com/wp/bank-identification-number-bin-list/
 [4]: http://www.binlist.net/
-[5]: https://www.google.com/fusiontables/DataSource?docid=1QQScVqT46tTQ18pyqls3WbwJ740ouzK_65C6cw
-[6]: http://pastebin.com/qN3EeGZM
+[5]: https://github.com/binlist
+[6]: https://github.com/binlist
 [7]: http://rubygems.org/
 [8]: http://en.wikipedia.org/wiki/Visa_Inc.
 [9]: http://en.wikipedia.org/wiki/MasterCard
