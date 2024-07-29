@@ -8,7 +8,7 @@
 # Development
 - Run ´brew install zed´ to install [Zed](https://zed.dev/)
 - Run ´brew install muffet´ to install [Muffet](https://github.com/raviqqe/muffet)
-- Run ´muffet -f -b 8192 http://localhost:1313/´ to check for broken links.
+- Run ´muffet -e 3dsecure.net -f -b 8192 http://localhost:1313/´ to check for broken links.
 - Use git to commit
 
 
