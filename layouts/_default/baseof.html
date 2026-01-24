@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  {{ partial "header.html" . }}
+  
+  {{ block "main" . }}{{ end }}
+  
+  {{ partial "footer.html" . }}
+  
+  <script>
+    const toggle = document.getElementById('dark-mode-toggle');
+    const sun = toggle.querySelector('.sun-icon');
+    const moon = toggle.querySelector('.moon-icon');
+    
+    const isDark = localStorage.getItem('darkMode') === 'true' || 
+      (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
+    document.documentElement.classList.toggle('dark', isDark);
+    sun.classList.toggle('hidden', isDark);
+    moon.classList.toggle('hidden', !isDark);
+    
+    toggle.addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', dark);
+      sun.classList.toggle('hidden', dark);
+      moon.classList.toggle('hidden', !dark);
+    });
+  </script>
+</body>
+</html>
