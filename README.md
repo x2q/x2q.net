@@ -1,17 +1,43 @@
-# Get it up and running locally
-- Clone this repository
-- Run `brew install hugo` to install [Hugo](https://github.com/gohugoio/hugo)
-- Run `hugo server` to start the local development server
-- Visit `http://localhost:1313/` in your browser
+# x2q.net
 
+A minimal single-page personal site built with Hugo.
 
-# Development
-- Run ´brew install zed´ to install [Zed](https://zed.dev/)
-- Run ´brew install muffet´ to install [Muffet](https://github.com/raviqqe/muffet)
-- Run ´muffet -e 3dsecure.net -f -b 8192 http://localhost:1313/´ to check for broken links.
-- Use git to commit
+## Structure
 
+```
+.
+├── config.toml          # Site configuration
+├── content/             # Content (empty for single-page)
+├── layouts/
+│   ├── _default/
+│   │   └── baseof.html  # Base template
+│   ├── partials/
+│   │   ├── head.html    # HTML head
+│   │   ├── header.html  # Site header
+│   │   └── footer.html  # Site footer
+│   └── index.html       # Homepage
+└── static/
+    ├── CNAME            # GitHub Pages domain
+    ├── favicon.svg      # Site favicon
+    └── robots.txt       # Robots file
+```
 
-# Depolyment
-- Use git to push to the master branch
-- Cloudflare will automatically deploy the changes
+## Development
+
+```bash
+hugo server
+```
+
+## Build
+
+```bash
+hugo --minify
+```
+
+## Deploy
+
+Push to `main` branch. GitHub Pages will build and deploy automatically.
+
+## License
+
+MIT
