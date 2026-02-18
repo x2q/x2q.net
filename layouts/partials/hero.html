@@ -1,9 +1,8 @@
-<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden px-4" id="hero">
+<section id="hero">
 
   <!-- Animated SVG Background -->
-  <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <svg class="hero-bg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
     <defs>
-      <!-- Gradient that shifts with dark mode via CSS -->
       <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
         <stop offset="0%" class="hero-glow-inner" />
         <stop offset="100%" class="hero-glow-outer" />
@@ -38,48 +37,35 @@
       <line x1="75%" y1="0" x2="75%" y2="100%" stroke="currentColor" stroke-width="0.5" />
     </g>
 
-    <!-- Floating particles -->
     <g id="particles"></g>
-
-    <!-- Connecting lines between nodes -->
     <g id="connections" opacity="0.15"></g>
-
-    <!-- Floating nodes -->
     <g id="nodes"></g>
   </svg>
 
   <!-- Content overlay -->
-  <div class="relative z-10 text-center max-w-3xl hero-content" style="opacity:0">
-    <div class="mb-6 inline-block">
-      <div class="hero-logo-ring relative w-28 h-28 sm:w-32 sm:h-32 mx-auto">
-        <div class="absolute inset-0 rounded-2xl hero-logo-glow animate-pulse"></div>
-        <img src="{{ .Site.Params.header.logo | relURL }}" alt="{{ .Site.Title }}"
-             class="relative w-full h-full rounded-2xl shadow-2xl">
+  <div class="hero-content" style="opacity:0">
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-ring">
+        <div class="hero-logo-glow"></div>
+        <img src="{{ .Site.Params.header.logo | relURL }}" alt="{{ .Site.Title }}" class="hero-logo-img">
       </div>
     </div>
 
-    <h1 class="text-5xl sm:text-7xl font-bold mb-4 hero-title">
-      <span class="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-300 dark:to-white">
-        {{ .Site.Title }}
-      </span>
+    <h1 class="hero-title">
+      <span>{{ .Site.Title }}</span>
     </h1>
 
-    <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-xl mx-auto hero-subtitle">
+    <p class="hero-subtitle">
       {{ .Site.Params.subtitle }}
     </p>
 
     {{ if .Site.Params.author.email }}
-    <a href="mailto:{{ .Site.Params.author.email }}"
-       class="hero-cta group inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-xl
-              bg-gray-900 dark:bg-white text-white dark:text-gray-900
-              hover:bg-gray-700 dark:hover:bg-gray-200
-              shadow-lg hover:shadow-xl
-              transition-all duration-300 hover:-translate-y-0.5">
-      <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <a href="mailto:{{ .Site.Params.author.email }}" class="hero-cta">
+      <svg class="cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
       </svg>
       Get in touch
-      <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
       </svg>
     </a>
@@ -87,73 +73,12 @@
   </div>
 
   <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hero-scroll-hint" style="opacity:0">
-    <div class="w-6 h-10 rounded-full border-2 border-gray-400 dark:border-gray-600 flex justify-center pt-2">
-      <div class="w-1 h-2 rounded-full bg-gray-400 dark:bg-gray-600 animate-bounce"></div>
+  <div class="hero-scroll-hint" style="opacity:0">
+    <div class="scroll-pill">
+      <div class="scroll-dot"></div>
     </div>
   </div>
 </section>
-
-<style>
-  /* Orb gradient colors — light mode */
-  .hero-glow-inner  { stop-color: rgba(99, 102, 241, 0.35); }
-  .hero-glow-outer  { stop-color: rgba(99, 102, 241, 0); }
-  .hero-glow2-inner { stop-color: rgba(168, 85, 247, 0.30); }
-  .hero-glow2-outer { stop-color: rgba(168, 85, 247, 0); }
-
-  .dark .hero-glow-inner  { stop-color: rgba(99, 102, 241, 0.25); }
-  .dark .hero-glow-outer  { stop-color: rgba(99, 102, 241, 0); }
-  .dark .hero-glow2-inner { stop-color: rgba(168, 85, 247, 0.20); }
-  .dark .hero-glow2-outer { stop-color: rgba(168, 85, 247, 0); }
-
-  .hero-grid { color: #94a3b8; }
-  .dark .hero-grid { color: #475569; }
-
-  .hero-logo-glow {
-    background: conic-gradient(
-      from 0deg,
-      rgba(99,102,241,0.4),
-      rgba(168,85,247,0.4),
-      rgba(236,72,153,0.4),
-      rgba(99,102,241,0.4)
-    );
-    filter: blur(16px);
-    animation: logo-spin 8s linear infinite;
-  }
-  @keyframes logo-spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Entrance animations */
-  .hero-content {
-    animation: hero-fade-up 1s ease-out 0.3s forwards;
-  }
-  .hero-scroll-hint {
-    animation: hero-fade-in 1s ease-out 1.5s forwards;
-  }
-  @keyframes hero-fade-up {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes hero-fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  /* Node / particle styles */
-  .hero-node {
-    transition: opacity 0.3s;
-  }
-  .hero-particle {
-    animation: particle-drift linear infinite;
-  }
-  @keyframes particle-drift {
-    0%   { opacity: 0; transform: translateY(0); }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-120px); }
-  }
-</style>
 
 <script>
 (function() {
@@ -170,7 +95,6 @@
   let h = window.innerHeight * 0.85;
   const connectionDist = 220;
 
-  // Generate random nodes
   for (let i = 0; i < nodeCount; i++) {
     const x = Math.random() * w;
     const y = Math.random() * h;
@@ -188,7 +112,6 @@
     nodeData.push({ x, y, vx, vy, r, el: circle });
   }
 
-  // Connection lines (pre-create pool)
   const linePool = [];
   for (let i = 0; i < 40; i++) {
     const line = document.createElementNS(ns, 'line');
@@ -199,7 +122,6 @@
     linePool.push(line);
   }
 
-  // Spawn floating micro-particles
   function spawnParticle() {
     const p = document.createElementNS(ns, 'circle');
     p.setAttribute('cx', Math.random() * w);
@@ -214,10 +136,8 @@
     setTimeout(() => p.remove(), dur * 1000);
   }
 
-  // Animation loop
   let animId;
   function tick() {
-    // Move nodes
     for (const n of nodeData) {
       n.x += n.vx;
       n.y += n.vy;
@@ -229,7 +149,6 @@
       n.el.setAttribute('cy', n.y);
     }
 
-    // Update connections
     let li = 0;
     for (let i = 0; i < nodeData.length && li < linePool.length; i++) {
       for (let j = i + 1; j < nodeData.length && li < linePool.length; j++) {
@@ -247,7 +166,6 @@
         }
       }
     }
-    // Hide unused lines
     for (let k = li; k < linePool.length; k++) {
       linePool[k].style.display = 'none';
     }
@@ -257,10 +175,8 @@
 
   tick();
 
-  // Particle spawner
   const particleInterval = setInterval(spawnParticle, 600);
 
-  // Pause when off-screen
   const observer = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
       if (!animId) tick();
@@ -271,7 +187,6 @@
   }, { threshold: 0.1 });
   observer.observe(document.getElementById('hero'));
 
-  // Parallax on mouse move
   document.getElementById('hero').addEventListener('mousemove', (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const mx = (e.clientX - rect.left) / rect.width - 0.5;
@@ -285,13 +200,11 @@
     if (orb3) orb3.style.transform = `translate(${mx * 15}px, ${my * 15}px)`;
   });
 
-  // Handle resize
   window.addEventListener('resize', () => {
     w = window.innerWidth;
     h = window.innerHeight * 0.85;
   });
 
-  // Cleanup on navigation (for SPA-like behavior)
   window.addEventListener('beforeunload', () => {
     cancelAnimationFrame(animId);
     clearInterval(particleInterval);

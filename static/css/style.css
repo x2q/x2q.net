@@ -1,0 +1,333 @@
+/* === Reset & base === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #111827;
+}
+
+.dark body {
+  background: #111827;
+  color: #f3f4f6;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+.hidden { display: none; }
+
+/* === Header === */
+.site-header {
+  padding: 1.5rem 1rem;
+}
+
+.site-header-inner {
+  max-width: 42rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#dark-mode-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #4b5563;
+  transition: background-color 0.2s;
+}
+
+#dark-mode-toggle:hover {
+  background: #f3f4f6;
+}
+
+.dark #dark-mode-toggle {
+  color: #9ca3af;
+}
+
+.dark #dark-mode-toggle:hover {
+  background: #1f2937;
+}
+
+.toggle-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+}
+
+/* === Footer === */
+.site-footer {
+  padding: 2rem 1rem;
+}
+
+.site-footer p {
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* === Hero === */
+#hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Hero content overlay --- */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 48rem;
+  animation: hero-fade-up 1s ease-out 0.3s forwards;
+}
+
+.hero-logo-wrap {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.hero-logo-ring {
+  position: relative;
+  width: 7rem;
+  height: 7rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .hero-logo-ring {
+    width: 8rem;
+    height: 8rem;
+  }
+}
+
+.hero-logo-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: conic-gradient(
+    from 0deg,
+    rgba(99,102,241,0.4),
+    rgba(168,85,247,0.4),
+    rgba(236,72,153,0.4),
+    rgba(99,102,241,0.4)
+  );
+  filter: blur(16px);
+  animation: logo-spin 8s linear infinite, pulse 2s ease-in-out infinite;
+}
+
+@keyframes logo-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.hero-logo-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 4.5rem;
+  }
+}
+
+.hero-title span {
+  background: linear-gradient(to right, #111827, #374151, #111827);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark .hero-title span {
+  background: linear-gradient(to right, #fff, #d1d5db, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: #4b5563;
+  margin-bottom: 2.5rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+.dark .hero-subtitle {
+  color: #9ca3af;
+}
+
+/* --- CTA button --- */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  background: #111827;
+  color: #fff;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.hero-cta:hover {
+  background: #374151;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.dark .hero-cta {
+  background: #fff;
+  color: #111827;
+}
+
+.dark .hero-cta:hover {
+  background: #e5e7eb;
+}
+
+.cta-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s;
+}
+
+.cta-arrow {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s;
+}
+
+.hero-cta:hover .cta-icon {
+  transform: scale(1.1);
+}
+
+.hero-cta:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* --- Scroll indicator --- */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  animation: hero-fade-in 1s ease-out 1.5s forwards;
+}
+
+.scroll-pill {
+  width: 1.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 2px solid #9ca3af;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.dark .scroll-pill {
+  border-color: #4b5563;
+}
+
+.scroll-dot {
+  width: 0.25rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #9ca3af;
+  animation: bounce 1s infinite;
+}
+
+.dark .scroll-dot {
+  background: #4b5563;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+  50% { transform: translateY(0); animation-timing-function: cubic-bezier(0,0,0.2,1); }
+}
+
+/* --- Hero entrance animations --- */
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- SVG gradient colors (light) --- */
+.hero-glow-inner  { stop-color: rgba(99, 102, 241, 0.35); }
+.hero-glow-outer  { stop-color: rgba(99, 102, 241, 0); }
+.hero-glow2-inner { stop-color: rgba(168, 85, 247, 0.30); }
+.hero-glow2-outer { stop-color: rgba(168, 85, 247, 0); }
+
+.dark .hero-glow-inner  { stop-color: rgba(99, 102, 241, 0.25); }
+.dark .hero-glow-outer  { stop-color: rgba(99, 102, 241, 0); }
+.dark .hero-glow2-inner { stop-color: rgba(168, 85, 247, 0.20); }
+.dark .hero-glow2-outer { stop-color: rgba(168, 85, 247, 0); }
+
+.hero-grid { color: #94a3b8; }
+.dark .hero-grid { color: #475569; }
+
+/* --- Node / particle styles --- */
+.hero-node {
+  transition: opacity 0.3s;
+}
+
+.hero-particle {
+  animation: particle-drift linear infinite;
+}
+
+@keyframes particle-drift {
+  0%   { opacity: 0; transform: translateY(0); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-120px); }
+}
