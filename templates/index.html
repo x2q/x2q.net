@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "partials/intro.html" %}
+
+{%- set post_section = get_section(path="post/_index.md", lang=lang) -%}
+{%- if post_section and post_section.pages | length > 0 %}
+<section class="posts">
+  <header class="posts-header">
+    <h2>{{ trans(key="latest_posts", lang=lang) }}</h2>
+    <span class="posts-count">{{ post_section.pages | length }}</span>
+  </header>
+  <ul class="post-list">
+    {%- for p in post_section.pages | slice(end=10) %}
+    <li class="post-list-item">
+      <a href="{{ p.permalink | safe }}">
+        <time datetime="{{ p.date | date(format="%Y-%m-%d") }}">{{ p.date | date(format="%b %-d, %Y") }}</time>
+        <div class="post-body-wrap">
+          <h3>{{ p.title }}</h3>
+          {%- if p.extra.summary %}<p>{{ p.extra.summary }}</p>{%- endif %}
+        </div>
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endif %}
+{% endblock content %}

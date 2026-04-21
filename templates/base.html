@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  {% include "partials/head.html" %}
+  <script>
+    (function(){
+      try {
+        var saved = localStorage.getItem('darkMode');
+        var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = saved === 'true' || (saved === null && prefers);
+        if (dark) document.documentElement.classList.add('dark');
+      } catch(e){}
+    })();
+  </script>
+</head>
+<body>
+  {% include "partials/header.html" %}
+
+  <main id="main">
+    {% block content %}{% endblock content %}
+  </main>
+
+  {% include "partials/footer.html" %}
+
+  <script>
+    (function(){
+      var toggle = document.getElementById('dark-mode-toggle');
+      if (!toggle) return;
+      var root = document.documentElement;
+      var sun = toggle.querySelector('.sun-icon');
+      var moon = toggle.querySelector('.moon-icon');
+      function sync(){
+        var d = root.classList.contains('dark');
+        if (sun) sun.classList.toggle('hidden', d);
+        if (moon) moon.classList.toggle('hidden', !d);
+      }
+      sync();
+      toggle.addEventListener('click', function(){
+        var d = root.classList.toggle('dark');
+        localStorage.setItem('darkMode', d);
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

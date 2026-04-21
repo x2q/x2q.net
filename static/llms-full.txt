@@ -1,0 +1,41 @@
+# x2q — full text dump for LLMs
+
+> x2q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2010.
+
+Site URL: https://www.x2q.net
+Author: X2Q
+Language: English
+License: Content © x2q. Quote freely with attribution and a link back.
+
+## About x2q
+
+x2q is a single-author personal blog that has been online since 2010.
+Topics cover:
+
+- Linux and UNIX administration (Debian, Ubuntu, Arch, macOS tuning).
+- Databases (MariaDB, MySQL, migrations, replacing InnoDB with XtraDB).
+- Caching and performance (memcached, general server tuning).
+- Payments and card schemes (BIN / IIN lookups, ISO 8583 trivia).
+- Networking, backups (e.g. WD MyBook Live to Amazon S3 and Glacier).
+- Developer tooling (Chrome user-agent switcher, Wine + Microsoft Office).
+- Food, cooking, and the occasional recipe.
+- Small side projects and home-lab experiments.
+
+## Operational notes
+
+- No ads.
+- No third-party trackers beyond Cloudflare Web Analytics (cookieless, aggregate-only).
+- No cookies beyond what's technically required.
+- Hosted on Cloudflare Pages behind the x2q.net apex and www.x2q.net host.
+- Security headers: HSTS, CSP, Permissions-Policy, Referrer-Policy, X-Content-Type-Options.
+
+## Contact
+
+- Email: x2q [at] x2q [dot] net
+- RSS: https://www.x2q.net/index.xml
+- Sitemap: https://www.x2q.net/sitemap.xml
+
+## Crawling
+
+- All common AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot) are allowed per robots.txt.
+- Please respect a reasonable crawl rate.

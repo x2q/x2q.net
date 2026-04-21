@@ -1,0 +1,8 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>&copy; {{ config.extra.since }}&ndash;{{ now() | date(format="%Y") }} · x2q</span>
+    <span>
+      <a href="{{ get_url(path=config.feed_filenames[0] | default(value="atom.xml"), lang=lang) }}">RSS</a>
+    </span>
+  </div>
+</footer>
