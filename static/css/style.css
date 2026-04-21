@@ -517,6 +517,47 @@ a:hover {
 .site-footer a:hover { color: var(--accent); }
 
 /* ============================================================
+   Tag cloud (taxonomies list)
+   ============================================================ */
+
+.tag-cloud {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-cloud-item a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.tag-cloud-item a:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+
+.tag-cloud-item .tag-name { font-weight: 500; }
+
+.tag-cloud-item .tag-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
    Utility
    ============================================================ */
 

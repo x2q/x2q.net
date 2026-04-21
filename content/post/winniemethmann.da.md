@@ -1,14 +1,21 @@
 +++
-title = "winniemethmann.com — fra WordPress til Astro for en madfotograf"
+title = "winniemethmann.com — fra WordPress til Astro"
 date = 2026-04-19
 slug = "winniemethmann-com-astro-portfolio"
-description = "Flyt af winniemethmann.com fra WordPress til Astro. Tosproget portfolio (dansk/engelsk) med content collections, Sharp + AVIF-billedpipeline og 70 % mindre build."
+description = "Flyt af winniemethmann.com fra WordPress til Astro: content collections, Sharp + AVIF, tosproget i18n, 70 % mindre build."
 
 [taxonomies]
 tags = ["astro", "wordpress-migration", "static-site", "sharp", "avif", "i18n", "madfotografi", "portfolio"]
 
 [extra]
 summary = "En 10 år gammel WordPress-portfolio bygget om i Astro: content collections i stedet for et CMS, Sharp-drevne AVIF-billeder, tosproget i18n og et 70 % mindre build."
+faq = [
+  { q = "Kan en ikke-teknisk ejer stadig redigere siden?", a = "Ja, til tekstændringer. At redigere Markdown i GitHubs web-editor er i praksis lettere end WordPress' blok-editor. For nye portfolio-projekter er workflowet: træk billeder ind i en mappe, skriv en lille front-matter-blok, commit. Er det for teknisk, kan man bolte en minimal admin på (Decap CMS, Sveltia CMS eller Keystatic)." },
+  { q = "Hvad med SEO efter flytningen?", a = "URL'er blev bevaret, hvor det var muligt. Manglende gamle stier omdirigeres via Cloudflare-regler. Sitemap genereres ved hvert build, og strukturerede data (Person, ImageGallery, Article) udsendes pr. side." },
+  { q = "Hvorfor Astro og ikke Hugo?", a = "Hugo er hurtigere og simplere til ren blogging, men Astros typede content collections og førsteklasses Image-komponent vandt i det her tilfælde. Til x2q.net selv endte jeg senere med Zola — men til en portfolio med tung billedpipeline var Astro det rigtige valg." },
+  { q = "Hvordan holdes billederne organiseret?", a = "Hvert portfolio-projekt har sin egen mappe. Git-repoet er CMS'et. git log fortæller, hvornår et billede blev tilføjet, og hvorfor." },
+  { q = "Er buildet deterministisk?", a = "Ja. Samme input giver bit-for-bit identisk output. Sharp er pinned i package.json; det samme er Astro. CI kører på Node LTS." },
+]
 +++
 
 **TL;DR —** [winniemethmann.com](https://winniemethmann.com) er portfolien for en dansk madfotograf og opskriftsudvikler. I et årti var det et WordPress-site. Jeg byggede det om oven på [Astro](https://astro.build) med **content collections** (typet Markdown) i stedet for et CMS, **Sharp + AVIF** til billedpipelinen og **Astros i18n-routing** (dansk som standard, engelsk på `/en/`). Build-tid: ~30 sekunder. Output: ~70 % mindre. Intet admin-panel, ingen plugin-opdateringer, ingen bot-prøvet login-endpoint.

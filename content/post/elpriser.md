@@ -1,14 +1,23 @@
 +++
-title = "elpriser.org — Danish hourly electricity prices, all-in (DK1 and DK2)"
+title = "elpriser.org — Danish hourly electricity prices"
 date = 2026-04-20
 slug = "elpriser-org-danish-electricity-prices"
-description = "Hourly Danish electricity prices for DK1 and DK2, including grid tariffs, electricity tax, and 25% VAT. Updated daily from Energi Data Service. No signup, no ads."
+description = "Hourly Danish electricity prices for DK1 + DK2, all-in: spot price, grid tariffs, electricity tax, 25% VAT. Updated daily from Energi Data Service."
 
 [taxonomies]
 tags = ["energy", "denmark", "nord-pool", "energi-data-service", "tariffs", "electricity", "dk1", "dk2"]
 
 [extra]
 summary = "The real hourly price of electricity in Denmark — spot price plus grid tariffs, transmission fees, electricity tax, and 25% VAT. DK1 and DK2, updated daily from Energi Data Service."
+faq = [
+  { q = "How often does elpriser.org update?", a = "Once a day, after the Nord Pool day-ahead auction publishes next-day prices around 13:00 CET. Intraday adjustments are not shown; most consumers are billed against the day-ahead price anyway." },
+  { q = "Is the price shown with or without VAT?", a = "With. The headline number on elpriser.org is the all-in price per kWh: spot + tariffs + tax + 25% VAT. You can toggle to see the breakdown." },
+  { q = "Why are prices in DK1 and DK2 different?", a = "Denmark has two physically separated electricity areas joined by the Great Belt interconnector. When the interconnector is fully used or wind production differs sharply between east and west, the two zones clear at different Nord Pool prices." },
+  { q = "Can I see the breakdown of each component?", a = "Yes. Every hourly cell can be expanded to show spot price, each tariff component, elafgift, and VAT." },
+  { q = "Do I really pay negative prices when the wholesale price goes negative?", a = "It depends on your contract. Pure spot-price contracts pass the raw Nord Pool price through — tariffs and tax still apply, so the all-in price can go slightly negative or just very low. Fixed-price contracts don't." },
+  { q = "Why Danish only?", a = "The data, the regulatory rules, the netselskab structure, and the target audience are all Danish. An English version would be translating context, not content." },
+  { q = "Where does the data come from?", a = "Energi Data Service (Nord Pool spot) and Energinet's tariff data. Both are official public data sets from the Danish TSO." },
+]
 +++
 
 **TL;DR —** [elpriser.org](https://elpriser.org) shows the **real, all-in hourly price of electricity in Denmark** — not just the spot price. It combines the Nord Pool spot price, your local grid tariff (`netselskab`), Energinet's system and transmission tariffs, the state electricity tax (`elafgift`), and 25% VAT. Data comes from [Energi Data Service](https://www.energidataservice.dk/) and updates daily after Nord Pool publishes the next 24 hours around 13:00. DK1 (Vestdanmark) and DK2 (Østdanmark). Danish-language, free, no login.

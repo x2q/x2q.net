@@ -1,14 +1,22 @@
 +++
-title = "apextowww.com — a free apex-to-www redirect service (Let's Encrypt, IPv6, HTTP/3)"
+title = "apextowww.com — a free apex-to-www redirect service"
 date = 2026-04-18
 slug = "apextowww-com-apex-to-www-redirect"
-description = "Free apex-to-www redirect service. Point your naked domain's A/AAAA records at apextowww and get automatic Let's Encrypt TLS, IPv4 and IPv6, HTTP/3. No signup, no cost."
+description = "Free public apex-to-www redirect with automatic Let's Encrypt TLS, IPv4+IPv6, and HTTP/3. Point your naked domain at it — no signup required."
 
 [taxonomies]
 tags = ["dns", "http", "letsencrypt", "hetzner", "cloudflare-pages", "netlify", "vercel", "apex-domain"]
 
 [extra]
 summary = "A free public service that 301-redirects any apex (naked) domain to its www subdomain — with automatic Let's Encrypt TLS, IPv4+IPv6, and HTTP/3. Built for hosting platforms that require CNAME at the zone apex."
+faq = [
+  { q = "Can I use apextowww with Cloudflare DNS?", a = "Yes, but turn Cloudflare's orange-cloud proxy off on the apex A/AAAA records. If the proxy is on, Cloudflare intercepts the request and Let's Encrypt's HTTP-01 challenge won't reach apextowww. Once the certificate is issued and renewed, you don't need to toggle anything manually." },
+  { q = "Does apextowww support wildcards or redirecting subdomains other than www?", a = "No. The service only redirects the apex to www. Everything else stays on your real host." },
+  { q = "What happens if the apextowww IPs change?", a = "You'll need to update your DNS A/AAAA records. The operator publishes current IPs on the homepage and gives advance notice for changes. For a personal domain this is fine; for anything mission-critical, run your own redirector." },
+  { q = "Is there a rate limit?", a = "There's no published hard limit, but this is a free community service. If you're serving millions of apex redirects a day, self-host." },
+  { q = "Why not just use Cloudflare's free plan?", a = "Cloudflare's CNAME flattening at the apex is a perfectly reasonable alternative if your whole DNS is on Cloudflare. apextowww is useful when your DNS isn't on Cloudflare, or when you want a host-agnostic redirector that works identically across domains." },
+  { q = "Is it really free?", a = "Yes. The marginal cost per redirect on ARM64 is negligible. No ads, no tracking beyond basic logs, no upsell." },
+]
 +++
 
 **TL;DR —** DNS does not allow `CNAME` records at the zone apex ([RFC 1034 §3.6.2](https://www.rfc-editor.org/rfc/rfc1034#section-3.6.2)). That's why hosts like Netlify, Vercel, Cloudflare Pages, Firebase, and Heroku ask you to configure `www.example.com` with a `CNAME` and leave `example.com` (the apex) as a problem. [apextowww.com](https://apextowww.com) solves it: point two `A` records and two `AAAA` records at the service, and it issues a Let's Encrypt certificate for your apex and `301`-redirects every request to `https://www.yourdomain.tld/`, preserving path and query string. Free, no signup, no account.
