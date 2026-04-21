@@ -1,14 +1,23 @@
 +++
-title = "elpriser.org — danske elpriser time for time, inkl. alt (DK1 og DK2)"
+title = "elpriser.org — danske elpriser time for time"
 date = 2026-04-20
 slug = "elpriser-org-danske-elpriser-time-for-time"
-description = "Danske elpriser time for time i DK1 og DK2, inkl. nettariffer, elafgift og 25 % moms. Opdateres dagligt fra Energi Data Service. Ingen oprettelse, ingen reklamer."
+description = "Danske elpriser time for time i DK1 og DK2 — inkl. nettariffer, elafgift og 25 % moms. Opdateres dagligt fra Energi Data Service."
 
 [taxonomies]
 tags = ["energi", "danmark", "nord-pool", "energi-data-service", "tariffer", "elpris", "dk1", "dk2"]
 
 [extra]
 summary = "Den reelle elpris i Danmark time for time — spotpris plus nettariffer, transmissionsgebyrer, elafgift og 25 % moms. DK1 og DK2, opdateret dagligt fra Energi Data Service."
+faq = [
+  { q = "Hvor ofte opdaterer elpriser.org?", a = "Én gang om dagen, efter at Nord Pools day-ahead-auktion offentliggør næste døgn omkring kl. 13 CET. Intradag-justeringer vises ikke; de fleste forbrugere afregnes alligevel efter day-ahead-prisen." },
+  { q = "Er prisen med eller uden moms?", a = "Med. Headline-tallet på elpriser.org er all-in pr. kWh: spotpris + tariffer + afgift + 25 % moms. Du kan folde det ud og se opdelingen." },
+  { q = "Hvorfor er priserne forskellige i DK1 og DK2?", a = "Danmark har to fysisk adskilte elprisområder, forbundet via Storebælt. Når forbindelsen er fuldt udnyttet, eller når vindproduktionen adskiller sig markant mellem øst og vest, clearer de to områder på forskellige Nord Pool-priser." },
+  { q = "Kan jeg se opdelingen af hver komponent?", a = "Ja. Hver time-celle kan foldes ud for at vise spotpris, hver tarif-komponent, elafgift og moms." },
+  { q = "Får jeg reelt negative priser, når engrosprisen bliver negativ?", a = "Det afhænger af din kontrakt. Rene spotpris-kontrakter videregiver Nord Pools råpris — tariffer og afgift gælder stadig, så all-in-prisen kan gå svagt negativ eller bare meget lav. Fastpris-kontrakter gør ikke." },
+  { q = "Hvorfor kun dansk?", a = "Data, regulering, netselskabs-strukturen og målgruppen er alle danske. En engelsk version ville oversætte kontekst, ikke indhold." },
+  { q = "Hvor kommer data fra?", a = "Energi Data Service (Nord Pool-spot) og Energinets tarifdata. Begge er officielle, offentlige datasæt fra den danske TSO." },
+]
 +++
 
 **TL;DR —** [elpriser.org](https://elpriser.org) viser den **reelle elpris time for time i Danmark** — ikke kun spotprisen. Den samler Nord Pool-spotprisen, din lokale nettarif (`netselskab`), Energinets system- og transmissionstariffer, elafgiften og 25 % moms. Data kommer fra [Energi Data Service](https://www.energidataservice.dk/) og opdateres dagligt, når Nord Pool offentliggør de kommende 24 timer omkring kl. 13. DK1 (Vestdanmark) og DK2 (Østdanmark). Dansksproget, gratis, intet login.

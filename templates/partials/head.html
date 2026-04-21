@@ -2,7 +2,7 @@
 {%- set og_locale = trans(key="og_locale", lang=lang) -%}
 {%- set description = config.description -%}
 {%- if page -%}
-  {%- set pageTitle = page.title ~ " — " ~ config.title -%}
+  {%- set pageTitle = page.title -%}
   {%- if page.description -%}{%- set description = page.description -%}{%- endif -%}
 {%- elif section and section.description -%}
   {%- set pageTitle = config.title ~ " — " ~ tagline -%}
@@ -99,6 +99,24 @@
     }
   }
 }</script>
+{%- if page.extra.faq %}
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for qa in page.extra.faq %}
+    {
+      "@type": "Question",
+      "name": {{ qa.q | json_encode | safe }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ qa.a | json_encode | safe }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ]
+}</script>
+{%- endif %}
 {%- else %}
 <script type="application/ld+json">{
   "@context": "https://schema.org",

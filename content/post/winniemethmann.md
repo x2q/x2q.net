@@ -1,14 +1,21 @@
 +++
-title = "winniemethmann.com — from WordPress to Astro for a food photographer"
+title = "winniemethmann.com — from WordPress to Astro"
 date = 2026-04-19
 slug = "winniemethmann-com-astro-portfolio"
-description = "Migrating winniemethmann.com off WordPress to Astro. Bilingual (Danish/English) portfolio with content collections, Sharp + AVIF image pipeline, and a 70% smaller build."
+description = "Migrating winniemethmann.com from WordPress to Astro: content collections, Sharp + AVIF images, bilingual i18n, 70% smaller build."
 
 [taxonomies]
 tags = ["astro", "wordpress-migration", "static-site", "sharp", "avif", "i18n", "food-photography", "portfolio"]
 
 [extra]
 summary = "A 10-year-old WordPress portfolio rebuilt in Astro: content collections instead of a CMS, Sharp-powered AVIF images, bilingual i18n, and a 70% smaller build."
+faq = [
+  { q = "Can a non-technical owner still edit the site?", a = "Yes, for copy. Editing Markdown in a GitHub web editor is, in practice, easier than the WordPress block editor. For new portfolio projects, the workflow is: drag images into a folder, write a short front-matter block, commit. If that's too technical, a one-page admin (Decap CMS, Sveltia CMS, or Keystatic) can be bolted on." },
+  { q = "What about SEO after the migration?", a = "URLs were kept as-is wherever possible. Missing old paths redirect via Cloudflare rules. The sitemap is regenerated on every build, and structured data (Person, ImageGallery, Article) is emitted per page." },
+  { q = "Why Astro and not Hugo?", a = "Hugo is faster and simpler for pure blogging, but Astro's typed content collections and first-class Image component won this case. For x2q.net itself, I later went with Zola — but for a portfolio with a heavy image pipeline, Astro remained the better fit." },
+  { q = "How do images stay organised?", a = "Each portfolio project owns its own folder. The Git repo is the CMS. git log tells you when an image was added and why." },
+  { q = "Is the build deterministic?", a = "Yes. Given the same inputs, the output is byte-for-byte identical. Sharp is pinned in package.json; so is Astro. CI runs on Node LTS." },
+]
 +++
 
 **TL;DR —** [winniemethmann.com](https://winniemethmann.com) is the portfolio of a Danish food photographer and recipe developer. It was a WordPress site for a decade. I rebuilt it on [Astro](https://astro.build), using **content collections** (typed Markdown) instead of a CMS, **Sharp + AVIF** for the image pipeline, and **Astro's i18n routing** (Danish default, English at `/en/`). Build time: ~30 seconds. Output size: ~70% smaller. No more admin panel, no more plugin updates, no more bot-probed login endpoint.

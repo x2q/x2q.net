@@ -1,14 +1,22 @@
 +++
-title = "apextowww.com — gratis apex-til-www-omdirigering (Let's Encrypt, IPv6, HTTP/3)"
+title = "apextowww.com — gratis apex-til-www-omdirigering"
 date = 2026-04-18
 slug = "apextowww-com-apex-til-www-omdirigering"
-description = "Gratis apex-til-www-omdirigering. Peg dit nøgne domænes A/AAAA-records mod apextowww og få automatisk Let's Encrypt-TLS, IPv4 og IPv6, HTTP/3. Ingen oprettelse."
+description = "Gratis offentlig apex-til-www-omdirigering med automatisk Let's Encrypt-TLS, IPv4+IPv6 og HTTP/3. Peg dit nøgne domæne — ingen oprettelse."
 
 [taxonomies]
 tags = ["dns", "http", "letsencrypt", "hetzner", "cloudflare-pages", "netlify", "vercel", "apex-domaene"]
 
 [extra]
 summary = "En gratis offentlig tjeneste, der 301-omdirigerer ethvert apex-domæne (nøgent domæne) til sit www-subdomæne — med automatisk Let's Encrypt-TLS, IPv4+IPv6 og HTTP/3. Bygget til hostingplatforme, der kræver CNAME på zoneapex."
+faq = [
+  { q = "Kan jeg bruge apextowww sammen med Cloudflare DNS?", a = "Ja — men du skal have Cloudflares proxy (den orange sky) slået fra på apex'ens A/AAAA-records. Hvis proxien er slået til, opfanger Cloudflare forespørgslen, og Let's Encrypts HTTP-01-challenge når aldrig frem til apextowww. Når certifikatet er udstedt og forny­es, skal du ikke bøvle videre — bare lad det være slukket." },
+  { q = "Understøtter apextowww wildcards eller andre subdomæner end www?", a = "Nej. Tjenesten omdirigerer kun apex til www. Alt andet bliver liggende hos din rigtige host." },
+  { q = "Hvad sker der, hvis apextowww-IP'erne skifter?", a = "Så skal du opdatere dine DNS A/AAAA-records. Operatøren offentliggør aktuelle IP'er på forsiden og giver varsel før ændringer. Det er fint for et privat domæne; for noget missionkritisk bør du køre din egen omdirigerer." },
+  { q = "Er der rate-limit?", a = "Der er ingen publiceret hård grænse, men det er en gratis community-tjeneste. Hvis du serverer millioner af apex-omdirigeringer i døgnet, er det tid til at selv-hoste." },
+  { q = "Hvorfor ikke bare bruge Cloudflares gratis plan?", a = "Cloudflares CNAME-flattening på apex er et fint alternativ, hvis hele din DNS er hos Cloudflare. apextowww er nyttig, når din DNS ikke er hos Cloudflare, eller når du vil have en host-agnostisk omdirigerer, der virker identisk på tværs af domæner." },
+  { q = "Er den virkelig gratis?", a = "Ja. Marginalomkostningen pr. omdirigering på ARM64 er minimal. Ingen reklamer, ingen tracking ud over grundlæggende logs, ingen upsell." },
+]
 +++
 
 **TL;DR —** DNS tillader ikke `CNAME`-records på zoneapex ([RFC 1034 §3.6.2](https://www.rfc-editor.org/rfc/rfc1034#section-3.6.2)). Det er derfor hostingplatforme som Netlify, Vercel, Cloudflare Pages, Firebase og Heroku beder dig om at sætte `www.eksempel.dk` op med en `CNAME` og lader `eksempel.dk` (selve apex) være et problem, du selv løser. [apextowww.com](https://apextowww.com) løser det: peg to `A`-records og to `AAAA`-records mod tjenesten, og den udsteder et Let's Encrypt-certifikat til dit apex og `301`-omdirigerer hver forespørgsel til `https://www.ditdomæne.tld/` — med sti og querystring bevaret. Gratis, ingen oprettelse, ingen konto.

@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="post-list-wrap">
-  <header class="post-list-header">
+<section class="posts">
+  <header class="posts-header">
     <h1>#{{ term.name }}</h1>
+    <span class="posts-count">{{ term.pages | length }}</span>
   </header>
+  <p class="intro-lede">
+    {% if lang == "da" %}
+      Indlæg på x2q med emnet <strong>{{ term.name }}</strong>. Opdateres i takt med, at nye indlæg publiceres.
+    {% else %}
+      Posts on x2q tagged <strong>{{ term.name }}</strong>. Updated as new posts are published.
+    {% endif %}
+  </p>
   <ul class="post-list">
     {%- for p in term.pages %}
     <li class="post-list-item">
       <a href="{{ p.permalink | safe }}">
         <time datetime="{{ p.date | date(format="%Y-%m-%d") }}">{{ p.date | date(format="%b %-d, %Y") }}</time>
-        <h2>{{ p.title }}</h2>
-        {%- if p.extra.summary %}<p>{{ p.extra.summary }}</p>{%- endif %}
+        <div class="post-body-wrap">
+          <h2>{{ p.title }}</h2>
+          {%- if p.extra.summary %}<p>{{ p.extra.summary }}</p>{%- endif %}
+        </div>
       </a>
     </li>
     {%- endfor %}
