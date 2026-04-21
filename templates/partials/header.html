@@ -1,0 +1,50 @@
+{%- set cur = lang -%}
+{%- if lang == config.default_language -%}
+  {%- set home_href = config.base_url ~ "/" -%}
+{%- else -%}
+  {%- set home_href = config.base_url ~ "/" ~ lang ~ "/" -%}
+{%- endif -%}
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="{{ home_href | safe }}" class="site-brand">x<em>2</em>q</a>
+    <div class="site-nav-right">
+      <nav class="lang-switch" aria-label="Language">
+        {%- for code in config.extra.all_languages -%}
+          {%- set_global href = "#" -%}
+          {%- if code == cur -%}
+            {%- set_global href = current_url -%}
+          {%- else -%}
+            {%- if page and page.translations -%}
+              {%- for t in page.translations -%}
+                {%- if t.lang == code -%}{%- set_global href = t.permalink -%}{%- endif -%}
+              {%- endfor -%}
+            {%- elif section and section.translations -%}
+              {%- for t in section.translations -%}
+                {%- if t.lang == code -%}{%- set_global href = t.permalink -%}{%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if href == "#" -%}
+              {%- if code == config.default_language -%}
+                {%- set_global href = config.base_url ~ "/" -%}
+              {%- else -%}
+                {%- set_global href = config.base_url ~ "/" ~ code ~ "/" -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+          <a href="{{ href | safe }}" hreflang="{{ code }}" lang="{{ code }}"
+             class="lang-link{% if code == cur %} is-active{% endif %}"
+             {% if code == cur %}aria-current="true"{% endif %}>{{ code | upper }}</a>
+        {%- endfor -%}
+      </nav>
+      <button id="dark-mode-toggle" aria-label="{{ trans(key="toggle_dark", lang=lang) }}">
+        <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path stroke-linecap="round" d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="moon-icon hidden" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>

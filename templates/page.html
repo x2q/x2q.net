@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="post">
+  <header class="post-header">
+    <p class="post-meta">
+      <time datetime="{{ page.date | date(format="%Y-%m-%d") }}">{{ page.date | date(format="%b %-d, %Y") }}</time>
+      {%- if page.taxonomies.tags %} · {{ page.taxonomies.tags | join(sep=" · ") }}{%- endif %}
+    </p>
+    <h1 class="post-title">{{ page.title }}</h1>
+    {%- if page.extra.summary %}<p class="post-lede">{{ page.extra.summary }}</p>{%- endif %}
+  </header>
+
+  <div class="post-body">
+    {{ page.content | safe }}
+  </div>
+
+  <footer class="post-footer">
+    {%- if lang == config.default_language -%}
+      {%- set home = config.base_url ~ "/" -%}
+    {%- else -%}
+      {%- set home = config.base_url ~ "/" ~ lang ~ "/" -%}
+    {%- endif -%}
+    <a class="post-back" href="{{ home | safe }}">{{ trans(key="back_to_posts", lang=lang) }}</a>
+  </footer>
+</article>
+{% endblock content %}

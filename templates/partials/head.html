@@ -1,0 +1,120 @@
+{%- set tagline = trans(key="tagline", lang=lang) -%}
+{%- set og_locale = trans(key="og_locale", lang=lang) -%}
+{%- set description = config.description -%}
+{%- if page -%}
+  {%- set pageTitle = page.title ~ " — " ~ config.title -%}
+  {%- if page.description -%}{%- set description = page.description -%}{%- endif -%}
+{%- elif section and section.description -%}
+  {%- set pageTitle = config.title ~ " — " ~ tagline -%}
+  {%- set description = section.description -%}
+{%- else -%}
+  {%- set pageTitle = config.title ~ " — " ~ tagline -%}
+{%- endif -%}
+{%- set og_image = get_url(path=config.extra.og_image) -%}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#111111">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>{{ pageTitle }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ current_url | safe }}">
+
+<link rel="alternate" hreflang="{{ lang }}" href="{{ current_url | safe }}">
+{%- if page and page.translations %}
+{%- for t in page.translations %}
+<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink | safe }}">
+{%- endfor %}
+{%- elif section and section.translations %}
+{%- for t in section.translations %}
+<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink | safe }}">
+{%- endfor %}
+{%- endif %}
+<link rel="alternate" hreflang="x-default" href="{{ config.base_url }}/">
+
+<link rel="icon" type="image/svg+xml" href="{{ get_url(path=config.extra.favicon) }}">
+<link rel="apple-touch-icon" href="{{ get_url(path="apple-touch-icon.png") }}">
+{%- if config.generate_feeds %}
+{%- set feed_file = config.feed_filenames[0] | default(value="atom.xml") %}
+<link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path=feed_file, lang=lang) }}">
+{%- endif %}
+
+<meta property="og:site_name" content="{{ config.title }}">
+<meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ pageTitle }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="{{ current_url | safe }}">
+<meta property="og:image" content="{{ og_image }}">
+<meta property="og:locale" content="{{ og_locale }}">
+{%- if page and page.translations %}
+{%- for t in page.translations %}
+<meta property="og:locale:alternate" content="{{ trans(key="og_locale", lang=t.lang) }}">
+{%- endfor %}
+{%- elif section and section.translations %}
+{%- for t in section.translations %}
+<meta property="og:locale:alternate" content="{{ trans(key="og_locale", lang=t.lang) }}">
+{%- endfor %}
+{%- endif %}
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ pageTitle }}">
+<meta name="twitter:description" content="{{ description }}">
+<meta name="twitter:image" content="{{ og_image }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ get_url(path="css/style.css") }}">
+
+{%- if page %}
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | json_encode | safe }},
+  "description": {{ description | json_encode | safe }},
+  "url": {{ page.permalink | json_encode | safe }},
+  "mainEntityOfPage": {{ page.permalink | json_encode | safe }},
+  "image": {{ og_image | json_encode | safe }},
+  "datePublished": {{ page.date | date(format="%Y-%m-%d") | json_encode | safe }},
+  "dateModified": {{ page.date | date(format="%Y-%m-%d") | json_encode | safe }},
+  "inLanguage": {{ lang | json_encode | safe }},
+  {%- if page.taxonomies.tags %}
+  "keywords": {{ page.taxonomies.tags | join(sep=", ") | json_encode | safe }},
+  {%- endif %}
+  "wordCount": {{ page.word_count | default(value=0) }},
+  "author": {
+    "@type": "Person",
+    "name": {{ config.extra.author_name | json_encode | safe }},
+    "email": {{ config.extra.author_email | json_encode | safe }},
+    "url": {{ config.base_url | json_encode | safe }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ config.title | json_encode | safe }},
+    "url": {{ config.base_url | json_encode | safe }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": {{ og_image | json_encode | safe }}
+    }
+  }
+}</script>
+{%- else %}
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ config.title | json_encode | safe }},
+  "alternateName": "x2q",
+  "url": {{ config.base_url | json_encode | safe }},
+  "description": {{ description | json_encode | safe }},
+  "inLanguage": {{ lang | json_encode | safe }},
+  "copyrightYear": {{ config.extra.since }},
+  "dateCreated": "{{ config.extra.since }}-01-01",
+  "author": {
+    "@type": "Person",
+    "name": {{ config.extra.author_name | json_encode | safe }},
+    "email": {{ config.extra.author_email | json_encode | safe }},
+    "url": {{ config.base_url | json_encode | safe }}
+  }
+}</script>
+{%- endif %}

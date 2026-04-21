@@ -1,0 +1,25 @@
+# x2q
+
+> x2q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2010.
+
+Site URL: https://www.x2q.net
+Author: X2Q
+Language: English
+License: Content © x2q. Quote freely with attribution and a link back.
+
+## About
+
+- Single-author personal blog, online since 2010.
+- Topics: tech (Linux, Debian, Ubuntu, MariaDB, caching, networking, payments/BIN lists), home labs, and food.
+- No ads, no third-party trackers beyond Cloudflare Web Analytics, no cookies.
+
+## Contact
+
+- Email: x2q [at] x2q [dot] net
+- RSS: https://www.x2q.net/index.xml
+- Sitemap: https://www.x2q.net/sitemap.xml
+
+## Crawling
+
+- All common AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot) are allowed per robots.txt.
+- Please respect a reasonable crawl rate.

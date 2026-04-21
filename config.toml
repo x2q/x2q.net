@@ -1,18 +1,73 @@
-baseURL = "https://www.x2q.net"
-languageCode = "en"
+base_url = "https://www.x2q.net"
 title = "x2q"
-copyright = "x2q"
+description = "x2q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2010."
+default_language = "en"
 
-[params]
-subtitle = "a blog on tech, food, and everything in between"
+compile_sass = false
+minify_html = true
+build_search_index = false
+generate_feeds = true
+feed_filenames = ["atom.xml"]
 
-[params.author]
-name = "X2Q"
-email = "x2q@x2q.net"
+taxonomies = [
+  { name = "tags", feed = true },
+]
 
-[params.header]
-logo = "favicon.svg"
+[markdown]
+render_emoji = false
+external_links_target_blank = false
+external_links_no_follow = false
+smart_punctuation = true
+
+[extra]
+author_name = "X2Q"
+author_email = "x2q@x2q.net"
 favicon = "favicon.svg"
-
-[params.footer]
+logo = "favicon.svg"
+og_image = "favicon.svg"
 since = 2010
+all_languages = ["en", "da"]
+
+[translations]
+tagline = "notes on tech, food, and everything in between"
+og_locale = "en_US"
+topics_value = "Tech, food, side projects"
+language_value = "English"
+site_at_a_glance = "Site at a glance"
+online_since = "Online since"
+author = "Author"
+topics = "Topics"
+language_label = "Language"
+latest_posts = "Latest posts"
+get_in_touch = "Get in touch"
+back_to_posts = "← Back to all posts"
+posts_title = "Posts"
+toggle_dark = "Toggle Dark Mode"
+logo_alt = "x2q logo"
+hero_lede = "x2q has been online since {since} — {years} years of notes on software, Linux, payments, home labs, and cooking. Topics range from Debian and Ubuntu tuning to MariaDB migrations, BIN/IIN lookups, Google Speech API experiments, and the occasional recipe. Written and maintained by a single author; no ads, no trackers beyond Cloudflare Web Analytics, no cookies."
+
+[languages.da]
+title = "x2q"
+description = "x2q er en personlig blog med noter om software, Linux, netværk, betalinger, hjemmeservere, madlavning og diverse sideprojekter. Online siden 2010."
+generate_feeds = true
+taxonomies = [
+  { name = "tags", feed = true },
+]
+
+[languages.da.translations]
+tagline = "noter om teknologi, mad og alt derimellem"
+og_locale = "da_DK"
+topics_value = "Teknologi, mad, sideprojekter"
+language_value = "Dansk"
+site_at_a_glance = "Siden kort fortalt"
+online_since = "Online siden"
+author = "Forfatter"
+topics = "Emner"
+language_label = "Sprog"
+latest_posts = "Seneste indlæg"
+get_in_touch = "Kontakt"
+back_to_posts = "← Tilbage til alle indlæg"
+posts_title = "Indlæg"
+toggle_dark = "Skift mørk tilstand"
+logo_alt = "x2q-logo"
+hero_lede = "x2q har været online siden {since} — {years} års noter om software, Linux, betalinger, hjemmeservere og madlavning. Emnerne spænder fra Debian- og Ubuntu-tuning til MariaDB-migrationer, BIN/IIN-opslag, eksperimenter med Google Speech API og en og anden opskrift. Skrevet og vedligeholdt af én person; ingen reklamer, ingen trackere ud over Cloudflare Web Analytics, ingen cookies."

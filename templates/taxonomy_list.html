@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="post-list-wrap">
+  <header class="post-list-header">
+    <h1>{{ taxonomy.name | capitalize }}</h1>
+  </header>
+  <ul class="post-list">
+    {%- for term in terms %}
+    <li class="post-list-item">
+      <a href="{{ term.permalink | safe }}">
+        <h2>{{ term.name }}</h2>
+        <p>{{ term.pages | length }}</p>
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{% endblock content %}

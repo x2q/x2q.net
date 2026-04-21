@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="posts">
+  <header class="posts-header">
+    <h1>{% if section.path == "/post/" or section.path == "/" ~ lang ~ "/post/" %}{{ trans(key="posts_title", lang=lang) }}{% else %}{{ section.title }}{% endif %}</h1>
+    <span class="posts-count">{{ section.pages | length }}</span>
+  </header>
+
+  <ul class="post-list">
+    {%- for p in section.pages %}
+    <li class="post-list-item">
+      <a href="{{ p.permalink | safe }}">
+        <time datetime="{{ p.date | date(format="%Y-%m-%d") }}">{{ p.date | date(format="%b %-d, %Y") }}</time>
+        <div class="post-body-wrap">
+          <h2>{{ p.title }}</h2>
+          {%- if p.extra.summary %}<p>{{ p.extra.summary }}</p>{%- endif %}
+        </div>
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{% endblock content %}

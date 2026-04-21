@@ -1,0 +1,40 @@
+{%- set since = config.extra.since -%}
+{%- set years = now() | date(format="%Y") | int - since -%}
+{%- if config.extra.author_email -%}
+  {%- set parts = config.extra.author_email | split(pat="@") -%}
+{%- endif -%}
+<section class="intro">
+  <p class="intro-kicker">Est. {{ since }}</p>
+  <h1 class="intro-title">
+    {% if lang == "da" %}
+      Noter om <em>teknologi</em>, mad, og alt&nbsp;derimellem.
+    {% else %}
+      Notes on <em>tech</em>, food, and everything&nbsp;in&nbsp;between.
+    {% endif %}
+  </h1>
+  <p class="intro-lede">
+    {% if lang == "da" %}
+      <strong>x2q</strong> er en personlig blog, der har været online siden {{ since }} — {{ years }} års noter om software, Linux, betalinger, hjemmeservere, madlavning og de projekter, der opstår undervejs.
+    {% else %}
+      <strong>x2q</strong> is a personal blog that has been online since {{ since }} — {{ years }} years of notes on software, Linux, payments, home labs, cooking, and the side projects that keep appearing.
+    {% endif %}
+  </p>
+  <div class="intro-meta">
+    <span>{{ trans(key="online_since", lang=lang) }} {{ since }}</span>
+    <span class="dot">·</span>
+    <span>{{ trans(key="author", lang=lang) }} <strong>{{ config.extra.author_name }}</strong></span>
+    {%- if config.extra.author_email %}
+    <span class="dot">·</span>
+    <a href="#contact" id="intro-cta" rel="nofollow" data-u="{{ parts[0] }}" data-d="{{ parts[1] }}">{{ trans(key="get_in_touch", lang=lang) }} →</a>
+    <script>
+      (function(){
+        var el = document.getElementById('intro-cta');
+        if (!el) return;
+        var u = el.getAttribute('data-u');
+        var d = el.getAttribute('data-d');
+        if (u && d) el.setAttribute('href', 'mailto:' + u + '\u0040' + d);
+      })();
+    </script>
+    {%- endif %}
+  </div>
+</section>

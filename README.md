@@ -1,43 +1,61 @@
-# x2q.net
+# www.x2q.net
 
-A minimal single-page personal site built with Hugo.
+Personal blog. Built with [Zola](https://www.getzola.org/).
 
-## Structure
+## Local
 
-```
-.
-├── config.toml          # Site configuration
-├── content/             # Content (empty for single-page)
-├── layouts/
-│   ├── _default/
-│   │   └── baseof.html  # Base template
-│   ├── partials/
-│   │   ├── head.html    # HTML head
-│   │   ├── header.html  # Site header
-│   │   └── footer.html  # Site footer
-│   └── index.html       # Homepage
-└── static/
-    ├── CNAME            # GitHub Pages domain
-    ├── favicon.svg      # Site favicon
-    └── robots.txt       # Robots file
+```sh
+zola serve
 ```
 
-## Development
+Open http://127.0.0.1:1111/ (EN) and http://127.0.0.1:1111/da/ (DA).
 
-```bash
-hugo server
+```sh
+zola build
 ```
 
-## Build
+Outputs to `public/`.
 
-```bash
-hugo --minify
+## Deploy (Cloudflare Pages)
+
+**Build command:** `zola build`
+**Build output directory:** `public`
+**Environment variables:**
+
+- `ZOLA_VERSION=0.22.1`
+
+The `static/_headers` file sets HSTS, CSP, Permissions-Policy, and the right content-types for `llms.txt` / `sitemap.xml` in production.
+
+## Layout
+
+- `content/` — posts (default lang) and `*.da.md` translations
+- `templates/` — Tera templates (`base.html`, `index.html`, `page.html`, `section.html`, `partials/`)
+- `static/` — CSS, favicon, `_headers`, `CNAME`, `llms.txt`, `apple-touch-icon.png`, `robots.txt`
+- `config.toml` — Zola config (multilingual en/da, taxonomies, feeds)
+- `i18n` strings live under `[translations]` / `[languages.da.translations]` in `config.toml`
+
+## Adding a post
+
+```sh
+# English (default lang)
+cat > content/post/my-post.md <<'EOF'
++++
+title = "My post title"
+date = 2026-04-22
+slug = "my-post"
+description = "SEO meta description, ~155 chars."
+
+[taxonomies]
+tags = ["tag1", "tag2"]
+
+[extra]
+summary = "Shown on the homepage + post list."
++++
+
+Body…
+EOF
+
+# Danish translation (same slug recommended)
+cp content/post/my-post.md content/post/my-post.da.md
+# …translate title/description/body…
 ```
-
-## Deploy
-
-Push to `main` branch. GitHub Pages will build and deploy automatically.
-
-## License
-
-MIT
