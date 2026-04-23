@@ -11,7 +11,7 @@ tags = ["binlist", "iinlist", "bin", "iin", "payments", "credit-card", "ardef", 
 summary = "In 2013, sitting on a hotel balcony in Corralejo, I built binlist.net — a free HTTP API for looking up the issuer of a credit card from its first six digits. Thirteen years later it's still free, and its commercial sibling iinlist.com is the one we run the business on."
 +++
 
-**TL;DR —** [binlist.net](https://binlist.net) is a **free HTTP API** that takes the first 6–8 digits of a credit card number (the **BIN** or **IIN**) and returns the issuing bank, country, card scheme (Visa, Mastercard, etc.), card type (debit/credit/prepaid), and category. I started it in **August 2013 on a holiday in Fuerteventura**, because I needed a BIN lookup for another project and everything that existed was either paywalled, stale, or behind a sketchy scraper. It is still online, still free, still `curl`-friendly. The commercial variant, [iinlist.com](https://iinlist.com), is what I co-founded after binlist.net's success; it's the same idea with **payment-industry-grade accuracy**, **8-digit IIN support** (mandated by ISO/IEC 7812 since 2022), **ARDEF-backed ranges**, and an SLA — built for banks, PSPs, fraud teams, and issuers who need to treat BIN data as production data.
+**TL;DR —** [binlist.net](https://binlist.net) is a **free HTTP API** that takes the first 6–8 digits of a credit card number (the **BIN** or **IIN**) and returns the issuing bank, country, card scheme (Visa, Mastercard, etc.), card type (debit/credit/prepaid), and category. I started it in **August 2013 on a holiday in Fuerteventura**, because I needed a BIN lookup for another project and everything that existed was either paywalled, stale, or behind a sketchy scraper. It was my **first ever Go project**, hit **100,000 queries/day** within weeks, and crossed **1 million queries/day in 2015**. It is still online, still free, still `curl`-friendly. The commercial variant, [iinlist.com](https://iinlist.com), is what I co-founded after binlist.net's success; it's the same idea with **payment-industry-grade accuracy**, **8-digit IIN support** (mandated by ISO/IEC 7812 since 2022), **ARDEF-backed ranges**, and an SLA — built for banks, PSPs, fraud teams, and issuers who need to treat BIN data as production data.
 
 ## BIN vs IIN — a one-paragraph primer
 
@@ -27,7 +27,7 @@ All of this is "sensitive" in the sense that issuers don't publish full BIN tabl
 
 ## Why I built binlist.net on holiday
 
-Summer 2013. Corralejo, northern Fuerteventura. Rented apartment, small balcony, Canary wind doing its thing. I had an idea for a side-project that needed to look up cards by BIN and I did not want to pay a payments vendor €200/month for it. The existing free options were:
+Summer 2013. **Playitas, southern Fuerteventura** — the resort on the Atlantic side down by Gran Tarajal. Rented apartment, small balcony, Canary wind doing its thing. I had an idea for a side-project that needed to look up cards by BIN and I did not want to pay a payments vendor €200/month for it. The existing free options were:
 
 - **Wikipedia's IIN list** — reasonably accurate for well-known schemes, woefully incomplete for niche issuers, updated by volunteers who don't work in payments.
 - **Pasted CSVs on forums** — decent coverage for US issuers, always outdated.
@@ -38,18 +38,27 @@ What I wanted was `curl http://example.com/40012345` returning clean JSON. So I 
 
 ### The stack (then)
 
-- **Heroku** free dyno. One web process.
-- **Sinatra** (Ruby). A single `get '/:bin'` handler.
-- **Postgres on Heroku Postgres** free tier, ~300 MB BIN range table.
-- **Memcached** for hot ranges.
+This was **my first ever Go project**. I'd been reading about Go for a while and wanted a small, well-scoped excuse to try it; a single-endpoint JSON API over an in-memory BIN table was perfect. Ruby/Sinatra would have been faster for me to type, but I wanted to learn something, and the memory and latency characteristics of a Go binary turned out to be exactly what a free-tier public API needed.
+
+- **Go** — a single binary, `net/http`, no framework. The whole server was a few hundred lines.
+- **In-memory BIN range table**, built at boot from a ~300 MB source file. Lookups were O(log n) over a sorted slice.
+- **Deployed on a single Hetzner VM** from day one (I briefly considered Heroku but Heroku's free dyno memory limits didn't fit a fully-loaded BIN table).
 - **JSON + XML + CSV** response formats, because 2013.
 - **Data seed** from a combination of public Wikipedia scrapes, the old "Mars Base" CSV from 2009, and a set of ranges I'd been accumulating at work.
 
-Total build time on that balcony: a weekend. I bought the domain on the Monday, pushed to Heroku, and tweeted about it. Traffic from developers working on e-commerce was immediate.
+Total build time on that balcony: a weekend — about half of which was me figuring out `go build`, `GOPATH` (Go modules didn't exist yet), and how interfaces worked. I bought the domain on the Monday, deployed the binary, and tweeted about it.
+
+### Traffic curve
+
+- **Week 1:** a few hundred queries/day, mostly me testing.
+- **Month 1:** ~**100,000 queries/day** after developers on Stack Overflow and a couple of e-commerce forums found it.
+- **By early 2015:** crossed **1 million queries/day** sustained, with spikes above 2M during flash-sale events on merchants that called it on every checkout page-load.
+
+Scaling to that point cost almost nothing because Go's single-binary footprint meant a ~€5/month VPS handled the whole thing; the bottleneck for a long time was the NIC, not CPU or memory.
 
 ### 13 years later
 
-binlist.net still runs. It has migrated infrastructure a few times — Heroku → a VPS → a small fleet behind Cloudflare — and the data seed has been continuously updated, but the API surface is the same. Today it serves **millions of lookups per month**, free, no API key required, with a soft rate limit on anonymous callers to keep it honest.
+binlist.net still runs. It has migrated infrastructure a few times — Hetzner VM → Hetzner fleet → a small fleet behind Cloudflare — and the data seed has been continuously updated, but the API surface (and most of the original Go code) is the same. Today it serves **tens of millions of lookups per month**, free, no API key required, with a soft rate limit on anonymous callers to keep it honest.
 
 It has **~2,000 Google impressions/month** for queries like "binlist", "bin list bank identification number", "list of bank identification numbers" — still picking up the long tail of developers who type the same question I typed into Google in 2013.
 
@@ -143,6 +152,6 @@ Separate projects, overlapping origins, same operator on my side. binlist.net is
 
 ## Thirteen years in
 
-The thing I find most interesting about binlist.net is not the traffic — it's the **kind of questions** developers are still typing into Google in 2026: "what is a bin list", "bin number example", "list of issuer identification numbers". These are the exact queries I was typing in 2013 on that balcony in Fuerteventura. Payments as an industry keeps adding layers, but the foundational questions don't change.
+The thing I find most interesting about binlist.net is not the traffic — it's the **kind of questions** developers are still typing into Google in 2026: "what is a bin list", "bin number example", "list of issuer identification numbers". These are the exact queries I was typing in 2013 on that balcony in Playitas. Payments as an industry keeps adding layers, but the foundational questions don't change.
 
-If you're sitting on a beach with a laptop and you have an itch for a side-project that scratches your own back, go build it. Sometimes it turns out a lot of people have the same itch, and thirteen years later you have a useful thing to point them at.
+If you're sitting on a beach with a laptop and you have an itch for a side-project that scratches your own back, go build it — and while you're at it, try the language you've been meaning to learn. Sometimes it turns out a lot of people have the same itch, and thirteen years later you have a useful thing to point them at and a working knowledge of Go.

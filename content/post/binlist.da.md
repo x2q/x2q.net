@@ -11,7 +11,7 @@ tags = ["binlist", "iinlist", "bin", "iin", "betalinger", "kreditkort", "ardef",
 summary = "I 2013, på en hotelbalkon i Corralejo, byggede jeg binlist.net — en gratis HTTP-API til at slå kortudstederen op ud fra de første seks cifre. Tretten år senere er den stadig gratis, og dens kommercielle søster iinlist.com er den, vi driver forretning på."
 +++
 
-**TL;DR —** [binlist.net](https://binlist.net) er en **gratis HTTP-API**, der tager de første 6–8 cifre af et kortnummer (**BIN** eller **IIN**) og returnerer udsteder-bank, land, kort-netværk (Visa, Mastercard osv.), korttype (debit/credit/prepaid) og kategori. Jeg startede den **i august 2013 på ferie på Fuerteventura**, fordi jeg skulle bruge BIN-opslag til et andet projekt, og alt der fandtes var enten betalingspligtigt, forældet eller bag en tvivlsom scraper. Den er stadig online, stadig gratis, stadig `curl`-venlig. Den kommercielle variant, [iinlist.com](https://iinlist.com), er den, jeg medstiftede efter binlist.nets succes; det er samme idé med **betalingsindustri-præcision**, **8-cifret IIN-understøttelse** (påkrævet af ISO/IEC 7812 siden 2022), **ARDEF-baserede ranges** og en SLA — bygget til banker, PSP'er, fraud-teams og issuere, der har brug for at behandle BIN-data som produktions-data.
+**TL;DR —** [binlist.net](https://binlist.net) er en **gratis HTTP-API**, der tager de første 6–8 cifre af et kortnummer (**BIN** eller **IIN**) og returnerer udsteder-bank, land, kort-netværk (Visa, Mastercard osv.), korttype (debit/credit/prepaid) og kategori. Jeg startede den **i august 2013 på ferie på Fuerteventura**, fordi jeg skulle bruge BIN-opslag til et andet projekt, og alt der fandtes var enten betalingspligtigt, forældet eller bag en tvivlsom scraper. Det var mit **første Go-projekt nogensinde**, ramte **100.000 queries/dag** inden for uger og krydsede **1 million queries/dag i 2015**. Den er stadig online, stadig gratis, stadig `curl`-venlig. Den kommercielle variant, [iinlist.com](https://iinlist.com), er den, jeg medstiftede efter binlist.nets succes; det er samme idé med **betalingsindustri-præcision**, **8-cifret IIN-understøttelse** (påkrævet af ISO/IEC 7812 siden 2022), **ARDEF-baserede ranges** og en SLA — bygget til banker, PSP'er, fraud-teams og issuere, der har brug for at behandle BIN-data som produktions-data.
 
 ## BIN vs IIN — et grundkursus på én paragraf
 
@@ -27,7 +27,7 @@ Alt dette er "følsomt" i den forstand, at udstedere ikke offentliggør fulde BI
 
 ## Hvorfor jeg byggede binlist.net på ferie
 
-Sommer 2013. Corralejo, nordlige Fuerteventura. Lejet lejlighed, lille balkon, kanariefuglevinden gør sit. Jeg havde en idé til et sideprojekt, der skulle slå kort op via BIN, og jeg ville ikke betale en betalings-leverandør €200/md for det. De eksisterende gratis muligheder var:
+Sommer 2013. **Playitas, sydlige Fuerteventura** — resortet på Atlanterhavs-siden nede ved Gran Tarajal. Lejet lejlighed, lille balkon, kanariefuglevinden gør sit. Jeg havde en idé til et sideprojekt, der skulle slå kort op via BIN, og jeg ville ikke betale en betalings-leverandør €200/md for det. De eksisterende gratis muligheder var:
 
 - **Wikipedias IIN-liste** — rimelig præcis for velkendte netværk, elendig dækning for niche-udstedere, opdateret af frivillige, der ikke arbejder i payments.
 - **Indsatte CSV'er på fora** — anstændig dækning for US-udstedere, altid forældet.
@@ -38,18 +38,27 @@ Det jeg ville have, var `curl http://example.com/40012345` der returnerer ren JS
 
 ### Stakken (dengang)
 
-- **Heroku** gratis dyno. Én web-proces.
-- **Sinatra** (Ruby). En enkelt `get '/:bin'`-handler.
-- **Postgres på Heroku Postgres** gratis-tier, ~300 MB BIN-range-tabel.
-- **Memcached** til varme ranges.
+Det var **mit første Go-projekt nogensinde**. Jeg havde læst om Go et stykke tid og ville have en lille, velafgrænset undskyldning for at prøve det; en single-endpoint JSON-API over en in-memory BIN-tabel var perfekt. Ruby/Sinatra ville have været hurtigere at taste for mig, men jeg ville lære noget, og memory- og latency-karakteristikken af en Go-binary viste sig at være præcis det, en gratis-tier offentlig API havde brug for.
+
+- **Go** — en enkelt binary, `net/http`, ingen framework. Hele serveren fyldte nogle hundrede linjer.
+- **In-memory BIN-range-tabel**, bygget ved boot fra en ~300 MB kilde-fil. Opslag var O(log n) over et sorteret slice.
+- **Deployet på én Hetzner-VM** fra dag ét (jeg overvejede kortvarigt Heroku, men Heroku's gratis dyno-memory-grænser kunne ikke rumme en fuldt indlæst BIN-tabel).
 - **JSON + XML + CSV**-svarformater, fordi 2013.
 - **Dataseed** fra en kombination af offentlige Wikipedia-scrapes, den gamle "Mars Base"-CSV fra 2009 og et sæt ranges, jeg havde akkumuleret på arbejde.
 
-Samlet build-tid på den balkon: en weekend. Jeg købte domænet mandag morgen, pushede til Heroku og tweetede om det. Trafikken fra udviklere, der arbejdede med e-handel, kom med det samme.
+Samlet build-tid på den balkon: en weekend — hvoraf cirka halvdelen var mig, der fandt ud af `go build`, `GOPATH` (Go-moduler fandtes ikke endnu) og hvordan interfaces virkede. Jeg købte domænet mandag morgen, deployede binaryen og tweetede om det.
+
+### Trafik-kurven
+
+- **Uge 1:** et par hundrede queries/dag, mest mig, der testede.
+- **Måned 1:** ~**100.000 queries/dag**, efter udviklere på Stack Overflow og et par e-handels-fora fandt den.
+- **I begyndelsen af 2015:** krydsede **1 million queries/dag** vedholdende, med spikes over 2M under flash-sale-events hos merchants, der kaldte den på hver checkout-page-load.
+
+At skalere til det punkt kostede næsten ingenting, fordi Go's single-binary-fodaftryk betød, at en ~€5/md VPS klarede det hele; flaskehalsen var længe NIC'en, ikke CPU eller memory.
 
 ### 13 år senere
 
-binlist.net kører stadig. Den er blevet flyttet infrastruktur nogle gange — Heroku → en VPS → en lille flåde bag Cloudflare — og dataseed'et er blevet opdateret løbende, men API-overfladen er den samme. I dag serverer den **millioner af opslag pr. måned**, gratis, uden API-nøgle, med en soft-rate-limit på anonyme kaldere for at holde den ærlig.
+binlist.net kører stadig. Den er blevet flyttet infrastruktur nogle gange — Hetzner-VM → Hetzner-flåde → en lille flåde bag Cloudflare — og dataseed'et er blevet opdateret løbende, men API-overfladen (og det meste af den oprindelige Go-kode) er den samme. I dag serverer den **titusinder af millioner opslag pr. måned**, gratis, uden API-nøgle, med en soft-rate-limit på anonyme kaldere for at holde den ærlig.
 
 Den har **~2.000 Google-visninger/md** for queries som "binlist", "bin list bank identification number", "list of bank identification numbers" — den samler stadig den lange hale af udviklere op, der skriver samme spørgsmål, jeg skrev i Google i 2013.
 
@@ -143,6 +152,6 @@ Adskilte projekter, overlappende oprindelse, samme operatør på min side. binli
 
 ## Tretten år inde
 
-Det, jeg finder mest interessant ved binlist.net, er ikke trafikken — det er **den slags spørgsmål**, udviklere stadig skriver ind i Google i 2026: "what is a bin list", "bin number example", "list of issuer identification numbers". Det er nøjagtig de queries, jeg skrev i 2013 på balkonen på Fuerteventura. Payments som industri fortsætter med at tilføje lag, men de grundlæggende spørgsmål ændrer sig ikke.
+Det, jeg finder mest interessant ved binlist.net, er ikke trafikken — det er **den slags spørgsmål**, udviklere stadig skriver ind i Google i 2026: "what is a bin list", "bin number example", "list of issuer identification numbers". Det er nøjagtig de queries, jeg skrev i 2013 på balkonen i Playitas. Payments som industri fortsætter med at tilføje lag, men de grundlæggende spørgsmål ændrer sig ikke.
 
-Hvis du sidder på en strand med en laptop, og du har en kløe til et sideprojekt, der klør din egen ryg: byg det. Nogle gange viser det sig, at mange har samme kløe, og tretten år senere har du en nyttig ting at pege dem på.
+Hvis du sidder på en strand med en laptop, og du har en kløe til et sideprojekt, der klør din egen ryg: byg det — og prøv imens det sprog, du har haft lyst til at lære. Nogle gange viser det sig, at mange har samme kløe, og tretten år senere har du en nyttig ting at pege dem på og et arbejdende kendskab til Go.
