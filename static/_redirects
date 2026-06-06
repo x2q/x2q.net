@@ -8,6 +8,26 @@
 /post/2013-01-30-howto-setup-pdf-printer-on-linux   /post/print-to-pdf-on-linux/  301
 /2013/01/30/howto-setup-pdf-printer-on-linux/       /post/print-to-pdf-on-linux/  301
 
+# Recovered evergreen posts (Hugo /post/<date>-<slug>/ and WordPress /YYYY/MM/DD/<slug> forms)
+/post/2012-11-20-pretty-printing-xml-with-xmllint/         /post/pretty-print-xml-xmllint/        301
+/2012/11/20/pretty-printing-xml-with-xmllint               /post/pretty-print-xml-xmllint/        301
+/blog/2012/11/20/pretty-printing-xml-with-xmllint          /post/pretty-print-xml-xmllint/        301
+
+/post/2013-01-13-howto-create-a-real-multi-resolution-favicon/  /post/multi-resolution-favicon-ico/  301
+/2013/01/13/howto-create-a-real-multi-resolution-favicon        /post/multi-resolution-favicon-ico/  301
+/blog/2013/01/13/howto-create-a-real-multi-resolution-favicon   /post/multi-resolution-favicon-ico/  301
+
+/post/2010-07-04-view-contents-certificate-signing-request-csr/  /post/view-csr-contents-openssl/    301
+/2010/07/04/view-contents-certificate-signing-request-csr        /post/view-csr-contents-openssl/    301
+
+/post/2012-10-11-ubuntu-sudo-without-password/   /post/sudo-without-password/   301
+/2012/10/11/ubuntu-sudo-without-password         /post/sudo-without-password/   301
+/blog/2012/10/11/ubuntu-sudo-without-password    /post/sudo-without-password/   301
+
+/post/2012-10-16-howto-mount-bin-slash-cue-in-linux/   /post/mount-bin-cue-linux/   301
+/2012/10/16/howto-mount-bin-slash-cue-in-linux         /post/mount-bin-cue-linux/   301
+/blog/2012/10/16/howto-mount-bin-slash-cue-in-linux    /post/mount-bin-cue-linux/   301
+
 # Tag URLs that changed case or slug in the migration
 /tags/Ubuntu/   /tags/ubuntu/    301
 /tags/Ubuntu    /tags/ubuntu/    301
