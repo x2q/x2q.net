@@ -1,6 +1,6 @@
 base_url = "https://www.x2q.net"
 title = "x2q"
-description = "x2q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2010."
+description = "x2q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2002."
 default_language = "en"
 
 compile_sass = false
@@ -25,7 +25,7 @@ author_email = "x2q@x2q.net"
 favicon = "favicon.svg"
 logo = "favicon.svg"
 og_image = "favicon.svg"
-since = 2010
+since = 2002
 all_languages = ["en", "da"]
 
 [translations]
@@ -48,7 +48,7 @@ hero_lede = "x2q has been online since {since} — {years} years of notes on sof
 
 [languages.da]
 title = "x2q"
-description = "x2q er en personlig blog med noter om software, Linux, netværk, betalinger, hjemmeservere, madlavning og diverse sideprojekter. Online siden 2010."
+description = "x2q er en personlig blog med noter om software, Linux, netværk, betalinger, hjemmeservere, madlavning og diverse sideprojekter. Online siden 2002."
 generate_feeds = true
 taxonomies = [
   { name = "tags", feed = true },
