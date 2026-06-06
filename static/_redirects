@@ -1,0 +1,21 @@
+# 301 redirects — preserve ranking equity from pre-Zola URLs that still
+# appear in Google Search Console (legacy paths now 404 on the live site).
+# Cloudflare Pages serves this from the site root. First match wins, so list
+# specific rules before the catch-alls.
+
+# Restored post: "Print to PDF on Linux" (old dated-permalink schemes -> new slug)
+/post/2013-01-30-howto-setup-pdf-printer-on-linux/  /post/print-to-pdf-on-linux/  301
+/post/2013-01-30-howto-setup-pdf-printer-on-linux   /post/print-to-pdf-on-linux/  301
+/2013/01/30/howto-setup-pdf-printer-on-linux/       /post/print-to-pdf-on-linux/  301
+
+# Tag URLs that changed case or slug in the migration
+/tags/Ubuntu/   /tags/ubuntu/    301
+/tags/Ubuntu    /tags/ubuntu/    301
+/tags/.cue/     /tags/bin-cue/   301
+
+# Old /categories/ namespace -> equivalent tag where one exists
+/categories/Linux/   /tags/linux/   301
+/categories/Linux    /tags/linux/   301
+
+# Remaining /categories/* had no Zola equivalent (e.g. Garmin, Memory) -> home
+/categories/*   /   301

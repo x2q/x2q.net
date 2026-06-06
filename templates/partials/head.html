@@ -77,7 +77,7 @@
   "mainEntityOfPage": {{ page.permalink | json_encode | safe }},
   "image": {{ og_image | json_encode | safe }},
   "datePublished": {{ page.date | date(format="%Y-%m-%d") | json_encode | safe }},
-  "dateModified": {{ page.date | date(format="%Y-%m-%d") | json_encode | safe }},
+  "dateModified": {{ page.updated | default(value=page.date) | date(format="%Y-%m-%d") | json_encode | safe }},
   "inLanguage": {{ lang | json_encode | safe }},
   {%- if page.taxonomies.tags %}
   "keywords": {{ page.taxonomies.tags | join(sep=", ") | json_encode | safe }},
