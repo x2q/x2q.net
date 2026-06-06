@@ -14,6 +14,35 @@
     {{ page.content | safe }}
   </div>
 
+  {#- Related posts: other posts sharing a tag, primary tag first, deduped -#}
+  {%- if page.taxonomies.tags -%}
+    {%- set_global seen = [] -%}
+    {%- set_global related = [] -%}
+    {%- set tax = get_taxonomy(kind="tags", lang=lang) -%}
+    {%- for tag in page.taxonomies.tags -%}
+      {%- for term in tax.items -%}
+        {%- if term.name == tag -%}
+          {%- for p in term.pages -%}
+            {%- if p.permalink != page.permalink and p.permalink not in seen -%}
+              {%- set_global seen = seen | concat(with=p.permalink) -%}
+              {%- set_global related = related | concat(with=p) -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- if related | length > 0 %}
+    <nav class="post-related" aria-label="{% if lang == 'da' %}Relaterede indlæg{% else %}Related posts{% endif %}">
+      <h2 class="post-related-title">{% if lang == "da" %}Relaterede indlæg{% else %}Related posts{% endif %}</h2>
+      <ul>
+        {%- for p in related | slice(end=4) %}
+        <li><a href="{{ p.permalink | safe }}">{{ p.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    {%- endif %}
+  {%- endif %}
+
   <footer class="post-footer">
     {%- if lang == config.default_language -%}
       {%- set home = config.base_url ~ "/" -%}

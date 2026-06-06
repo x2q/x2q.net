@@ -528,6 +528,40 @@ a:hover {
   font-style: italic;
 }
 
+.post-related {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.post-related-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 1rem;
+}
+
+.post-related ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.post-related a {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.post-related a:hover {
+  color: var(--accent);
+}
+
 .post-footer {
   margin-top: 4rem;
   padding-top: 2rem;
