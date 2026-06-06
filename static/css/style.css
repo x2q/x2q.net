@@ -354,6 +354,69 @@ a:hover {
 }
 
 /* ============================================================
+   About (home — "how it started")
+   ============================================================ */
+
+.about {
+  margin-top: 4.5rem;
+}
+
+.about-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.about-header h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+}
+
+.about-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.about-body {
+  max-width: 36rem;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--ink-muted);
+}
+
+.about-body p + p { margin-top: 1.15rem; }
+
+.about-body strong { color: var(--ink); font-weight: 600; }
+
+.about-body code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--paper-muted);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.about-body a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+.about-body a:hover { color: var(--accent); }
+
+/* ============================================================
    Single post
    ============================================================ */
 
