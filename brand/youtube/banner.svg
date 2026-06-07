@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+  <!-- full-bleed dark racing green; recommended YouTube banner size 2560x1440 -->
+  <rect width="2560" height="1440" fill="#0a2a1d" />
+
+  <!-- everything below sits inside the 1546x423 all-device safe area, centred -->
+  <!-- accent bar -->
+  <rect x="1235" y="552" width="90" height="9" rx="2" fill="#3fcf8e" />
+
+  <!-- X2Q wordmark -->
+  <text x="1280" y="654" text-anchor="middle" dominant-baseline="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="160" font-weight="500">
+    <tspan fill="#f3f6f3">X</tspan><tspan fill="#3fcf8e" font-style="italic">2</tspan><tspan fill="#f3f6f3">Q</tspan>
+  </text>
+
+  <!-- tagline -->
+  <text x="1280" y="816" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="400"
+        letter-spacing="0.5" fill="#cfe0d4">notes on tech, food, and everything in between</text>
+
+  <!-- meta line -->
+  <text x="1280" y="878" text-anchor="middle"
+        font-family="'Courier New', monospace" font-size="27" font-weight="400"
+        letter-spacing="3" fill="#7f9b8a">TECH SCREENCASTS &amp; NOTES &#183; ONLINE SINCE 2002 &#183; X2Q.NET</text>
+</svg>

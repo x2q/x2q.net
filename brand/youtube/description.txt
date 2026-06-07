@@ -1,0 +1,39 @@
+================================================================
+X2Q — YouTube channel description
+================================================================
+
+--- ENGLISH (primary) ---
+
+X2Q — notes on tech, food, and everything in between. Online since 2002.
+
+Short screencasts and demos from a single tinkerer: Linux and the command
+line, Windows tools, networking, payments and card data (BIN/IIN), home
+labs, and the odd side project. Some of these clips are old time capsules —
+Xming on Windows XP, the Launchy keystroke launcher — kept here as a record
+of how things used to work.
+
+The written, up-to-date versions of these notes (and a lot more) live on the
+blog, where the old demos get a "then vs now" retelling.
+
+→ Blog: https://www.x2q.net
+Topics: Linux · command line · Windows · networking · payments · home labs ·
+side projects. No ads, no fluff — just notes to my future self, in the open.
+
+
+--- DANSK ---
+
+X2Q — noter om teknologi, mad og alt derimellem. Online siden 2002.
+
+Korte screencasts og demoer fra én nørd: Linux og kommandolinjen,
+Windows-værktøjer, netværk, betalinger og kortdata (BIN/IIN), hjemmeservere
+og diverse sideprojekter. Nogle af klippene er gamle tidskapsler — Xming på
+Windows XP, Launchy-tastaturstarteren — bevaret som et vidnesbyrd om, hvordan
+tingene fungerede engang.
+
+De skrevne, opdaterede versioner af noterne (og meget mere) ligger på bloggen,
+hvor de gamle demoer får en "dengang vs. nu"-genfortælling.
+
+→ Blog: https://www.x2q.net
+Emner: Linux · kommandolinje · Windows · netværk · betalinger · hjemmeservere
+· sideprojekter. Ingen reklamer, intet fyld — bare noter til mit fremtidige
+jeg, i det åbne.
