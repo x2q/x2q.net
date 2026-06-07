@@ -1,14 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-<rect width="64" height="64" rx="10" fill="#0f7a47" />
-  <text
-        x="50%"
-        y="55%"
-        font-family="Arial, sans-serif"
-        font-size="26"
-        fill="white"
-        text-anchor="middle"
-        dominant-baseline="middle"
-    >
-  X2Q
+  <rect width="64" height="64" rx="14" fill="#0a2a1d" />
+  <text x="32" y="33" text-anchor="middle" dominant-baseline="central"
+        font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="500">
+    <tspan fill="#f3f6f3">x</tspan><tspan fill="#3fcf8e" font-style="italic">2</tspan><tspan fill="#f3f6f3">q</tspan>
   </text>
 </svg>
