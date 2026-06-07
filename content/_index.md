@@ -1,5 +1,5 @@
 +++
-title = "x2q"
+title = "X2Q"
 sort_by = "date"
 template = "index.html"
 +++

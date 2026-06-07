@@ -1,6 +1,6 @@
 base_url = "https://www.x2q.net"
-title = "x2q"
-description = "x2q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2002."
+title = "X2Q"
+description = "X2Q is a personal blog with notes on software, Linux, networking, payments, home labs, cooking, and the odd side project. Online since 2002."
 default_language = "en"
 
 compile_sass = false
@@ -43,12 +43,12 @@ get_in_touch = "Get in touch"
 back_to_posts = "← Back to all posts"
 posts_title = "Posts"
 toggle_dark = "Toggle Dark Mode"
-logo_alt = "x2q logo"
-hero_lede = "x2q has been online since {since} — {years} years of notes on software, Linux, payments, home labs, and cooking. Topics range from Debian and Ubuntu tuning to MariaDB migrations, BIN/IIN lookups, Google Speech API experiments, and the occasional recipe. Written and maintained by a single author; no ads, no trackers beyond Cloudflare Web Analytics, no cookies."
+logo_alt = "X2Q logo"
+hero_lede = "X2Q has been online since {since} — {years} years of notes on software, Linux, payments, home labs, and cooking. Topics range from Debian and Ubuntu tuning to MariaDB migrations, BIN/IIN lookups, Google Speech API experiments, and the occasional recipe. Written and maintained by a single author; no ads, no trackers beyond Cloudflare Web Analytics, no cookies."
 
 [languages.da]
-title = "x2q"
-description = "x2q er en personlig blog med noter om software, Linux, netværk, betalinger, hjemmeservere, madlavning og diverse sideprojekter. Online siden 2002."
+title = "X2Q"
+description = "X2Q er en personlig blog med noter om software, Linux, netværk, betalinger, hjemmeservere, madlavning og diverse sideprojekter. Online siden 2002."
 generate_feeds = true
 taxonomies = [
   { name = "tags", feed = true },
@@ -69,5 +69,5 @@ get_in_touch = "Kontakt"
 back_to_posts = "← Tilbage til alle indlæg"
 posts_title = "Indlæg"
 toggle_dark = "Skift mørk tilstand"
-logo_alt = "x2q-logo"
-hero_lede = "x2q har været online siden {since} — {years} års noter om software, Linux, betalinger, hjemmeservere og madlavning. Emnerne spænder fra Debian- og Ubuntu-tuning til MariaDB-migrationer, BIN/IIN-opslag, eksperimenter med Google Speech API og en og anden opskrift. Skrevet og vedligeholdt af én person; ingen reklamer, ingen trackere ud over Cloudflare Web Analytics, ingen cookies."
+logo_alt = "X2Q-logo"
+hero_lede = "X2Q har været online siden {since} — {years} års noter om software, Linux, betalinger, hjemmeservere og madlavning. Emnerne spænder fra Debian- og Ubuntu-tuning til MariaDB-migrationer, BIN/IIN-opslag, eksperimenter med Google Speech API og en og anden opskrift. Skrevet og vedligeholdt af én person; ingen reklamer, ingen trackere ud over Cloudflare Web Analytics, ingen cookies."

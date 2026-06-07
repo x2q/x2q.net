@@ -93,7 +93,7 @@ def main():
         print(f"  cards/{slug}.png")
 
     # site-wide fallback for home, sections, tag pages
-    render("index", "x2q", TAGLINE, wordmark="online since 2002")
+    render("index", "X2Q", TAGLINE, wordmark="online since 2002")
     print("  cards/index.png")
     print(f"Done: {len(seen) + 1} cards.")
 
