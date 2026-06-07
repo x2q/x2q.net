@@ -53,7 +53,7 @@ def slug_for(path, fm):
     return name
 
 
-def render(slug, title, subtitle, wordmark="x2q"):
+def render(slug, title, subtitle, wordmark="X2Q"):
     OUT.mkdir(parents=True, exist_ok=True)
     dest = OUT / f"{slug}.png"
     args = [
