@@ -21,10 +21,10 @@ POSTS = ROOT / "content" / "post"
 OUT = ROOT / "static" / "cards"
 
 # Brand tokens (mirror static/css/style.css :root)
-PAPER = "#faf9f6"
-INK = "#1a1a1a"
-INK_MUTED = "#5c5a55"
-ACCENT = "#b4551a"
+PAPER = "#f3f6f3"
+INK = "#0a2a1d"
+INK_MUTED = "#466055"
+ACCENT = "#0f7a47"
 
 FONT_BOLD = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"

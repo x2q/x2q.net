@@ -3,14 +3,14 @@
    ============================================================ */
 
 :root {
-  --paper: #faf9f6;
-  --paper-muted: #f1efe9;
-  --ink: #1a1a1a;
-  --ink-muted: #5c5a55;
-  --ink-faint: #908e87;
-  --rule: #e7e3d9;
-  --accent: #b4551a;
-  --accent-soft: #f4e9df;
+  --paper: #f3f6f3;
+  --paper-muted: #e7ede8;
+  --ink: #0a2a1d;
+  --ink-muted: #466055;
+  --ink-faint: #87988e;
+  --rule: #d4ded6;
+  --accent: #0f7a47;
+  --accent-soft: #dcebe1;
   --radius: 10px;
   --maxw: 40rem;
 
@@ -20,14 +20,14 @@
 }
 
 html.dark {
-  --paper: #14130f;
-  --paper-muted: #1c1b16;
-  --ink: #f2efe7;
-  --ink-muted: #a8a59c;
-  --ink-faint: #6d6b64;
-  --rule: #2a2821;
-  --accent: #e9a15d;
-  --accent-soft: #2a1f14;
+  --paper: #07140f;
+  --paper-muted: #0e1f17;
+  --ink: #e9f1eb;
+  --ink-muted: #9ab0a3;
+  --ink-faint: #5e7268;
+  --rule: #1c2f25;
+  --accent: #3fcf8e;
+  --accent-soft: #102a1d;
 }
 
 *, *::before, *::after {
