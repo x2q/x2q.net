@@ -28,10 +28,10 @@
 /2012/10/16/howto-mount-bin-slash-cue-in-linux         /post/mount-bin-cue-linux/   301
 /blog/2012/10/16/howto-mount-bin-slash-cue-in-linux    /post/mount-bin-cue-linux/   301
 
-# BIN list (237 impressions/6mo, pos 45, still 404) -> the binlist/iinlist story
-/post/2013-09-10-bank-identification-number-bin-list/  /post/binlist-net-iinlist-com-story/  301
-/post/2013-09-10-bank-identification-number-bin-list   /post/binlist-net-iinlist-com-story/  301
-/2013/09/10/bank-identification-number-bin-list        /post/binlist-net-iinlist-com-story/  301
+# BIN list (237 impressions/6mo, pos 45, still 404) -> the BIN/IIN lookup reference
+/post/2013-09-10-bank-identification-number-bin-list/  /post/bin-iin-lookup/  301
+/post/2013-09-10-bank-identification-number-bin-list   /post/bin-iin-lookup/  301
+/2013/09/10/bank-identification-number-bin-list        /post/bin-iin-lookup/  301
 
 # Tag URLs that changed case or slug in the migration
 /tags/Ubuntu/   /tags/ubuntu/    301
