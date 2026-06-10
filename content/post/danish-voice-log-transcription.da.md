@@ -8,17 +8,17 @@ description = "At bygge en lokal pipeline til at transskribere, diarisere og res
 tags = ["tale-til-tekst", "whisper", "dansk", "asr", "hviske", "diarisering", "claude-code", "faster-whisper", "kundeservice", "lokal-ai", "privatliv"]
 
 [extra]
-summary = "En ejer havde optaget sine forretningstelefonsamtaler i 13 måneder — ~33.000 danske mp3-filer, ~570 timer 32 kbps telefonlyd. Opgaven: transskribér alt, navngiv talerne, resumér pr. opkald/dag/uge, gør det browsbart på en hjemmeside, og gør det lokalt uden LLM-API. Dette er bygget: et benchmark af danske ASR-modeller, en dual-model + Claude-fusions-pipeline, 'phone-first' taleridentifikation fra metadata, selvhelende infrastruktur over to GPU'er, og Claude Code-subagenter som det (API-løse) resumélag. Plus hvad det lærer om at anvende den samme pipeline i en kundeservicefunktion."
+summary = "Forretningstelefonsamtaler var blevet optaget i 13 måneder — ~33.000 danske mp3-filer, ~570 timer 32 kbps telefonlyd. Opgaven: transskribér alt, navngiv talerne, resumér pr. opkald/dag/uge, gør det browsbart på en hjemmeside, og gør det lokalt uden LLM-API. Dette er bygget: et benchmark af danske ASR-modeller, en dual-model + Claude-fusions-pipeline, 'phone-first' taleridentifikation fra metadata, selvhelende infrastruktur over to GPU'er, og Claude Code-subagenter som det (API-løse) resumélag. Plus hvad det lærer om at anvende den samme pipeline i en kundeservicefunktion."
 faq = [
   { q = "Hvilken tale-til-tekst-model er bedst til dansk telefonlyd?", a = "I en direkte sammenligning på det rigtige korpus (RTX 4070 Ti) vandt faster-whisper large-v3-turbo på fart (~37× realtid, 1,8 GB VRAM), men den fulde large-v3 var mærkbart mere kohærent på støjende danske opkald, så pipelinen kører fuld large-v3 plus den danske fine-tune hviske-v3-conversation og fusionerer dem. Voxtral hallucinerede i løkker på støjende lyd og blev droppet; vibevoice var ~6× langsommere end realtid." },
   { q = "Hvorfor køre to ASR-modeller i stedet for én god?", a = "Fordi de fejler forskelligt. large-v3 har bedst grammatik og struktur; den danske hviske-fine-tune fanger danske navne og vendinger, som large-v3 forvansker. En Claude-subagent læser begge transskriptioner pr. opkald og fusionerer dem — tager struktur fra den ene og dansk ordvalg fra den anden. To middelmådige-men-forskellige spor plus en model, der fletter dem, slår ét stærkt spor." },
-  { q = "Hvordan identificerer man talerne uden stemmetræning?", a = "Metadata først. Hver optagelses filnavn indeholder tidsstemplet og begge telefonnumre, og en lille telefonbog oversætter numre til navne — så man kender begge parter, før et sekund lyd er afkodet. Token-fri ECAPA-TDNN-klyngedeling deler så de to stemmer, og referencestemmeprofiler afgør, hvilken klynge der er ejeren. Et telefonopkald er to-parts, så en 2-taler-prior retter det almindelige tilfælde, hvor klyngedeling kollapser til én." },
+  { q = "Hvordan identificerer man talerne uden stemmetræning?", a = "Metadata først. Hver optagelses filnavn indeholder tidsstemplet og begge telefonnumre, og en lille telefonbog oversætter numre til navne — så man kender begge parter, før et sekund lyd er afkodet. Token-fri ECAPA-TDNN-klyngedeling deler så de to stemmer, og referencestemmeprofiler afgør, hvilken klynge der er den gennemgående part (det ene nummer, der er med på hvert opkald). Et telefonopkald er to-parts, så en 2-taler-prior retter det almindelige tilfælde, hvor klyngedeling kollapser til én." },
   { q = "Hvordan blev resuméerne lavet uden et LLM-API?", a = "Bindingen var ingen API-nøgle. Så Claude Code selv er resumélaget: én subagent pr. dag læser begge ASR-spor for hvert opkald, et fælles navneregister og gårsdagens resumé, og skriver så dagsresuméet direkte — ~50k–450k tokens pr. dag-agent, intet API-kald i pipelinen, ingen marginalomkostning. En uge-subagent syntetiserer de syv dagsresuméer." },
   { q = "Hjælper neural støjreduktion ASR?", a = "Kontraintuitivt nej — det skadede. Et let gammeldags ffmpeg-båndpas (200–3400 Hz) gjorde støjende opkald mere kohærente gratis, men DeepFilterNet (en SOTA neural denoiser) gav hallucinationer og tabt tale. Den er tunet til menneskeører, ikke til Whisper. SOTA er opgaveafhængigt." }
 ]
 +++
 
-**Kort fortalt —** En ejer havde optaget sine forretningstelefonsamtaler i over et år: **~33.000 danske mp3-filer, ~570 timer, 32 kbps telefonkvalitet**. Opgaven var at transskribere det hele, navngive talerne, resumere pr. opkald / pr. dag / pr. uge, gøre det browsbart — og gøre det **lokalt, uden LLM-API**. Resultatet er en pipeline, der kører **to ASR-modeller og fusionerer dem med Claude**, identificerer talere **fra metadata før noget lyd afkodes**, heler sig selv over **to GPU'er**, og bruger **Claude Code-subagenter som resumélag** i stedet for et API. Her er hele bygget, og hvad det lærer om en kundeservicefunktion.
+**Kort fortalt —** Forretningstelefonsamtaler var blevet optaget i over et år: **~33.000 danske mp3-filer, ~570 timer, 32 kbps telefonkvalitet**. Opgaven var at transskribere det hele, navngive talerne, resumere pr. opkald / pr. dag / pr. uge, gøre det browsbart — og gøre det **lokalt, uden LLM-API**. Resultatet er en pipeline, der kører **to ASR-modeller og fusionerer dem med Claude**, identificerer talere **fra metadata før noget lyd afkodes**, heler sig selv over **to GPU'er**, og bruger **Claude Code-subagenter som resumélag** i stedet for et API. Her er hele bygget, og hvad det lærer om en kundeservicefunktion.
 
 > Den voksne efterfølger til [at køre Whisper lokalt i stedet for et cloud-Speech-API](/post/local-speech-to-text-whisper-cpp/). Samme instinkt — hold lyden på din egen boks — i 33.000-fil-skala.
 
@@ -55,7 +55,7 @@ mp3 → ffmpeg båndpas (200–3400 Hz + let denoise + dynaudnorm) → 16 kHz mo
     → [B] hviske-v3-conversation (dansk fine-tune)              ← kun på opkald ≥45 s
     → ECAPA-TDNN-diarisering (token-fri klyngedeling, 2-taler-prior på lange opkald)
     → "phone-first" navngivning (filnavn + telefonbog forankrer identiteter;
-       embeddings afgør hvilken klynge der er ejeren; referenceprofiler matcher resten)
+       embeddings afgør hvilken klynge der er den gennemgående part; referenceprofiler matcher resten)
     → SQLite (idempotent: SHA-256-hash + status; dubletter arver tvillingens resultat)
 
 pr. dag  → Claude-subagent læser BEGGE transskriptioner pr. opkald, fusionerer dem,
@@ -73,7 +73,7 @@ Et par beslutninger gjorde sig fortjent:
 
 ## Resumélaget: Claude Code-subagenter, intet API
 
-Ejerens hårde binding var **ingen LLM-API-nøgle**. Så harnesset selv er sprogmodellen: **én Claude Code-subagent pr. dag** får begge ASR-spor for hvert opkald, et fælles navneregister og gårsdagens resumé, og skriver dagsresuméet direkte — ~50k–450k tokens pr. dag-agent, **intet API-kald i pipelinen, ingen marginalomkostning.**
+Den hårde binding var **ingen LLM-API-nøgle**. Så harnesset selv er sprogmodellen: **én Claude Code-subagent pr. dag** får begge ASR-spor for hvert opkald, et fælles navneregister og gårsdagens resumé, og skriver dagsresuméet direkte — ~50k–450k tokens pr. dag-agent, **intet API-kald i pipelinen, ingen marginalomkostning.**
 
 Tre små "institutioner" voksede op omkring det:
 
@@ -119,7 +119,7 @@ Lange uovervågede kørsler fejler på kreative måder. Hver fejl fik et permane
 
 ## Hvordan det kan bruges i en kundeservicefunktion
 
-Ejerens use case er personlig opkalds-intelligens, men præcis den samme pipeline er et **kundeservice**-system:
+Den oprindelige use case er personlig opkalds-intelligens, men præcis den samme pipeline er et **kundeservice**-system:
 
 - **To-spors-ASR + LLM-fusion** → præcise danske transskriptioner af supportopkald.
 - **Resuméer pr. opkald / dag / uge** → QA uden at lytte til hvert opkald.
