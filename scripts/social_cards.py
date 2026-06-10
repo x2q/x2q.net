@@ -56,6 +56,9 @@ def slug_for(path, fm):
 def render(slug, title, subtitle, wordmark="X2Q"):
     OUT.mkdir(parents=True, exist_ok=True)
     dest = OUT / f"{slug}.png"
+    # shrink the title font for long titles so it never overruns the tagline
+    n = len(title)
+    pointsize = "70" if n <= 58 else "60" if n <= 78 else "50"
     args = [
         "magick", "-size", "1200x630", f"xc:{PAPER}",
         # accent bar, top-left
@@ -65,9 +68,9 @@ def render(slug, title, subtitle, wordmark="X2Q"):
         "-gravity", "northwest", "-annotate", "+90+150", wordmark,
         # title, auto-wrapped inside a fixed box
         "(", "-background", "none", "-fill", INK, "-font", FONT_BOLD,
-        "-pointsize", "70", "-size", "1020x320", "-gravity", "west",
+        "-pointsize", pointsize, "-size", "1040x340", "-gravity", "west",
         f"caption:{title}", ")",
-        "-gravity", "northwest", "-geometry", "+90+250", "-composite",
+        "-gravity", "northwest", "-geometry", "+90+235", "-composite",
         # subtitle / tagline, bottom-left
         "-font", FONT_REG, "-fill", INK_MUTED, "-pointsize", "30",
         "-gravity", "southwest", "-annotate", "+90+70", subtitle,
