@@ -28,14 +28,36 @@
 /2012/10/16/howto-mount-bin-slash-cue-in-linux         /post/mount-bin-cue-linux/   301
 /blog/2012/10/16/howto-mount-bin-slash-cue-in-linux    /post/mount-bin-cue-linux/   301
 
+# BIN list (237 impressions/6mo, pos 45, still 404) -> the binlist/iinlist story
+/post/2013-09-10-bank-identification-number-bin-list/  /post/binlist-net-iinlist-com-story/  301
+/post/2013-09-10-bank-identification-number-bin-list   /post/binlist-net-iinlist-com-story/  301
+/2013/09/10/bank-identification-number-bin-list        /post/binlist-net-iinlist-com-story/  301
+
 # Tag URLs that changed case or slug in the migration
 /tags/Ubuntu/   /tags/ubuntu/    301
 /tags/Ubuntu    /tags/ubuntu/    301
 /tags/.cue/     /tags/bin-cue/   301
+/tags/.bin/     /tags/bin-cue/   301
+/tags/Binlist/  /tags/binlist/   301
+/tags/Binlist   /tags/binlist/   301
+/tags/IIN/      /tags/iin/       301
+/tags/IIN       /tags/iin/       301
+/tags/Account-Range-Definition-ARDEF/  /tags/ardef/  301
+/tags/Account-Range-Definition-ARDEF   /tags/ardef/  301
+
+# Recreated evergreen posts (legacy URLs had real Search Console demand, now 404)
+/post/update-firmware-garmin-devices/   /post/update-garmin-firmware-and-maps/   301
+/post/garmin-map-updates/               /post/update-garmin-firmware-and-maps/   301
+/post/enter-debug-menu-garmin-nuvi/     /post/update-garmin-firmware-and-maps/   301
+/post/how-to-factory-reset-a-yealink-phone-without-the-admin-password/  /post/factory-reset-yealink-phone/  301
 
 # Old /categories/ namespace -> equivalent tag where one exists
 /categories/Linux/   /tags/linux/   301
 /categories/Linux    /tags/linux/   301
+/categories/Garmin/  /tags/garmin/  301
+/categories/Garmin   /tags/garmin/  301
+/tags/GPS/   /tags/gps/   301
+/tags/GPS    /tags/gps/   301
 
 # Remaining /categories/* had no Zola equivalent (e.g. Garmin, Memory) -> home
 /categories/*   /   301
