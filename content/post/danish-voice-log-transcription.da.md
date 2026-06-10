@@ -1,118 +1,142 @@
 +++
-title = "Transskribering af danske voicelogs på en hjemme-GPU — modelgennemgang + en kundeservice-pipeline (2026)"
+title = "Transskribering af 33.000 danske voicelogs på hjemme-GPU'er — den lokale pipeline (2026)"
 date = 2026-06-10
 slug = "dansk-voicelog-transkribering"
-description = "Eksperimenter med at transskribere danske opkalds-/voicelogs lokalt på en RTX 4070 Ti: en gennemgang af de danske tale-til-tekst-modeller (Whisper, Hviske, Røst/CoRal, cloud-API'er), hvad der faktisk betyder noget for telefonlyd, og en privat pipeline, der bruger Claude til at gøre transskriptioner til kundeservicedata."
+description = "At bygge en lokal pipeline til at transskribere, diarisere og resumere ~33.000 danske telefonopkald på hjemme-GPU'er: modelbenchmark, dual-model-fusion, phone-first taleridentifikation, selvhelende infrastruktur og Claude Code-subagenter som resumélag — uden LLM-API. Plus hvordan det kan bruges i en kundeservicefunktion."
 
 [taxonomies]
-tags = ["tale-til-tekst", "whisper", "dansk", "asr", "hviske", "coral", "kundeservice", "claude", "tailscale", "lokal-ai", "privatliv"]
+tags = ["tale-til-tekst", "whisper", "dansk", "asr", "hviske", "diarisering", "claude-code", "faster-whisper", "kundeservice", "lokal-ai", "privatliv"]
 
 [extra]
-summary = "Jeg har transskriberet danske voicelogs lokalt på en RTX 4070 Ti og brugt Claude til at gøre de rå transskriptioner til strukturerede kundeservicedata — alt sammen tilgængeligt privat over Tailscale, så lyden aldrig forlader min egen maskine. Dette indlæg gennemgår de danske tale-til-tekst-muligheder (almindelig Whisper vs. de danske fine-tunes Hviske og Røst, vs. cloud-API'er), hvad der faktisk rykker word-error-rate på rigtig telefonlyd, og hele pipelinen til en kundeservice-anvendelse — med GDPR-vinklen, der gør 'lokalt' til selve pointen."
+summary = "En ejer havde optaget sine forretningstelefonsamtaler i 13 måneder — ~33.000 danske mp3-filer, ~570 timer 32 kbps telefonlyd. Opgaven: transskribér alt, navngiv talerne, resumér pr. opkald/dag/uge, gør det browsbart på en hjemmeside, og gør det lokalt uden LLM-API. Dette er bygget: et benchmark af danske ASR-modeller, en dual-model + Claude-fusions-pipeline, 'phone-first' taleridentifikation fra metadata, selvhelende infrastruktur over to GPU'er, og Claude Code-subagenter som det (API-løse) resumélag. Plus hvad det lærer om at anvende den samme pipeline i en kundeservicefunktion."
 faq = [
-  { q = "Hvilken tale-til-tekst-model er bedst til dansk?", a = "Til lokal brug slår en dansk-fine-tunet Whisper-large-model almindelig OpenAI Whisper på dansk — de to vigtigste muligheder er Hviske (syvai/hviske-v2) og Røst-whisper-large fra CoRal / danish-foundation-models-projektet. Almindelig Whisper large-v3 er et solidt udgangspunkt, hvis du vil have én model til mange sprog. Til et færdigt API understøtter ElevenLabs Scribe, Azure og Google Chirp alle dansk godt." },
-  { q = "Kan det køre på en 12 GB GPU?", a = "Ja. Whisper-large-klasse-modeller (inklusive de danske fine-tunes) passer fint på et 12 GB-kort som et RTX 4070 Ti, især via faster-whisper (CTranslate2) med int8/float16, hvilket også giver dig flere gange realtid til batch-transskribering af opkaldslogs." },
-  { q = "Hvorfor transskribere lokalt i stedet for at bruge et cloud-API?", a = "Privatliv og GDPR. Kundeservice-voicelogs er personoplysninger (ofte med navne, adresser, CPR-numre). At køre transskriberingen på din egen GPU — kun tilgængelig over et privat Tailscale-netværk — betyder, at lyden aldrig forlader din kontrol. Du bestemmer opbevaring, redigering og hvem der kan nå tjenesten." },
-  { q = "Hvad laver Claude i pipelinen?", a = "Claude er sproglaget efter transskriberingen: den rydder op i den rå ASR-tekst, markerer hvem der sagde hvad, og gør et opkald til strukturerede data — et resumé, kundens hensigt, stemning, handlingspunkter og et QA-scorekort. Selve transskriberingen (lyd → tekst) bliver på GPU'en; Claude arbejder på teksten." },
-  { q = "Hvor præcist er det på rigtig telefonlyd?", a = "Lavere end de publicerede benchmarks. Rene oplæsnings-benchmarks lander i de lave encifrede fejlrater, men 8 kHz telefonlyd med baggrundsstøj, overlappende talere, dialekt og engelsk kodeskift skubber word-error-rate meget højere op. Behandl benchmark-tal som et loft, ikke som det, du får på et støjende opkald." }
+  { q = "Hvilken tale-til-tekst-model er bedst til dansk telefonlyd?", a = "I en direkte sammenligning på det rigtige korpus (RTX 4070 Ti) vandt faster-whisper large-v3-turbo på fart (~37× realtid, 1,8 GB VRAM), men den fulde large-v3 var mærkbart mere kohærent på støjende danske opkald, så pipelinen kører fuld large-v3 plus den danske fine-tune hviske-v3-conversation og fusionerer dem. Voxtral hallucinerede i løkker på støjende lyd og blev droppet; vibevoice var ~6× langsommere end realtid." },
+  { q = "Hvorfor køre to ASR-modeller i stedet for én god?", a = "Fordi de fejler forskelligt. large-v3 har bedst grammatik og struktur; den danske hviske-fine-tune fanger danske navne og vendinger, som large-v3 forvansker. En Claude-subagent læser begge transskriptioner pr. opkald og fusionerer dem — tager struktur fra den ene og dansk ordvalg fra den anden. To middelmådige-men-forskellige spor plus en model, der fletter dem, slår ét stærkt spor." },
+  { q = "Hvordan identificerer man talerne uden stemmetræning?", a = "Metadata først. Hver optagelses filnavn indeholder tidsstemplet og begge telefonnumre, og en lille telefonbog oversætter numre til navne — så man kender begge parter, før et sekund lyd er afkodet. Token-fri ECAPA-TDNN-klyngedeling deler så de to stemmer, og referencestemmeprofiler afgør, hvilken klynge der er ejeren. Et telefonopkald er to-parts, så en 2-taler-prior retter det almindelige tilfælde, hvor klyngedeling kollapser til én." },
+  { q = "Hvordan blev resuméerne lavet uden et LLM-API?", a = "Bindingen var ingen API-nøgle. Så Claude Code selv er resumélaget: én subagent pr. dag læser begge ASR-spor for hvert opkald, et fælles navneregister og gårsdagens resumé, og skriver så dagsresuméet direkte — ~50k–450k tokens pr. dag-agent, intet API-kald i pipelinen, ingen marginalomkostning. En uge-subagent syntetiserer de syv dagsresuméer." },
+  { q = "Hjælper neural støjreduktion ASR?", a = "Kontraintuitivt nej — det skadede. Et let gammeldags ffmpeg-båndpas (200–3400 Hz) gjorde støjende opkald mere kohærente gratis, men DeepFilterNet (en SOTA neural denoiser) gav hallucinationer og tabt tale. Den er tunet til menneskeører, ikke til Whisper. SOTA er opgaveafhængigt." }
 ]
 +++
 
-**Kort fortalt —** Jeg transskriberer danske voicelogs **lokalt på en RTX 4070 Ti** og bruger så **Claude** til at gøre den rå transskription til strukturerede kundeservicedata (resumé, hensigt, stemning, QA-score). Det hele er kun tilgængeligt over et privat **Tailscale**-netværk, så **lyden aldrig forlader min maskine** — hvilket er hele pointen for GDPR-følsomme kundedata. Dette indlæg gennemgår de danske tale-til-tekst-modeller, hvad der faktisk betyder noget på rigtig telefonlyd, og hele pipelinen.
+**Kort fortalt —** En ejer havde optaget sine forretningstelefonsamtaler i over et år: **~33.000 danske mp3-filer, ~570 timer, 32 kbps telefonkvalitet**. Opgaven var at transskribere det hele, navngive talerne, resumere pr. opkald / pr. dag / pr. uge, gøre det browsbart — og gøre det **lokalt, uden LLM-API**. Resultatet er en pipeline, der kører **to ASR-modeller og fusionerer dem med Claude**, identificerer talere **fra metadata før noget lyd afkodes**, heler sig selv over **to GPU'er**, og bruger **Claude Code-subagenter som resumélag** i stedet for et API. Her er hele bygget, og hvad det lærer om en kundeservicefunktion.
 
-> Baggrund: dette er den voksne udgave af [at køre Whisper lokalt i stedet for et cloud-Speech-API](/post/local-speech-to-text-whisper-cpp/). Samme instinkt — hold lyden på din egen boks — anvendt på danske opkaldslogs.
+> Den voksne efterfølger til [at køre Whisper lokalt i stedet for et cloud-Speech-API](/post/local-speech-to-text-whisper-cpp/). Samme instinkt — hold lyden på din egen boks — i 33.000-fil-skala.
 
-## Opsætningen
+## Begynd med at analysere ligene
 
-Intet eksotisk, og det er pointen:
+Mappen indeholdt allerede **ni halvfærdige forsøg** på problemet. Før der blev skrevet noget nyt, læste tre agenter alle ni. Tilsammen indeholdt de døde eksperimenter næsten alle de rigtige idéer, det endelige system havde brug for:
 
-- **GPU:** et enkelt **RTX 4070 Ti (12 GB)** — nok til at køre Whisper-large-klasse-modeller fint.
-- **Adgang:** transskriberingstjenesten lytter på en port (`:5000`) og er kun tilgængelig **over Tailscale** (et privat WireGuard-mesh). Der er intet offentligt endpoint — boksen har et MagicDNS-navn som `gpu-box.tailnet.ts.net:5000`, som kun enheder på mit tailnet kan slå op eller nå.
-- **To lag:** **GPU'en laver lyd → tekst** (Whisper / en dansk fine-tune); **Claude laver tekst → struktur** (kundeservice-intelligensen). Den dyre, privatlivsfølsomme del — den rå lyd — forlader aldrig det lokale netværk.
+- Ét Python-forsøg (WhisperX + pyannote + Claude-dagsresuméer) var det mest komplette — men havde hardcodede API-nøgler, en engelsk-alignment-bug på dansk lyd og mock-diarisering i den "rigtige" pipeline.
+- Ét havde opdaget nøgletricket: **phone-first taleridentifikation** (mere nedenfor) og havde allerede bygget stemmeprofiler.
+- En Go-omskrivning havde en flot service-arkitektur og et SQLite-skema — men **alt var stubs**; nul segmenter blev nogensinde gemt. Lektion: byg aldrig skallen, før signalvejen virker.
+- Et benchmark-harness havde allerede sammenlignet **seks ASR-modeller** på korpusset.
 
-## Hvorfor dansk er den svære del
+At syntetisere de ni var langt billigere end at opfinde fra bunden. **Lektion ét: analysér ligene først.**
 
-Engelsk ASR er stort set løst. Dansk er sværere, og kundeservicelyd gør det endnu sværere:
+## Modelbenchmarken
 
-- **Sprog med færre ressourcer.** Langt mindre træningsdata end engelsk, så generiske modeller er svagere fra start.
-- **Sammensatte ord og reduceret tale.** Dansk smelter ord sammen og sluger endelser; grænsen mellem ord er reelt flertydig.
-- **Dialekter.** En model kan være næsten perfekt på standard-københavnsk og falde fra hinanden på **sønderjysk** eller stærk **nordjysk**.
-- **Engelsk kodeskift.** Danskere smider engelske termer ind midt i en sætning ("jeg *resetter* lige din *account*"), hvilket spænder ben for sproglåste modeller.
-- **Telefonlyd.** Rigtige opkaldslogs er **8 kHz smalbånd**, komprimeret, med ventemusik, krydstale og baggrundsstøj. Det er den enkeltstørste præcisionsdræber.
+Det eksisterende benchmark (på RTX 4070 Ti) plus en frisk sammenligning afgjorde modelvalget:
 
-## Modellerne jeg sammenlignede
+| Model | Resultat |
+|---|---|
+| **faster-whisper large-v3-turbo** | Hurtigst — ~37× realtid, 1,8 GB VRAM. God, men glider på støjende dansk. |
+| **faster-whisper large-v3 (fuld)** | Mest kohærent på rigtige opkald. ~18× realtid — hurtig nok. **Valgt.** |
+| **hviske-v3-conversation** (dansk fine-tune) | Fanger danske navne/vendinger, de andre forvansker. **Valgt som andet spor.** |
+| **Voxtral** | Hallucinerede i løkker (1.832 ord for et 117-sekunders opkald), sprog-bleed. **Droppet.** |
+| **vibevoice** | ~6× langsommere end realtid. **Droppet.** |
 
-| Model | Type | Kører | Dansk | Noter |
-|---|---|---|---|---|
-| **Whisper large-v3 / turbo** (OpenAI) | Whisper | lokalt (faster-whisper) | god | stærk flersproget baseline; turbo er meget hurtigere |
-| **Hviske** (`syvai/hviske-v2`) | Whisper-large fine-tune | lokalt | **bedre på dansk** | dansk-optimeret ("hviske" = *whisper*) |
-| **Røst-whisper-large** (CoRal / danish-foundation-models) | Whisper-large fine-tune | lokalt | **bedst på dansk** | trænet/evalueret på det danske **CoRal**-korpus |
-| **Røst-wav2vec2** (315M / 1B) | wav2vec2 CTC | lokalt | stærk | lettere, hurtig; ingen indbygget tegnsætning |
-| **ElevenLabs Scribe** | cloud-API | hostet | meget god | ~3,1% WER FLEURS / 5,5% Common Voice (leverandør) |
-| **Azure / Google Chirp / Amazon** | cloud-API | hostet | god | færdigt, diarisering indbygget, men data forlader din kontrol |
+Den ikke-oplagte beslutning: **kør to modeller, ikke én.** large-v3 og hviske **fejler forskelligt** — den ene har grammatikken, den anden har de danske navne — så at beholde begge og fusionere dem slår hver for sig.
 
-Formen på det: **de danske fine-tunes (Hviske, Røst) slår klart almindelig Whisper på dansk**, og de passer på 4070 Ti'en. Cloud-API'er er fremragende og bekvemme, men for kundedata er "hostet"-kolonnen netop problemet.
+## Pipelinen
 
-## Performance — hvad der faktisk betyder noget for voicelogs
+```
+mp3 → ffmpeg båndpas (200–3400 Hz + let denoise + dynaudnorm) → 16 kHz mono
+    → [A] faster-whisper large-v3 (int8_float16, beam 5, VAD, anti-løkke-guards)
+    → [B] hviske-v3-conversation (dansk fine-tune)              ← kun på opkald ≥45 s
+    → ECAPA-TDNN-diarisering (token-fri klyngedeling, 2-taler-prior på lange opkald)
+    → "phone-first" navngivning (filnavn + telefonbog forankrer identiteter;
+       embeddings afgør hvilken klynge der er ejeren; referenceprofiler matcher resten)
+    → SQLite (idempotent: SHA-256-hash + status; dubletter arver tvillingens resultat)
 
-Læs ikke en leverandørs rene-lyd-tal og forvent det på en opkaldsoptagelse.
-
-- **CER vs. WER — sammenlign dem ikke direkte.** CoRal-benchmarken rapporterer **character** error rate: **Røst-whisper-large ≈ 4,3% CER** samlet. Leverandører som ElevenLabs rapporterer **word** error rate (≈3,1% WER FLEURS). CER er normalt lavere end WER; det er forskellige mål på forskellige (rene) data.
-- **Dialektvariation er enorm.** På CoRal går den samme model fra **~1,6% (nordjysk) til ~12,6% (sønderjysk)**. Din præcision afhænger af *hvem der ringer*.
-- **Telefonlyd-klippen.** Rene benchmarks ligger under ~8%; tilføj 8 kHz-komprimering, støj og overlap, og virkelig WER kan klatre **forbi 30-35%**. Resample til 16 kHz mono og fjern støj, før du transskriberer — det betyder mere end modelvalget.
-- **Gennemløb.** Med **faster-whisper** (CTranslate2, int8/float16) laver 4070 Ti'en batch-transskribering flere gange hurtigere end realtid, så en dags opkaldslogs kører natten over.
-- **Diarisering og tegnsætning.** Whisper giver tegnsætning/store bogstaver gratis; wav2vec2 gør ikke. Til "hvem sagde hvad" (agent vs. kunde) tilføjer du en diariser (pyannote / WhisperX).
-
-**Hvad jeg ville køre:** **Røst-whisper-large** (eller Hviske) på **faster-whisper**, lyd præ-resamplet til 16 kHz mono, med pyannote til diarisering. Lokalt, dansk-tunet, passer på GPU'en.
-
-## Hvor Claude kommer ind — kundeservice-anvendelsen
-
-Rå ASR-tekst er ikke nyttig i sig selv. Værdien er, hvad du gør med den, og det er sproglaget — **Claude gør en transskription til strukturerede, handlingsbare data**:
-
-- **Oprydning & talermærkning** — ret ASR-fejl, markér **agent**- vs. **kunde**-ture.
-- **Resumé** — tre linjer "hvad opkaldet handlede om, og hvordan det endte".
-- **Hensigt / emne** — klassificér i dine kategorier (fakturering, opsigelse, teknisk…).
-- **Stemning & eskaleringsrisiko** — var kunden vred? truede de med at skifte?
-- **Handlingspunkter** — hvad agenten lovede, hvad der stadig er åbent.
-- **QA-scorekort** — hilste agenten, verificerede identitet, tilbød den rigtige løsning, lukkede ordentligt?
-- **Vidensudvinding** — tilbagevendende spørgsmål bliver FAQ-/hjælpecenter-kandidater.
-- **PII-redigering** — fjern navne, adresser, **CPR-numre**, før noget gemmes eller analyseres.
-
-Giv Claude den diariserede transskription og et skema, og få JSON tilbage, som du kan gemme, søge i og lave dashboards på. En uges opkald bliver et datasæt, du kan forespørge: top-hensigter, stemningstendens, agenter der har brug for coaching, FAQ'en der skriver sig selv.
-
-## Pipelinen i praksis
-
-```sh
-# 1. Normalisér telefonlyd: 8 kHz stereo-opkald -> 16 kHz mono, modellens native rate
-ffmpeg -i opkald.wav -ac 1 -ar 16000 -af "highpass=f=80,lowpass=f=7500" opkald16.wav
-
-# 2. Transskribér lokalt på GPU'en (dansk fine-tune via faster-whisper)
-#    model = et Røst/Hviske Whisper-large-checkpoint, serveret på tailnet'et på :5000
-curl -s -F "file=@opkald16.wav" http://gpu-box.tailnet.ts.net:5000/transcribe > raa.json
-
-# 3. Diarisér (hvem talte hvornår) og flet med transskriptionen -> ture.json
-#    (pyannote / WhisperX)
-
-# 4. Strukturér det med Claude: ture.json + et JSON-skema -> opkaldsrecord
-#    resumé, hensigt, stemning, handlingspunkter, QA-score, PII redigeret
+pr. dag  → Claude-subagent læser BEGGE transskriptioner pr. opkald, fusionerer dem,
+           retter diarisering ud fra kontekst, skriver dagsresuméet (dansk)
+pr. uge  → Claude-subagent syntetiserer 7 dagsresuméer til tråde + en løftetabel
+web      → Flask læser DB'en live (dage, uger, opkald m. audio, søgning, mønstre)
 ```
 
-Alt op til trin 3 kører på boksen og over tailnet'et — **lyden rører aldrig internettet**. Trin 4 sender *tekst* til Claude; se privatlivsnoten nedenfor.
+Et par beslutninger gjorde sig fortjent:
 
-## Privatlivs- / GDPR-vinklen (det er salgsargumentet)
+- **Phone-first taleridentifikation.** Filnavnet bærer tidsstemplet og begge numre; en lille telefonbog oversætter numre til navne. Man kender *begge* identiteter, før et ord afkodes — lyden skal kun afgøre *hvilken stemme der er hvem*, ikke *hvem de er*. **Metadata er guld.**
+- **ffmpeg-båndpas hjælper; DeepFilterNet skader.** Målt: et 50 år gammelt båndpasfilter gjorde støjende opkald mere kohærente gratis; den neurale SOTA-denoiser gav hallucinationer og tabt tale. **SOTA er opgaveafhængigt.**
+- **ECAPA frem for pyannote.** pyannote løb tør for hukommelse ved siden af Whisper på et 12 GB-kort og var for langsom på CPU til 33k filer. Token-fri ECAPA-klyngedeling på GPU'en, med en **2-taler-prior** (et telefonopkald *er* to-parts), reddede de 79% af lange opkald, der ellers kollapsede til én taler.
+- **int8_float16 + udvidelige segmenter** lod **begge** modeller sameksistere i ~6–8 GB på 12 GB-kortet.
 
-Kundeservice-voicelogs er **personoplysninger**. At lave transskriberingen lokalt, bag Tailscale, betyder:
+## Resumélaget: Claude Code-subagenter, intet API
 
-- **Lyden forlader aldrig din kontrol** — intet tredjeparts-speech-API, ingen upload af optagelser.
-- **Du sætter opbevaring og redigering** — transskribér, udtræk det du har brug for, slet lyden.
-- **Adgang er privat som standard** — tjenesten har intet offentligt endpoint; kun tailnet-enheder når den.
+Ejerens hårde binding var **ingen LLM-API-nøgle**. Så harnesset selv er sprogmodellen: **én Claude Code-subagent pr. dag** får begge ASR-spor for hvert opkald, et fælles navneregister og gårsdagens resumé, og skriver dagsresuméet direkte — ~50k–450k tokens pr. dag-agent, **intet API-kald i pipelinen, ingen marginalomkostning.**
 
-Vær ærlig om den ene grænse: i trin 4 går **transskriptionstekst** til Claude-API'et. Det er et databehandlerforhold — brug en databehandleraftale, redigér PII *før* afsendelse, og foretræk nul-opbevaring. Hvis selv det er for meget, så udskift Claude med en lokal LLM og hold hele pipelinen på 4070 Ti'en. Arkitekturen er den samme; kun sproglaget flytter.
+Tre små "institutioner" voksede op omkring det:
 
-## Opsummering
+- **En fusions-instruksfil** — fletregler ([A]'s struktur, [B]'s danske ord), ret diarisering ud fra kontekst (en taler der nævner sit eget navn fastlægger, hvem der taler), spring voicemails over, **opfind aldrig indhold, rapportér usikkerhed ærligt.**
+- **Et fælles, voksende navneregister** — agenterne læser det før skrivning og tilføjer nye afklaringer. Over 60+ dage forener det stavevarianter af samme kontakt til én bekræftet identitet og holder to ens-navngivne personer adskilt. Navnekonsistens over hele korpusset, lag på lag.
+- **En ugentlig løftetabel** — hver uges agent fører en "løfter & leverancer"-tabel videre (✅/⏳/❌). En reelt nyttig primitiv (og, som vi skal se, broen til kundeservice).
 
-- Transskribér danske voicelogs **lokalt** på en 12 GB-GPU; lyden forlader aldrig din maskine.
-- **Danske fine-tunes vinder:** **Røst-whisper-large** (CoRal) eller **Hviske** slår almindelig Whisper på dansk, via **faster-whisper**.
-- **Benchmarks er et loft** — CER ≈ 4,3% på rent CoRal, men telefonlyd + dialekt + kodeskift skubber virkelig WER langt højere. Resample og fjern støj først.
-- **Claude er sproglaget:** transskription → resumé, hensigt, stemning, handlingspunkter, QA-score, PII-redigeret — den egentlige kundeservice-værdi.
-- **Hold det privat:** lokal transskribering bag **Tailscale**; redigér før noget tekst forlader; eller kør LLM'en lokalt også.
+## At køre det over to maskiner
+
+Idempotens gjorde korpusset deleligt midt i kørslen:
+
+- **Maskine 1 (RTX 4070 Ti, 12 GB):** hele dual-model-pipelinen, kronologisk fremad.
+- **Maskine 2 (GTX 1060, 6 GB, Pascal):** deployeret over SSH/Tailscale med ét script; tog en senere partition. Kører kun [A]-sporet i int8 (nye CUDA-wheels droppede Pascal, så torch er på CPU mens CTranslate2 driver GPU'en direkte).
+- **Merge:** workeren skriver sin egen SQLite; hovedmaskinen henter og merger hvert 15. minut (idempotent — `transcribed` kan opgraderes til `done`). Korpusset behandles **fra begge ender på én gang.**
+
+Fordi hver fil er nøglet på **SHA-256-hash + status**, var det harmløst at flytte halvdelen af arbejdet til en anden maskine midt i kørslen. **Idempotens er friheden til at fejle.**
+
+## Selvheling, lært på den hårde måde
+
+Lange uovervågede kørsler fejler på kreative måder. Hver fejl fik et permanent modtræk:
+
+1. **To transkriptionsprocesser på én GPU** (en forældreløs overlevede en genstart) → gensidig OOM-forgiftning, 756 fejlede rækker. Modtræk: en `flock`-singleton i supervisoren + auto-drab af forældreløse ved opstart.
+2. **"Poison file"-myten** — en fil så ud til at crashe processen igen og igen; det var i virkeligheden dual-proces-konflikten. Den kørte fint ved retry. Supervisoren fik retry-én-gang-så-karantæne-logik alligevel.
+3. **Tavse hæng** — en worker hang i en time på én fil (proces i live, ingen fremdrift). Modtræk: en watchdog der dræber inder-processen efter 20 min uden DB-aktivitet (DB-mtime som fremdriftssignal).
+4. **En ydre watchdog hvert 10. minut** tjekker supervisoren, DB-fremdrift og webserver lokalt — og det hele på workeren over SSH — og genstarter automatisk.
+5. **Falske "klar"-dage** — en max-dato-heuristik erklærede en dag færdig, mens 93 af dens 104 filer stadig manglede. Modtræk: **indbakken er ground truth** — en dag/uge er først klar, når *hver* fil har en afgjort DB-række. **Ground truth slår heuristik; max-dato-gættet løj to gange, indbakke-optællingen aldrig.**
+6. **Anonyme opkald** — filer fra et hemmeligt nummer matchede ikke filnavnsmønsteret og blev usynlige for dag-gruppering. Parser udvidet, rækker repareret.
+7. **En dublet-bug** — identisk lyd under nyt navn blev markeret `done` uden transskription (én hash delt af 103 tomme ring-ud-filer) og forurenede dag-dumps. Nu arver dubletter tvillingens status og indhold.
+8. **Høstede baggrundsprocesser** — `nohup`-jobs blev høstet af miljøet og døde ubemærket i timevis. Modtræk: alt langkørende arbejde som harness-managede baggrundstasks, med watchdoggen som bagstopper.
+
+**Selvheling skal være lagdelt:** proces-niveau (supervisor: crash / hæng / poison / orphan) *og* system-niveau (watchdog: supervisor død? web nede? worker væk?).
+
+## Tallene (pr. skrivende stund)
+
+| | |
+|---|---|
+| Korpus | ~33.000 mp3, ~570 audiotimer, 13 måneder |
+| Behandlet | ~6.100 filer (19%), fra begge ender |
+| Resuméer | 60 dags- + 7 ugeresuméer |
+| Lokal hastighed | dual-model ~0,2 RTF; ~430 filer/time |
+| Dag-agent-omkostning | ~50k–450k subagent-tokens/dag (gns. ~200k) |
+| Diarisering | 2-taler-prior + kontekst-reparation reddede de 79% af lange opkald, der kollapsede til én stemme |
+
+## Hvordan det kan bruges i en kundeservicefunktion
+
+Ejerens use case er personlig opkalds-intelligens, men præcis den samme pipeline er et **kundeservice**-system:
+
+- **To-spors-ASR + LLM-fusion** → præcise danske transskriptioner af supportopkald.
+- **Resuméer pr. opkald / dag / uge** → QA uden at lytte til hvert opkald.
+- **Løftetabellen** generaliserer direkte til **SLA-/løfte-tracking** — hvad en agent lovede en kunde, og om det blev leveret, ført videre uge for uge.
+- **Det fælles navneregister** → et konsistent kunde-/kontaktkartotek bygget fra opkaldene selv.
+- **Mønster-visningen** (volumen pr. time, retningsasymmetri, tilbagevendende emner) → bemandings- og eskaleringsindsigt, alt sammen fra metadata + resuméer.
+- **PII-disciplin** er indbygget: "opfind aldrig, flag usikkerhed"-reglen og redigering før noget gemmes.
+
+Og privatlivshistorien er salgsargumentet: alt kører **lokalt bag Tailscale** — lyden forlader aldrig bygningen, du sætter opbevaring og redigering, og der er intet offentligt endpoint. (Den ærlige grænse: hvis dit sproglag er et cloud-LLM-API frem for et lokalt harness, forlader den tekst stedet — så redigér først, eller hold LLM'en lokal også.)
+
+## Lektionerne, destilleret
+
+1. **Analysér ligene først** — ni døde eksperimenter rummede næsten alle de rigtige idéer. Syntese slår opfindelse.
+2. **Metadata er guld** — filnavne alene gav taleridentitet, dagsstruktur og hele mønsteranalysen, før et sekund lyd var afkodet.
+3. **To middelmådige, forskellige ASR-spor + en model der fletter dem slår ét godt spor.** Fejl-diversitet er pointen.
+4. **SOTA er opgaveafhængigt** — neural denoise *skadede* ASR målbart; et 50 år gammelt båndpas hjalp.
+5. **Idempotens er friheden til at fejle** — hash + status gjorde hvert crash, genstart og midt-i-kørslen-migrering harmløst.
+6. **Selvheling i lag** — supervisor for processen, watchdog for systemet.
+7. **Ground truth frem for heuristik** til fremdriftsgates — tæl indbakken, gæt ikke fra max-datoen.
+8. **En LLM kan være pipelinens dyre trin uden et API** — når harnesset selv er modellen, er et "resumé-trin" en subagent med en god instruksfil, et fælles register og en ærlighedsnorm.
