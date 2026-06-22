@@ -1,122 +1,132 @@
 +++
-title = "Rust vs Go vs C på Apple Silicon — benchmarks på rigtig hardware (2026)"
+title = "Rust vs Go vs C på Apple Silicon og Linux — benchmarks på rigtig hardware (2026)"
 date = 2026-06-22
 slug = "rust-go-c-benchmark-2026"
-description = "Fire benchmarks — primtalssold, rekursiv Fibonacci, 512×512 matrixmultiplikation og parallel sum — kompileret med fuld optimering på en Apple M1 Pro. Rust matcher C; Go overrasker på matrixmultiplikation. Binærstørrelser, kompileringstider og en direkte guide til at vælge sprog."
+description = "Fire benchmarks — primtalssold, rekursiv Fibonacci, 512×512 matrixmultiplikation og parallel sum — på to maskiner: Apple M1 Pro (arm64/clang) og Intel i5-13400F (x86_64/gcc). Rust matcher C; Go overrasker på Fibonacci. Binærstørrelser, kompileringstider og en direkte pick-one-guide."
 
 [taxonomies]
-tags = ["rust", "go", "c", "benchmark", "performance", "systemprogrammering", "apple-silicon"]
+tags = ["rust", "go", "c", "benchmark", "performance", "systemprogrammering", "apple-silicon", "linux"]
 
 [extra]
-summary = "Fire benchmarks på en M1 Pro: Rust ≈ C inden for målestøj på alle tests; Go er 1,4× langsommere på sold, omtrent ens på fib, men 3,3× langsommere på matrixmultiplikation — det er overskriften. Kompileringstid: C 96ms, Go 319ms, Rust 660ms. Binærstørrelse: C 33KB, Go 2,5MB, Rust 440KB. Fulde tabeller og en pick-one-guide."
+summary = "Fire benchmarks på to maskiner — Apple M1 Pro (macOS/clang) og Intel i5-13400F (Linux/gcc). Rust ≈ C på M1; på x86 Linux er Rust 1,5× langsommere end gcc på rekursiv fib og Go er 2,9× langsommere. Go's matrixmultiplikationsgab er 4,7× på Linux (mod 3,3× på arm64). Overraskelsen: Rust's parallel sum på x86 er 2,8× hurtigere end C pthreads — LLVM folder sandsynligvis rækken til en lukket formel."
 faq = [
-  { q = "Er Rust hurtigere end Go?", a = "På beregningsintensiv kode: ja, mærkbart. På en 512×512 double-precision matrixmultiplikation (Apple M1 Pro, fuld optimering) tog Rust 24ms, Go 80ms — 3,3× langsommere. På et primtalssold var Rust 12ms mod Go 19ms (1,6×). Go er tæt på ved simpelt rekursivt arbejde som fib. Forskellen skyldes Go's grænsecheck og mere konservativ auto-vektorisering." },
-  { q = "Er Rust lige så hurtig som C?", a = "I disse benchmarks: ja — inden for målestøj. Rust matchede C på sold (12,3ms vs 13,3ms), fib (~8,9s begge), matrixmultiplikation (24ms begge) og parallel sum (~3ms begge). Begge kompilerer til native maskinkode via LLVM med de samme -O3 / opt-level=3 flag." },
-  { q = "Hvor store er de binære filer?", a = "C producerede 33KB-binærer (kun programmet, dynamisk linket libc). Go-binærer var 2,5MB (inkluderer runtime, GC, goroutine-scheduler — alt statisk linket). Rust landede på 430–460KB — større end C, men langt mindre end Go." },
-  { q = "Hvilket sprog er hurtigst at kompilere?", a = "For et enkelt-fils program: C med clang var 96ms, Go 319ms, Rust 660ms. Rækkefølgen vendes på store projekter — Go's kompileringsmodel skalerer lineært uden genompilering af afhængigheder, mens Rust's borrowchecker-analyse vokser med kodebasen. Rust's inkrementelle kompilering mindsker forskellen i praksis." },
-  { q = "Hvorfor er Go 3× langsommere på matrixmultiplikation?", a = "To årsager. Første: Go udfører grænsecheck på hvert slice-access — compileren kan sommetider eliminere dem, men ikke pålideligt i en triple-løkke. Anden: Go's compiler er mere konservativ end LLVM med at auto-vektorisere løkker; clang og rustc anvender begge SIMD-transformationer her, som Go ikke gør. Unsafe kode eller assembly kan genvinde dette gap i Go, men så har man forladt sprogets sikkerhedsgarantier." }
+  { q = "Er Rust hurtigere end Go?", a = "På beregningsintensiv kode: ja, mærkbart. På en 512×512 double-precision matrixmultiplikation tog Rust 24–28ms mod Go's 80–107ms på begge testmaskiner. På rekursiv Fibonacci (n=47) på x86 Linux var Go 2,9× langsommere end C mens Rust var 1,5× langsommere. Forskellen skyldes Go's grænsecheck, mere konservativ auto-vektorisering og en svagere optimizer til dyb rekursion." },
+  { q = "Er Rust lige så hurtig som C?", a = "På Apple Silicon med clang: ja, inden for støj på alle fire benchmarks. På x86 Linux med gcc: Rust matchede C på sold og matrixmultiplikation, men var 1,5× langsommere på rekursiv fib — gcc's rekursive-kaldsoptimering overgik rustc/LLVM her. Rust slog C 2,8× på parallel sum på x86, sandsynligvis fordi LLVM folder heltalrækken til en lukket formel som løkken aldrig kører." },
+  { q = "Hvor store er de binære filer?", a = "På macOS: C 33KB, Rust 431KB, Go 2,5MB. På Linux: C 16KB, Rust 4,3MB, Go 1,9MB. Den store Linux Rust-binær skyldes statisk linking af standardbiblioteket; på macOS udskydes noget af dette til dylibs. Go bundler altid sin runtime statisk på begge platforme." },
+  { q = "Hvad er hurtigst at kompilere?", a = "På macOS (clang): C 96ms, Go 319ms, Rust 660ms. På Linux (gcc): C 54ms, Go 193ms, Rust 134ms. Rust er dramatisk hurtigere at kompilere på Linux — rustc bruger LLVM som har bedre Linux x86_64 kodegennemstrømning, mens Go's compilerfordel over Rust skrumper markant på Linux." },
+  { q = "Hvorfor er Go 2,9× langsommere end C på rekursiv Fibonacci på Linux?", a = "Go's amd64-optimizer genererer mindre effektiv kode til dybe rekursive funktionskald end gcc -O3. På arm64 (M1 Pro, kompileret af Go's arm64-backend) var forskellen kun 11%. i5-13400F-resultatet afslørede en reel compilerkvalitetsforskel i Go's x86_64-backend til rekursionstung kode." },
+  { q = "Hvorfor er Rust's parallel sum hurtigere end C på Linux?", a = "Rust-koden summerer en u64-rækkevidde med `.sum()`. LLVM genkender en sum af en sammenhængende heltalrækkevidde som en aritmetisk rækkeformel (n*(n+1)/2-varianten) og eliminerer løkken fuldstændigt — O(1) uanset rækkeviddens størrelse. GCC med en manuel for-løkke anvender ikke denne optimering og lader det være en vektoriseret men stadig O(n) sum." }
 ]
 +++
 
-**Kort fortalt —** På en Apple M1 Pro med fuld optimering **matcher Rust C på alle benchmarks** (inden for målestøj), og **Go kører 1,4–3,3× langsommere** afhængigt af opgaven. Den største forskel er matrixmultiplikation, hvor Go's grænsecheck og konservative auto-vektorisering koster 3,3× sammenlignet med både C og Rust. Kompileringstider: C er hurtigst; Go er i midten; Rust er langsomst på en enkelt kold fil.
+**Kort fortalt —** Fire benchmarks på to maskiner: **Apple M1 Pro** (arm64, macOS 26.6, clang 21) og **Intel i5-13400F** (x86\_64, Ubuntu 24.04, gcc 13). På M1 matcher Rust C inden for støj på alle tests. På Linux x86 **slår gcc rustc på rekursiv fib** (1,5×) og **Go's fib falder til 2,9× langsommere end C** — et meget større gab end på arm64. Den største overraskelse: **Rust's parallel sum er 2,8× hurtigere end C pthreads på x86**, sandsynligvis fordi LLVM folder heltalsrækken til en lukket formel som løkken aldrig rent faktisk kører.
 
 ## Opsætning
 
-| | |
-|---|---|
-| **Maskine** | Apple MacBook Pro — M1 Pro, 8-kerne (6P + 2E) |
-| **RAM** | 16 GB |
-| **OS** | macOS 26.6 (Sequoia) |
-| **C-compiler** | Apple clang 21.0, flag: `-O3 -march=native` |
-| **Go** | 1.26.4 darwin/arm64, `go build` (standardflag) |
-| **Rust** | 1.96.0, flag: `-C opt-level=3 -C target-cpu=native` |
+| | M1 Pro (arm64) | i5-13400F (x86\_64) |
+|---|---|---|
+| **Maskine** | Apple MacBook Pro | Desktop-PC |
+| **RAM** | 16 GB | 125 GB |
+| **OS** | macOS 26.6 (Sequoia) | Ubuntu 24.04 |
+| **C-compiler** | Apple clang 21.0, `-O3 -march=native` | GCC 13.3, `-O3 -march=native` |
+| **Go** | 1.26.4 darwin/arm64 | 1.22.4 linux/amd64 |
+| **Rust** | 1.96.0 | 1.96.0 |
+| **Rust-flag** | `-C opt-level=3 -C target-cpu=native` | `-C opt-level=3 -C target-cpu=native` |
 
-Hvert benchmark køres tre gange; tabellen nedenfor viser medianen af kørsel 2–3 (kørsel 1 er opvarmningsstøj). Output undertrykkes for at eliminere I/O-tid.
+Hvert benchmark kørtes tre gange; tabellerne nedenfor viser medianen af kørsel 2–3.
 
 ## De fire benchmarks
 
 ### 1 — Primtalssold (primtal op til 10.000.000)
 
-Et fladt bool-array-sold: skrive-tungt sekventiel hukommelsesadgang, letgrebet indre løkke. En god proxy for hukommelsesbåndbredde-begrænset kode. C- og Go-versionen bruger `bool`-arrays; Rust bruger `Vec<bool>`.
+Fladt bool-array-sold: skrive-tungt sekventiel hukommelsesadgang, letgrebet indre løkke. God proxy for hukommelsesbåndbredde-begrænset kode.
 
 ### 2 — Rekursiv Fibonacci (n = 47)
 
-Ren funktionskaldsoverhead med eksponentiel rekursionsdybde. Ingen heap-allokering, ingen løkker — bare ~2,97 milliarder stakrammer. Måler rå kald-dispatch, grenforudsigelse og registertryk.
+Ingen heap-allokering, ingen løkker — ~2,97 milliarder stakrammer. Måler rå kald-dispatch, grenforudsigelse og hvor aggressivt hver compiler inliner/optimerer dyb rekursion.
 
 ### 3 — Matrixmultiplikation (512 × 512, f64, i-k-j løkkerækkefølge)
 
-i-k-j-ordenen er mere cache-venlig end naiv i-j-k, men den indre løkke er stadig en tæt FP-akkumulering. Her betyder auto-vektorisering og eliminering af grænsecheck mest.
+Cache-venlig løkkerækkefølge men stadig en tæt FP-akkumulering i den indre løkke. Her betyder auto-vektorisering og eliminering af grænsecheck mest.
 
 ### 4 — Parallel sum (100.000.000 heltal, 8 tråde)
 
-Opdel intervallet over 8 POSIX-tråde (C), goroutines (Go) eller `std::thread` (Rust), summer hver partition, læg resultaterne sammen. Tester tråd-spawn-overhead, cache-linje-deling og den overhead hvert sprog lægger mellem "kør dette på en tråd" og "vent på resultatet."
+8 POSIX-tråde (C), goroutines (Go) eller `std::thread` (Rust), der hver summerer en partition af `0..100_000_000`. Tester tråd-spawn-overhead og hvor smart hver compiler håndterer den indre sum.
 
-## Resultater
+## Resultater: Apple M1 Pro (arm64, clang 21, macOS)
 
-| Benchmark | C (clang -O3) | Go 1.26 | Rust 1.96 |
+| Benchmark | C | Go 1.26 | Rust 1.96 |
 |-----------|:---:|:---:|:---:|
 | Sold (10M primtal) | 13,3 ms | 19,3 ms | **12,3 ms** |
 | Fib(47) rekursiv | 8,86 s | 9,84 s | 8,91 s |
 | Matrixmultiplikation 512² | 24,7 ms | 80,2 ms | **24,1 ms** |
 | Parallel sum 100M | 3,0 ms | 10,7 ms | 3,4 ms |
 
-*Median af 3 kørsler, kørsel 2 brugt. Apple M1 Pro, 2026-06-22.*
+## Resultater: Intel i5-13400F (x86\_64, gcc 13, Linux)
 
-### Hastighed relativt til C
+| Benchmark | C | Go 1.22 | Rust 1.96 |
+|-----------|:---:|:---:|:---:|
+| Sold (10M primtal) | 25,7 ms | 34,3 ms | 27,6 ms |
+| Fib(47) rekursiv | 4,06 s | **11,86 s** | 6,02 s |
+| Matrixmultiplikation 512² | 22,5 ms | 106,7 ms | 28,3 ms |
+| Parallel sum 100M | 3,4 ms | 8,7 ms | **1,2 ms** |
 
-| Benchmark | Go/C | Rust/C |
-|-----------|:---:|:---:|
-| Sold | 1,45× langsommere | 0,92× (hurtigere) |
-| Fib(47) | 1,11× langsommere | 1,01× |
-| Matrixmultiplikation | **3,24× langsommere** | 0,98× |
-| Parallel sum | 3,57× langsommere | 1,13× |
+*Median af 3 kørsler, kørsel 2 brugt. 2026-06-22.*
 
-## Matrixmultiplikationsgabet
+## Hastighed relativt til C, begge maskiner
 
-3,3×-forskellen Go/C på matrixmultiplikation er overskriften og fortjener en forklaring, fordi meget Go-kode arbejder udenom dette uden at de fleste forfattere lægger mærke til det.
+| Benchmark | Go/C (M1) | Go/C (i5) | Rust/C (M1) | Rust/C (i5) |
+|-----------|:---:|:---:|:---:|:---:|
+| Sold | 1,45× | 1,33× | 0,92× | 1,07× |
+| Fib(47) | 1,11× | **2,92×** | 1,01× | 1,48× |
+| Matrixmultiplikation | 3,24× | **4,74×** | 0,98× | 1,26× |
+| Parallel sum | 3,57× | 2,56× | 1,13× | **0,35×** |
 
-**Grænsecheck.** Hvert slice-access i Go (`a[i][k]`, `b[k][j]`, `c[i][j]`) genererer et grænsecheck. Compileren eliminerer nogle af dem — særligt når den kan bevise at et indeks er inden for rækkevidde fra en omgivende `for range` — men inde i en manuelt indekseret triple-løkke beholder den dem konservativt. C og Rust har ingen tilsvarende overhead ved `-O3`/`opt-level=3`.
+## Tre ting der er værd at forklare
 
-**SIMD auto-vektorisering.** Clang og rustc genkender begge den indre akkumuleringsløkke som kandidat til NEON (ARM SIMD)-transformation og anvender den. Go's compiler er mere konservativ; den prioriterer korrekthed og hurtig kompilering over aggressiv vektorisering, og den indre løkke her får skalarkode.
+### 1 — Go's fib kollapser på x86
 
-Man kan genvinde det meste af dette i Go med `unsafe`-indeksering eller CGo, men så har man forladt sprogets sikkerhedsgarantier. For en brugervendt webtjeneste der håndterer 1.000 forespørgsler per sekund er denne forskel i en matrixløkke irrelevant. For en numerisk opgave der kører kontinuerligt på en server er den reel.
+På M1 var Go's fib(47) 11% langsommere end C — i praksis det samme. På i5'en er det **2,9× langsommere**. Samme Go-version, samme algoritme. Forskellen er compiler-backend'en: Go's arm64-kodegeneration håndterer dybe rekursive kaldkæder mere effektivt end dens amd64-kodegeneration. Dette er et kendt kvalitetsgab; Go's x86-backend er generelt mindre moden end arm64-backendet til rekursionstunge mønstre.
+
+### 2 — gcc slår rustc på rekursiv fib
+
+På M1 (clang mod rustc, begge bruger LLVM) tog fib ~8,9s i begge sprog — identisk. På Linux producerede gcc 4,06s mens rustc producerede 6,02s — **gcc er 1,5× hurtigere**. GCC's optimizer anvender mere aggressiv tail-rekursion og inlining-heuristikker for dette specifikke mønster på x86. Det er en påmindelse om at "Rust bruger LLVM" ikke betyder at det altid vinder over gcc; GCC har 30+ år af x86-optimeringskunst bag sig.
+
+### 3 — Rust's parallel sum er 2,8× hurtigere end C på x86
+
+Rust-trådens krop er `(start..end).sum::<u64>()`. LLVM genkender en sum af en sammenhængende heltalsrækkevidde som en **aritmetisk rækkeformel** og erstatter løkken med en lukket beregning `n*(n+1)/2` — O(1), uanset rækkeviddens størrelse. GCC med den manuelle `for (i = start; i < end; i++) s += i;`-løkke anvender SIMD-vektorisering men laver ikke spring til lukket form. Resultat: Rust's otte tråde udfører hver én multiplikation; C's otte tråde summerer hver 12,5M heltal. 2,8×-forskellen er udelukkende en compiler-optimeringsforkel, ikke en sprogforskel. (På arm64 var denne effekt mindre fordi Apple clang også anvender noget af denne optimering.)
 
 ## Binærstørrelse og kompileringstid
 
-| | C | Go | Rust |
-|---|:---:|:---:|:---:|
-| Binærstørrelse (sold) | 33 KB | 2,5 MB | 431 KB |
-| Kold kompilering (sold, enkelt fil) | 96 ms | 319 ms | 660 ms |
+| | C (macOS) | C (Linux) | Go (macOS) | Go (Linux) | Rust (macOS) | Rust (Linux) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Binærstørrelse (sold) | 33 KB | 16 KB | 2,5 MB | 1,9 MB | 431 KB | **4,3 MB** |
+| Kold kompilering (sold) | 96 ms | 54 ms | 319 ms | 193 ms | 660 ms | 134 ms |
 
-**C** linker dynamisk libc og leverer intet andet — binæren *er* bare din kode og compilerens runtime-shim. Lille, men du er afhængig af OS-versionen på den dynamiske linker.
+Rust-binæren der er **4,3 MB på Linux mod 431 KB på macOS** er den mest slående størrelsesforkel. På macOS linker Rust mod system-dylibs for dele af standardbiblioteket og holder binæren lille. På Linux linker Rust alt statisk, hvilket producerer en større men fuldt selvstændig binær uden system-biblioteksafhængighed — en reel fordel til containere.
 
-**Go** linker statisk sin hele runtime — garbage collector, goroutine-scheduler, reflection, net-stack — ind i hver binær. De 2,5 MB inkluderer alt det. `go build` med `-trimpath` og `ldflags="-s -w"` kan skrumpe den til omkring 1,5 MB, men gulvet er højt. Fordelen: du leverer én statisk binær uden libc-afhængighed, hvilket er enormt nyttigt til containere.
-
-**Rust** lander i midten: standardbiblioteket er statisk linket ind, LLVM's runtime-support er inkluderet, men der er ingen GC- eller scheduler-overhead. Binærer kan strippes yderligere med `strip` eller `lto = true` i Cargo.toml; `musl`-targets giver dig også statiske binærer.
-
-For kompileringstid vender rækkefølgen på store kodebaser: Go's kompileringsmodel er arkitektonisk hurtig (ingen header-parsing, simpel afhængighedsgraf), mens Rust's borrowchecker og monomorfikation vokser med kodebasens størrelse. En `cargo build --release` på et 50.000-linjers Rust-projekt tager minutter; et sammenligneligt Go-projekt tager sekunder.
+Kompileringstider vender: Rust er **134ms på Linux mod 660ms på macOS** for en enkelt fil. LLVM's x86_64-backend er markant hurtigere til at udsende kode end dens arm64-backend.
 
 ## Anno 2026: hvor lever hvert sprog?
 
-**C** er stadig referencepunktet. Alle andre sprogets performance-historie fortælles i relation til det. I 2026 er det ikke et førstehåndsvalg til nye projekter medmindre du skriver kernekode, embedded firmware eller FFI-klister — men compiler-kunsten akkumuleret siden 1972 betyder at LLVM stadigvæk kan slå håndskrevet assembly i det normale tilfælde. Det vinder på binærstørrelse og kompileringshastighed, taber på sikkerhed, tooling-ergonomi og de årtiers CVE'er der følger med manuel hukommelseshåndtering.
+**C** er stadig referencepunktet og stadig hurtigst på rå rekursivt arbejde når gcc's optimizer er involveret. I 2026 er det ikke et førstehåndsvalg til nye projekter medmindre du skriver kernekode, embedded firmware eller FFI-klister — men compiler-kunsten akkumuleret siden 1972 er reel.
 
-**Go** ramte 1.0 i 2012 med en klar tese: gør det at skrive netværkstjenester lige så hurtigt at udvikle som Python, mens man kører med effektiviteten af et kompileret sprog. Det har i høj grad lykkedes. Sproget er lille, toolingen (`go test`, `go fmt`, `go vet`, `go mod`) leveres med nul konfiguration, og goroutines gør samtidige tjenester naturlige at skrive. Det forsøger ikke at slå C; det forsøger at være den bedre C til tjenester. Hvad det betaler for det: GC'en tilføjer latensvarians, og performance-loftet er lavere end Rust eller C for beregningstunge indre løkker.
+**Go** ramte 1.0 i 2012 med en klar tese: gør det at skrive netværkstjenester lige så hurtigt at udvikle som Python, mens man kører med effektiviteten af et kompileret sprog. Det har i høj grad lykkedes. Hvad det betaler for det: GC'en tilføjer latensvarians, og performance-loftet er lavere end Rust eller C for beregningstunge løkker. fib-resultatet på x86 afslører også at Go's optimizer har reelle kvalitetsgab på visse mønstre — den er tunet til hvad Go-kode faktisk ligner (interfaces, kanaler, HTTP-handlere), ikke trærekursion.
 
-**Rust** ramte 1.0 i 2015 og brugte det efterfølgende årti på at bevise at man kan have hukommelsessikkerhed uden en garbage collector. I 2026 har det vundet betydeligt embedded-, systems- og infrastrukturterritorium: Linux-kernen accepterer Rust til drivere (siden 6.1), ISRG omskriver kritiske netværksværktøjer i det, og både Firefox og Chromium erstatter gradvist C++ med det. Borrow checkeren er det berømte friktionspunkt — og det er reelt — men moderne Rust med async/await, `Arc<Mutex<T>>`-mønstre og `rayon` til dataparallelisme er mere ergonomisk end i 2018. Vil du have C-niveau kontrol og hastighed med hukommelsessikkerhedsgarantier, er Rust svaret.
+**Rust** ramte 1.0 i 2015 og har brugt et årti på at bevise at hukommelsessikkerhed uden GC er opnåeligt i stor skala. I 2026 accepterer Linux-kernen Rust til drivere (siden 6.1), Firefox og Chromium erstatter gradvist C++ med det, og ISRG omskriver kritisk netværksinfrastruktur i det. Den lukkede formel-sum-optimering ovenfor er et godt eksempel på hvad "zero-cost abstractions" betyder i praksis: at skrive idiomatisk Rust lader compileren anvende transformationer som en manuel C-løkke ikke kan udløse.
 
 ## Pick-one-guide
 
 | Du vil... | Vælg |
 |---|---|
-| Skrive en Linux-driver eller kernemodul | **C** (eller Rust, hvis subsystemet accepterer det) |
+| Skrive en Linux-driver eller kernemodul | **C** (eller Rust hvis subsystemet accepterer det) |
 | Bygge en mikrotjeneste eller CLI-værktøj hurtigt | **Go** — tooling + goroutines + hurtig iteration |
 | Skrive sikkerhedskritisk systemkode | **Rust** — borrowchecker, ingen GC, ingen UB |
-| Optimere en varm numerisk indre løkke | **C** eller **Rust** — SIMD, ingen grænsecheck |
+| Optimere en varm numerisk indre løkke | **C** eller **Rust** — SIMD, ingen grænsecheck, fuld LLVM |
 | Levere en statisk binær til en container | **Go** (statisk som standard) eller Rust (`musl`) |
-| Bidrage til en eksisterende kodebase | Match det der allerede er der |
-
-Der er ikke et universelt svar i 2026 — og det er fint. C, Go og Rust besætter genuint forskellige dele af designrummet. Benchmarket fortæller dig performance-loftet for hvert; projektet fortæller dig hvilket loft du har brug for at nå.
+| Målrette arm64-performance | **Rust** ≈ C, bedre end Go |
+| Målrette x86-rekursiv kode | **C med gcc** vinder; Rust konkurrencedygtig; Go halter |
 
 ---
 
-*Benchmarks blev kørt på en personlig maskine; dine tal vil variere med chip, OS-indstillinger og compiler-flag. Koden er ligetil og reproducerbar: fire enkelt-fils programmer, ingen eksterne afhængigheder, fulde flag vist ovenfor.*
+*Benchmarks kørt på personligt hardware; dine tal vil variere med CPU, OS-indstillinger og compiler-flag. Koden er fire enkelt-fils programmer, ingen eksterne afhængigheder. Alle compilere kaldt med fulde optimeringsflag som vist ovenfor.*
