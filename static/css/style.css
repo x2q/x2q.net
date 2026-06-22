@@ -528,6 +528,48 @@ a:hover {
   font-style: italic;
 }
 
+/* ---- Tables ---- */
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  overflow-x: auto;            /* horizontal scroll for wide tables on small screens */
+}
+
+.post-body thead th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  text-align: left;
+  vertical-align: bottom;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid var(--ink-faint);
+}
+
+.post-body tbody td {
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.post-body tbody tr:last-child td { border-bottom: none; }
+.post-body tbody tr:hover { background: var(--paper-muted); }
+
+/* keep numeric/value cells on one line; let the first (label) column wrap */
+.post-body th, .post-body td { white-space: nowrap; }
+.post-body th:first-child,
+.post-body td:first-child { white-space: normal; min-width: 11rem; }
+
+/* emphasised summary figures (the **bold** Avg columns) read as the key number */
+.post-body td strong { color: var(--ink); }
+
 .post-related {
   margin-top: 4rem;
   padding-top: 2rem;
