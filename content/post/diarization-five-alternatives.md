@@ -1,7 +1,7 @@
 +++
 title = "Five alternatives to pyannote: speaker diarization for phone calls (2026)"
 date = 2026-06-24
-slug = "diarization-fem-alternativer"
+slug = "diarization-five-alternatives"
 description = "Can anything faster than pyannote-audio 3.1 handle 2-party phone call diarization? A benchmark of five approaches — spectral clustering, multi-scale embeddings, PLDA, Silero VAD and a cross-call speaker gallery — on 8 real calls. Winner: Silero VAD + WeSpeaker at 2.1 s and 76% agreement. Loser: all five on mono calls."
 
 [taxonomies]
