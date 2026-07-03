@@ -33,6 +33,18 @@
 {%- for t in section.translations %}
 <link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink | safe }}">
 {%- endfor %}
+{%- elif term %}
+{%- set other_lang = "en" %}
+{%- if lang == "en" %}{%- set other_lang = "da" %}{%- endif %}
+{%- set_global other_term_permalink = "" %}
+{%- set other_taxonomy = get_taxonomy(kind="tags", lang=other_lang) %}
+{%- for t in other_taxonomy.items %}
+{%- if t.slug == term.slug %}{%- set_global other_term_permalink = t.permalink %}{%- endif %}
+{%- endfor %}
+<link rel="alternate" hreflang="{{ lang }}" href="{{ current_url | safe }}">
+{%- if other_term_permalink != "" %}
+<link rel="alternate" hreflang="{{ other_lang }}" href="{{ other_term_permalink | safe }}">
+{%- endif %}
 {%- elif not page and not section %}
 <link rel="alternate" hreflang="{{ lang }}" href="{{ current_url | safe }}">
 {%- if lang == "en" %}<link rel="alternate" hreflang="da" href="{{ config.base_url }}/da{{ current_path | safe }}">
