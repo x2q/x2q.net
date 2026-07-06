@@ -51,6 +51,14 @@
 /post/enter-debug-menu-garmin-nuvi/     /post/update-garmin-firmware-and-maps/   301
 /post/how-to-factory-reset-a-yealink-phone-without-the-admin-password/  /post/factory-reset-yealink-phone/  301
 
+# Legacy root-level slugs (pre-WordPress permalink scheme, no /post/ prefix,
+# no current equivalent content) -> home. Confirmed via GSC coverage export
+# 2026-07-06, still 404ing live with no redirect in place.
+/git-daily-usage-branching-model/                        /   301
+/git-daily-usage-branching-model                          /   301
+/iphone-4-drops-calls-when-left-corner-is-touched/         /   301
+/iphone-4-drops-calls-when-left-corner-is-touched          /   301
+
 # Old /categories/ namespace -> equivalent tag where one exists
 /categories/Linux/   /tags/linux/   301
 /categories/Linux    /tags/linux/   301
