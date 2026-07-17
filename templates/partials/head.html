@@ -25,13 +25,16 @@
 <meta name="description" content="{{ description }}">
 <link rel="canonical" href="{{ current_url | safe }}">
 
+{%- set_global x_default_url = current_url %}
 {%- if page and page.translations %}
 {%- for t in page.translations %}
 <link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink | safe }}">
+{%- if t.lang == "en" %}{%- set_global x_default_url = t.permalink %}{%- endif %}
 {%- endfor %}
 {%- elif section and section.translations %}
 {%- for t in section.translations %}
 <link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink | safe }}">
+{%- if t.lang == "en" %}{%- set_global x_default_url = t.permalink %}{%- endif %}
 {%- endfor %}
 {%- elif term %}
 {%- set other_lang = "en" %}
@@ -44,16 +47,21 @@
 <link rel="alternate" hreflang="{{ lang }}" href="{{ current_url | safe }}">
 {%- if other_term_permalink != "" %}
 <link rel="alternate" hreflang="{{ other_lang }}" href="{{ other_term_permalink | safe }}">
+{%- if lang != "en" %}{%- set_global x_default_url = other_term_permalink %}{%- endif %}
 {%- endif %}
 {%- elif not page and not section %}
 <link rel="alternate" hreflang="{{ lang }}" href="{{ current_url | safe }}">
 {%- if lang == "en" %}<link rel="alternate" hreflang="da" href="{{ config.base_url }}/da{{ current_path | safe }}">
-{%- else %}<link rel="alternate" hreflang="en" href="{{ config.base_url }}{{ current_path | replace(from='/da/', to='/') | safe }}">
+{%- else %}
+{%- set en_path = current_path | replace(from='/da/', to='/') %}
+{%- set en_equiv = config.base_url ~ en_path %}
+<link rel="alternate" hreflang="en" href="{{ en_equiv | safe }}">
+{%- set_global x_default_url = en_equiv %}
 {%- endif %}
 {%- else %}
 <link rel="alternate" hreflang="{{ lang }}" href="{{ current_url | safe }}">
 {%- endif %}
-<link rel="alternate" hreflang="x-default" href="{{ config.base_url }}/">
+<link rel="alternate" hreflang="x-default" href="{{ x_default_url | safe }}">
 
 <link rel="icon" type="image/svg+xml" href="{{ get_url(path=config.extra.favicon) }}">
 <link rel="apple-touch-icon" href="{{ get_url(path="apple-touch-icon.png") }}">
