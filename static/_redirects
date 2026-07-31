@@ -59,6 +59,13 @@
 /iphone-4-drops-calls-when-left-corner-is-touched/         /   301
 /iphone-4-drops-calls-when-left-corner-is-touched          /   301
 
+# More legacy 404s surfaced in GSC "Crawled - currently not indexed" on
+# 2026-07-26 -- old content, no current equivalent, no matching tag -> home.
+/post/2013-04-10-howto-install-office-2010-using-wine/     /   301
+/post/2013-04-10-howto-install-office-2010-using-wine      /   301
+/how-to-get-free-wii-games-and-burn-them-onto-a-dvd-disk-and-install-homebrew-4-2-nmh-main-theme/  /  301
+/how-to-get-free-wii-games-and-burn-them-onto-a-dvd-disk-and-install-homebrew-4-2-nmh-main-theme   /  301
+
 # Old /categories/ namespace -> equivalent tag where one exists
 /categories/Linux/   /tags/linux/   301
 /categories/Linux    /tags/linux/   301
